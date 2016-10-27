@@ -1,9 +1,11 @@
 package cz.muni.fi.pa165.yellowlibrary.backend.dao;
 
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 
@@ -13,6 +15,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * @author Norbert Slivka
  */
+@Transactional
 public class BookDaoImpl implements BookDao {
 
   @PersistenceContext
@@ -25,7 +28,7 @@ public class BookDaoImpl implements BookDao {
 
   @Override
   public List<Book> getAllBooks() {
-    return entityManager.createQuery("SELECT b FROM Books b", Book.class).getResultList();
+    return entityManager.createQuery("SELECT b FROM Book b", Book.class).getResultList();
   }
 
   @Override
