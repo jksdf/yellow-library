@@ -1,8 +1,6 @@
 package cz.muni.fi.pa165.yellowlibrary.backend.entity;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -13,7 +11,7 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 /**
- * @author cokin
+ * @author Norbert Slivka
  */
 public class Book {
 
@@ -112,6 +110,9 @@ public class Book {
 
   @Override
   public int hashCode() {
-    return isbn == null ? 0 : isbn.hashCode();
+    if (isbn == null) {
+      return Objects.hash(author, name);
+    }
+    return isbn.hashCode();
   }
 }
