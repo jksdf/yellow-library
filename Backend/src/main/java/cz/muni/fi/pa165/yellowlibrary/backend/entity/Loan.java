@@ -8,10 +8,14 @@ package cz.muni.fi.pa165.yellowlibrary.backend.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -19,6 +23,7 @@ import javax.validation.constraints.NotNull;
 /**
  * @author Cokinova
  */
+@Entity
 public class Loan {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +33,6 @@ public class Loan {
   @Temporal(TemporalType.DATE)
   private Date dateFrom;
 
-  @NotNull
   @Temporal(TemporalType.DATE)
   private Date returnDate;
 
@@ -39,11 +43,11 @@ public class Loan {
   private String loanState;
 
   @NotNull
-  @OneToOne
+  @ManyToMany
   private User user;
 
   @NotNull
-  @OneToOne
+  @ManyToOne
   private BookInstance book;
 
   @NotNull
