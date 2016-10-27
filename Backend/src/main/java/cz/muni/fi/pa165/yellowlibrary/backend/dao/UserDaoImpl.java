@@ -29,7 +29,9 @@ public class UserDaoImpl implements UserDao {
   public void deleteUser(User user) {
     if (user == null)
       throw new NullPointerException("User cannot be null");
-    em.remove(user);
+    if (user.getId() == null)
+      throw new NullPointerException("User ID cannot be null");
+    em.remove(findById(user.getId()));
   }
 
   @Override
