@@ -35,6 +35,7 @@ public class BookInstance {
   @Enumerated
   private BookAvaliability avaliability;
 
+  @NotNull
   @ManyToOne
   private Book book;
 
@@ -86,17 +87,20 @@ public class BookInstance {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof BookInstance)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
 
     BookInstance that = (BookInstance) o;
 
-    if (!getId().equals(that.getId())) {
+    if (!getBookState().equals(that.getBookState())) {
       return false;
     }
     if (getVersion() != null ? !getVersion().equals(that.getVersion())
         : that.getVersion() != null) {
+      return false;
+    }
+    if (avaliability != that.avaliability) {
       return false;
     }
     return getBook().equals(that.getBook());
@@ -105,7 +109,9 @@ public class BookInstance {
 
   @Override
   public int hashCode() {
-    int result = getId().hashCode();
+    int result = getBookState().hashCode();
+    result = 31 * result + (getVersion() != null ? getVersion().hashCode() : 0);
+    result = 31 * result + avaliability.hashCode();
     result = 31 * result + getBook().hashCode();
     return result;
   }

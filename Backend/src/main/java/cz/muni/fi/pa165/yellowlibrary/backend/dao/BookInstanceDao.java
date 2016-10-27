@@ -12,4 +12,6 @@ public interface BookInstanceDao {
   void deleteBookInstance(BookInstance bookInstance);
 
   void createBookInstance(BookInstance bookInstance);
+
+  void updateBookInstance(BookInstance bookInstance);
 }
