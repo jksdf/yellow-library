@@ -1,12 +1,16 @@
 package cz.muni.fi.pa165.yellowlibrary.backend;
 
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
+import javax.validation.ConstraintViolationException;
 
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.BookDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
@@ -17,6 +21,8 @@ import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
  */
 
 @ContextConfiguration(classes = LibraryApplicationContext.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
 public class BookDaoTest extends AbstractTestNGSpringContextTests {
 
   @Inject
@@ -92,8 +98,10 @@ public class BookDaoTest extends AbstractTestNGSpringContextTests {
     bookDao.create(bookTwo);
 
     Assert.assertEquals(bookDao.getAllBooks().size(), 2);
+    Assert.assertNotNull(bookDao.getBookFromId(bookOne.getId()));
     bookDao.remove(bookOne);
     Assert.assertEquals(bookDao.getAllBooks().size(), 1);
+    Assert.assertNull(bookDao.getBookFromId(bookOne.getId()));
     Assert.assertTrue(bookDao.getAllBooks().get(0).equals(bookTwo));
   }
 
@@ -105,5 +113,49 @@ public class BookDaoTest extends AbstractTestNGSpringContextTests {
     bookOne.setName("Harry Potter");
     bookDao.update(bookOne);
     Assert.assertEquals(bookDao.getBookFromId(bookOne.getId()).getName(), "Harry Potter");
+  }
+
+  @Test(expectedExceptions = ConstraintViolationException.class)
+  public void testCreateBookWithoutName() {
+    Book bookNoName = new Book();
+    bookNoName.setAuthor("Nameless One");
+    bookNoName.setDescription("The book without name.");
+    bookNoName.setIsbn("404-404-404");
+    bookNoName.setPages(404);
+
+    bookDao.create(bookNoName);
+  }
+
+  @Test(expectedExceptions = ConstraintViolationException.class)
+  public void testCreateBookWithoutAuthor() {
+    Book bookNoAuthor = new Book();
+    bookNoAuthor.setName("Amnesia: Who is my author?");
+    bookNoAuthor.setDescription("The book written by no author.");
+    bookNoAuthor.setIsbn("000-000-000");
+    bookNoAuthor.setPages(1);
+
+    bookDao.create(bookNoAuthor);
+  }
+
+  @Test(expectedExceptions = ConstraintViolationException.class)
+  public void testCreateBookWithoutPages() {
+    Book bookNoPage = new Book();
+    bookNoPage.setName("Baboon's better than Weasel");
+    bookNoPage.setAuthor("I.R. Baboon");
+    bookNoPage.setDescription("You don't need pants for the victory dance.");
+    bookNoPage.setIsbn("VvLV3OZAcyg");
+
+    bookDao.create(bookNoPage);
+  }
+
+  @Test(expectedExceptions = ConstraintViolationException.class)
+  public void testCreateBookWithoutIsdn() {
+    Book bookNoIsdn = new Book();
+    bookNoIsdn.setName("The Book");
+    bookNoIsdn.setAuthor("The Author");
+    bookNoIsdn.setDescription("The Description");
+    bookNoIsdn.setPages(10);
+
+    bookDao.create(bookNoIsdn);
   }
 }
