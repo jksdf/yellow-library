@@ -5,16 +5,17 @@
  */
 package cz.muni.fi.pa165.yellowlibrary.backend.entity;
 
+import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
-import cz.muni.fi.pa165.yellowlibrary.backend.enums.BookAvaliability;
+import cz.muni.fi.pa165.yellowlibrary.backend.enums.BookAvailability;
 
 /**
  * @author Matej Gallo
@@ -33,7 +34,7 @@ public class BookInstance {
 
   @NotNull
   @Enumerated
-  private BookAvaliability avaliability;
+  private BookAvailability availability;
 
   @NotNull
   @ManyToOne
@@ -66,12 +67,12 @@ public class BookInstance {
     this.version = version;
   }
 
-  public BookAvaliability getBookAvaliability() {
-    return this.avaliability;
+  public BookAvailability getBookAvailability() {
+    return this.availability;
   }
 
-  public void setBookAvailability(BookAvaliability availability) {
-    this.avaliability = availability;
+  public void setBookAvailability(BookAvailability availability) {
+    this.availability = availability;
   }
 
   public Book getBook() {
@@ -100,7 +101,7 @@ public class BookInstance {
         : that.getVersion() != null) {
       return false;
     }
-    if (avaliability != that.avaliability) {
+    if (availability != that.availability) {
       return false;
     }
     return getBook().equals(that.getBook());
@@ -111,8 +112,14 @@ public class BookInstance {
   public int hashCode() {
     int result = getBookState().hashCode();
     result = 31 * result + (getVersion() != null ? getVersion().hashCode() : 0);
-    result = 31 * result + avaliability.hashCode();
+    result = 31 * result + availability.hashCode();
     result = 31 * result + getBook().hashCode();
+
+    if (version == null) {
+      return Objects.hash(getBookState(), getBookAvailability(), getBook());
+    }
+
+
     return result;
   }
 }

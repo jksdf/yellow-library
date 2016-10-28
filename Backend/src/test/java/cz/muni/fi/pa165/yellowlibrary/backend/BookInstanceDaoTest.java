@@ -19,7 +19,7 @@ import javax.validation.constraints.Null;
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.BookInstanceDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
-import cz.muni.fi.pa165.yellowlibrary.backend.enums.BookAvaliability;
+import cz.muni.fi.pa165.yellowlibrary.backend.enums.BookAvailability;
 
 import static org.testng.Assert.*;
 
@@ -47,7 +47,7 @@ public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
     firstBookInstance = new BookInstance();
     secondBookInstance = new BookInstance();
 
-    firstBookInstance.setBookAvailability(BookAvaliability.AVALIABLE);
+    firstBookInstance.setBookAvailability(BookAvailability.AVAILABLE);
     firstBookInstance.setBookState("new");
     firstBookInstance.setVersion("second");
     b1.setAuthor("Joshua Bloch");
@@ -61,7 +61,7 @@ public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
     b1.setBookInstances(instances1);
     firstBookInstance.setBook(b1);
 
-    secondBookInstance.setBookAvailability(BookAvaliability.BORROWED);
+    secondBookInstance.setBookAvailability(BookAvailability.BORROWED);
     secondBookInstance.setBookState("new");
     b2.setAuthor("Erich Gamma et al.");
     b2.setDescription("What patterns are and how they can help you design"
@@ -174,7 +174,7 @@ public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
     BookInstance updated = new BookInstance();
     updated.setBook(firstBookInstance.getBook());
     updated.setId(firstBookInstance.getId());
-    updated.setBookAvailability(BookAvaliability.BORROWED);
+    updated.setBookAvailability(BookAvailability.BORROWED);
     updated.setBookState(bookState);
     updated.setVersion(bookVersion);
 //    bookInstanceDao.updateBookInstance(updated);
@@ -186,7 +186,7 @@ public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
     Book book = new Book();
     BookInstance bookInstance = new BookInstance();
     bookInstance.setBookState(null);
-    bookInstance.setBookAvailability(BookAvaliability.AVALIABLE);
+    bookInstance.setBookAvailability(BookAvailability.AVAILABLE);
     bookInstance.setBook(book);
     return bookInstance;
   }
@@ -203,7 +203,7 @@ public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
   private void assertDeepEquals(BookInstance expected, BookInstance actual) {
     assertEquals(actual.getId(), expected.getId());
     assertEquals(actual.getVersion(), expected.getVersion());
-    assertEquals(actual.getBookAvaliability(), expected.getBookAvaliability());
+    assertEquals(actual.getBookAvailability(), expected.getBookAvailability());
     assertEquals(actual.getBook(), expected.getBook());
     assertEquals(actual.getBookState(), expected.getBookState());
     assertEquals(expected, actual);

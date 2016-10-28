@@ -19,21 +19,37 @@ public class BookInstanceDaoImpl implements BookInstanceDao {
 
   @Override
   public BookInstance findById(Long id) {
+    if(id == null) {
+      throw new NullPointerException("ID cannot be null.");
+    }
     return entityManager.find(BookInstance.class, id);
   }
 
   @Override
   public void deleteBookInstance(BookInstance bookInstance) {
+    if(bookInstance == null) {
+      throw new NullPointerException("BookInstance cannot be null.");
+    }
+
     bookInstance = entityManager.merge(bookInstance);
     entityManager.remove(bookInstance);
   }
 
   @Override
   public void createBookInstance(BookInstance bookInstance) {
+    if(bookInstance == null) {
+      throw new NullPointerException("BookInstance cannot be null.");
+    }
+
     entityManager.persist(bookInstance);
   }
 
+  @Override
   public void updateBookInstance(BookInstance bookInstance) {
+    if(bookInstance == null) {
+      throw new NullPointerException("BookInstance cannot be null.");
+    }
+
     entityManager.merge(bookInstance);
   }
 }
