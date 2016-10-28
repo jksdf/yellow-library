@@ -7,7 +7,7 @@ import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
  *
  * @author Cokinova
  */
-interface LoanDao {
+public interface LoanDao {
   /**
    * Persist new Loan into Database.
    *
