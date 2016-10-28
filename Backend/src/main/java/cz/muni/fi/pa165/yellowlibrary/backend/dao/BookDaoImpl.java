@@ -1,11 +1,12 @@
 package cz.muni.fi.pa165.yellowlibrary.backend.dao;
 
 
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 
@@ -15,7 +16,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * @author Norbert Slivka
  */
-@Transactional
+@Repository
 public class BookDaoImpl implements BookDao {
 
   @PersistenceContext
