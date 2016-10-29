@@ -48,9 +48,17 @@ public class UserDaoImpl implements UserDao {
     em.merge(user);
   }
 
+  /**
+   * This method controls user, if it's attributes are valid. In case any attribute is null,
+   * throws NullPointerException. In case that login, name or address are empty strings, throws
+   * IllegalArgumentException.
+   * @param u User to be checked.
+   */
   private void checkUser(User u) {
     if (u == null)
       throw new NullPointerException("User is null");
+    if (u.getLogin() == null)
+      throw new NullPointerException("User login is null");
     if (u.getName() == null)
       throw new NullPointerException("User name cannot be null");
     if (u.getAddress() == null)
@@ -59,5 +67,21 @@ public class UserDaoImpl implements UserDao {
       throw new NullPointerException("User total fines is null");
     if (u.getLoans() == null)
       throw new NullPointerException("User loans is null");
+    if (u.getUserType() == null)
+      throw new NullPointerException("User type cannot be null");
+    checkEmptyString(u.getLogin(), "Login");
+    checkEmptyString(u.getName(), "Name");
+    checkEmptyString(u.getAddress(), "Address");
+  }
+
+  /**
+   * Checks if given string is not empty. If is, then throws IllegalArgumentException.
+   * @param controlled String that must not be empty.
+   * @param name Name of string, that is controlled (Used only as additional info in exception
+   *             string).
+   */
+  private void checkEmptyString(String controlled, String name) {
+    if (controlled.trim().isEmpty())
+      throw new IllegalArgumentException(name + " string is empty");
   }
 }

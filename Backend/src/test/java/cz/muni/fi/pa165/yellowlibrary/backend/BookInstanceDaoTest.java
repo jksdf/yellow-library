@@ -32,8 +32,6 @@ import static org.testng.Assert.*;
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
 
-  //TODO: Uncomment methods that use Dao.update method
-
   @Inject
   private BookInstanceDao bookInstanceDao;
 
@@ -85,10 +83,10 @@ public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
     bookInstanceDao.deleteBookInstance(null);
   }
 
-//  @Test(expectedExceptions = NullPointerException.class)
-//  public void updateNullBookInstanceTest() {
-//    bookInstanceDao.updateBookInstance(null);
-//  }
+  @Test(expectedExceptions = NullPointerException.class)
+  public void updateNullBookInstanceTest() {
+    bookInstanceDao.updateBookInstance(null);
+  }
 
   @Test(expectedExceptions = NullPointerException.class)
   public void findByNullIdBookInstanceTest() {
@@ -107,17 +105,17 @@ public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
     bookInstanceDao.createBookInstance(bookInstance);
   }
 
-//  @Test(expectedExceptions = NullPointerException.class)
-//  public void updateBookInstanceWithNullBookStateTest() {
-//    BookInstance bookInstance = getBookInstanceWithNullState();
-//    bookInstanceDao.updateBookInstance(bookInstance);
-//  }
-//
-//  @Test(expectedExceptions = NullPointerException.class)
-//  public void updateBookInstanceWithNullBookAvailabilityTest() {
-//    BookInstance bookInstance = getBookInstanceWithNullAvailability();
-//    bookInstanceDao.updateBookInstance(bookInstance);
-//  }
+  @Test(expectedExceptions = NullPointerException.class)
+  public void updateBookInstanceWithNullBookStateTest() {
+    BookInstance bookInstance = getBookInstanceWithNullState();
+    bookInstanceDao.updateBookInstance(bookInstance);
+  }
+
+  @Test(expectedExceptions = NullPointerException.class)
+  public void updateBookInstanceWithNullBookAvailabilityTest() {
+    BookInstance bookInstance = getBookInstanceWithNullAvailability();
+    bookInstanceDao.updateBookInstance(bookInstance);
+  }
 
   @Test
   public void createAndGetBookInstanceTest() {
@@ -177,7 +175,7 @@ public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
     updated.setBookAvailability(BookAvailability.BORROWED);
     updated.setBookState(bookState);
     updated.setVersion(bookVersion);
-//    bookInstanceDao.updateBookInstance(updated);
+    bookInstanceDao.updateBookInstance(updated);
     BookInstance ret = bookInstanceDao.findById(updated.getId());
     assertDeepEquals(updated, ret);
   }

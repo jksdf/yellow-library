@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -32,6 +33,9 @@ public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;
+
+  @Column(nullable = false, unique = true)
+  private String login;
 
   @NotNull
   private String name;
@@ -144,5 +148,13 @@ public class User {
     result = 31 * result + (getLoans() != null ? getLoans().hashCode() : 1);
     result = 31 * result + (getUserType() != null ? getUserType().hashCode() : 1);
     return result;
+  }
+
+  public String getLogin() {
+    return login;
+  }
+
+  public void setLogin(String login) {
+    this.login = login;
   }
 }
