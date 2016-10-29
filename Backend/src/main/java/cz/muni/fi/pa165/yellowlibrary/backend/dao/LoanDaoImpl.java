@@ -3,14 +3,15 @@ package cz.muni.fi.pa165.yellowlibrary.backend.dao;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
 
 /**
  * @author Cokinova
  */
+@Transactional
 @Repository
 public class LoanDaoImpl implements LoanDao {
 
@@ -30,7 +31,7 @@ public class LoanDaoImpl implements LoanDao {
     if (loan == null) {
       throw new NullPointerException("loan cannot be null");
     }
-    em.remove(loan);
+    em.remove(em.find(Loan.class, loan.getId()));
   }
 
   @Override
