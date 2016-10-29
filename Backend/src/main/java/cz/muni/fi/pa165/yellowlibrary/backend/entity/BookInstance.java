@@ -110,16 +110,7 @@ public class BookInstance {
 
   @Override
   public int hashCode() {
-    int result = getBookState().hashCode();
-    result = 31 * result + (getVersion() != null ? getVersion().hashCode() : 0);
-    result = 31 * result + availability.hashCode();
-    result = 31 * result + getBook().hashCode();
-
-    if (version == null) {
       return Objects.hash(getBookState(), getBookAvailability(), getBook());
     }
 
-
-    return result;
-  }
 }

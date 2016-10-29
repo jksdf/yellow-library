@@ -30,8 +30,8 @@ public class BookInstanceDaoImpl implements BookInstanceDao {
     if(bookInstance == null) {
       throw new NullPointerException("BookInstance cannot be null.");
     }
-
-    bookInstance = entityManager.merge(bookInstance);
+    // TODO: Check what happens when no such entity exists
+    bookInstance = entityManager.find(BookInstance.class, bookInstance.getId());
     entityManager.remove(bookInstance);
   }
 
@@ -49,7 +49,8 @@ public class BookInstanceDaoImpl implements BookInstanceDao {
     if(bookInstance == null) {
       throw new NullPointerException("BookInstance cannot be null.");
     }
-
+    // TODO: If no such entity exists, do not merge.
+    bookInstance = entityManager.find(BookInstance.class, bookInstance.getId());
     entityManager.merge(bookInstance);
   }
 }
