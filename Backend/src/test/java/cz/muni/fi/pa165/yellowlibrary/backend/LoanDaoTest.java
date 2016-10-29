@@ -109,7 +109,7 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
   @Test(expectedExceptions = ConstraintViolationException.class)
   public void createLoanNoBook() {
     Loan loan =getDefaultLoan();
-    loan.setBook(null);
+    loan.setBookInstance(null);
     loanDao.create(loan);
   }
 
@@ -194,14 +194,14 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
   @Test(expectedExceptions = ConstraintViolationException.class)
   public void updateLoanNoBook() {
     Loan loan = getDefaultLoan();
-    loan.setBook(null);
+    loan.setBookInstance(null);
     loanDao.update(loan);
   }
 
   private Loan getDefaultLoan() {
     Loan loan = new Loan();
     loan.setUser(user1);
-    loan.setBook(bookInstance1);
+    loan.setBookInstance(bookInstance1);
     Date loanDate = new Date(123456);
     Date returnDate = new Date(1234567);
     loan.setDateFrom(loanDate);
@@ -213,7 +213,7 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
   }
 
   private void assertIsEqual(Loan loan1, Loan loan2) {
-    assertEquals(loan1.getBook(), loan2.getBook());
+    assertEquals(loan1.getBookInstance(), loan2.getBookInstance());
     assertEquals(loan1.getDateFrom(), loan2.getDateFrom());
     assertEquals(loan1.getFine(), loan2.getFine());
     assertEquals(loan1.getLoanLength(), loan2.getLoanLength());

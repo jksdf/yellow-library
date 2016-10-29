@@ -14,6 +14,7 @@ import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
  * @author Jozef Zivcic
  */
 @Repository
+@Transactional
 public class UserDaoImpl implements UserDao {
 
   @PersistenceContext

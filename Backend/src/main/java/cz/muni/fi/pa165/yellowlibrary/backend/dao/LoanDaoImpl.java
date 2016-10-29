@@ -20,17 +20,11 @@ public class LoanDaoImpl implements LoanDao {
 
   @Override
   public void create(Loan loan) {
-    if (loan == null) {
-      throw new NullPointerException("loan cannot be null");
-    }
     em.persist(loan);
   }
 
   @Override
   public void delete(Loan loan) {
-    if (loan == null) {
-      throw new NullPointerException("loan cannot be null");
-    }
     em.remove(em.find(Loan.class, loan.getId()));
   }
 
@@ -44,9 +38,6 @@ public class LoanDaoImpl implements LoanDao {
 
   @Override
   public Loan update(Loan loan) {
-    if (loan == null) {
-      throw new NullPointerException("loan cannot be null");
-    }
     return em.merge(loan);
   }
 }

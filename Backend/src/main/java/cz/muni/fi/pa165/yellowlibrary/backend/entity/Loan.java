@@ -7,7 +7,6 @@ package cz.muni.fi.pa165.yellowlibrary.backend.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,13 +39,13 @@ public class Loan {
   @NotNull
   private String loanState;
 
-  @NotNull
   @ManyToOne
+  @NotNull
   private User user;
 
   @NotNull
   @ManyToOne
-  private BookInstance book;
+  private BookInstance bookInstance;
 
   private BigDecimal fine;
 
@@ -98,12 +97,12 @@ public class Loan {
     this.user = user;
   }
 
-  public BookInstance getBook() {
-    return book;
+  public BookInstance getBookInstance() {
+    return bookInstance;
   }
 
-  public void setBook(BookInstance book) {
-    this.book = book;
+  public void setBookInstance(BookInstance bookInstance) {
+    this.bookInstance = bookInstance;
   }
 
   public BigDecimal getFine() {
@@ -125,11 +124,26 @@ public class Loan {
 
     Loan loan = (Loan) o;
 
-    return getId().equals(loan.getId());
+    if (!getDateFrom().equals(loan.getDateFrom())) {
+      return false;
+    }
+    if (getReturnDate() != null ? !getReturnDate().equals(loan.getReturnDate())
+        : loan.getReturnDate() != null) {
+      return false;
+    }
+    if (!getUser().equals(loan.getUser())) {
+      return false;
+    }
+    return getBookInstance().equals(loan.getBookInstance());
+
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id);
+    int result = getDateFrom().hashCode();
+    result = 31 * result + (getReturnDate() != null ? getReturnDate().hashCode() : 0);
+    result = 31 * result + getUser().hashCode();
+    result = 31 * result + getBookInstance().hashCode();
+    return result;
   }
 }
