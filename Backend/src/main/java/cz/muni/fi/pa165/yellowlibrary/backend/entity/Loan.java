@@ -7,6 +7,7 @@ package cz.muni.fi.pa165.yellowlibrary.backend.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -47,7 +48,6 @@ public class Loan {
   @ManyToOne
   private BookInstance book;
 
-  @NotNull
   private BigDecimal fine;
 
   public Long getId() {
@@ -130,6 +130,6 @@ public class Loan {
 
   @Override
   public int hashCode() {
-    return getId().hashCode();
+    return Objects.hash(id);
   }
 }
