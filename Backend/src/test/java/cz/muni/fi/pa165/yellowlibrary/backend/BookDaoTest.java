@@ -125,4 +125,16 @@ public class BookDaoTest extends AbstractTestNGSpringContextTests {
 
     bookDao.create(bookNoName);
   }
+
+  @Test(expectedExceptions = ConstraintViolationException.class)
+  public void testCreateBookWithNegativePages() {
+    Book bookPages = new Book();
+    bookPages.setAuthor("I.M. Negative");
+    bookPages.setName("The Wonders of Missing Pages");
+    bookPages.setDescription("How to crowdsource writing in three easy steps.");
+    bookPages.setIsbn("112-911-999");
+    bookPages.setPages(-25);
+
+    bookDao.create(bookPages);
+  }
 }
