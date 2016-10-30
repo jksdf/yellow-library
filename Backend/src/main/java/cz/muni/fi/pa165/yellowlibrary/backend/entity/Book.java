@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -29,6 +30,7 @@ public class Book {
   private String author;
 
   @NotNull
+  @Min(0)
   private Integer pages;
 
   @OneToMany
