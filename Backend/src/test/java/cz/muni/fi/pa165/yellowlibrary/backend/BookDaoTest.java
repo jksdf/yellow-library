@@ -125,37 +125,4 @@ public class BookDaoTest extends AbstractTestNGSpringContextTests {
 
     bookDao.create(bookNoName);
   }
-
-  @Test(expectedExceptions = ConstraintViolationException.class)
-  public void testCreateBookWithoutAuthor() {
-    Book bookNoAuthor = new Book();
-    bookNoAuthor.setName("Amnesia: Who is my author?");
-    bookNoAuthor.setDescription("The book written by no author.");
-    bookNoAuthor.setIsbn("000-000-000");
-    bookNoAuthor.setPages(1);
-
-    bookDao.create(bookNoAuthor);
-  }
-
-  @Test(expectedExceptions = ConstraintViolationException.class)
-  public void testCreateBookWithoutPages() {
-    Book bookNoPage = new Book();
-    bookNoPage.setName("Baboon's better than Weasel");
-    bookNoPage.setAuthor("I.R. Baboon");
-    bookNoPage.setDescription("You don't need pants for the victory dance.");
-    bookNoPage.setIsbn("VvLV3OZAcyg");
-
-    bookDao.create(bookNoPage);
-  }
-
-  @Test(expectedExceptions = ConstraintViolationException.class)
-  public void testCreateBookWithoutIsdn() {
-    Book bookNoIsdn = new Book();
-    bookNoIsdn.setName("The Book");
-    bookNoIsdn.setAuthor("The Author");
-    bookNoIsdn.setDescription("The Description");
-    bookNoIsdn.setPages(10);
-
-    bookDao.create(bookNoIsdn);
-  }
 }
