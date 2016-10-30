@@ -93,7 +93,7 @@ public class BookDaoTest extends AbstractTestNGSpringContextTests {
   }
 
   @Test
-  public void testDeleteBook() {
+  public void testRemoveBook() {
     bookDao.create(bookOne);
     bookDao.create(bookTwo);
 

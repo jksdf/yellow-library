@@ -59,6 +59,9 @@ public class BookInstance {
     this.bookState = state;
   }
 
+  /**
+   * @return Version of the book or {@code null} if not set.
+   */
   public String getVersion() {
     return this.version;
   }
