@@ -27,6 +27,8 @@ public class Book {
   @NotNull
   private String name;
   private String author;
+
+  @NotNull
   private Integer pages;
 
   @OneToMany
@@ -49,6 +51,9 @@ public class Book {
     this.id = id;
   }
 
+  /**
+   * Returns ISBN or {@code null} for books with no ISBN.
+   */
   public String getIsbn() {
     return isbn;
   }
@@ -65,6 +70,9 @@ public class Book {
     this.description = description;
   }
 
+  /**
+   * Returns book name. Can not be {@code null}.
+   */
   public String getName() {
     return name;
   }
@@ -73,6 +81,9 @@ public class Book {
     this.name = name;
   }
 
+  /**
+   * Returns authors of the book or null if unknown.
+   */
   public String getAuthor() {
     return author;
   }
@@ -81,6 +92,9 @@ public class Book {
     this.author = author;
   }
 
+  /**
+   * Returns number of pages. Can not be {@code null}.
+   */
   public Integer getPages() {
     return pages;
   }
@@ -89,6 +103,9 @@ public class Book {
     this.pages = pages;
   }
 
+  /**
+   * Returns all prints of this book in the library.
+   */
   public Set<BookInstance> getBookInstances() {
     return bookInstances;
   }

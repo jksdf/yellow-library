@@ -17,7 +17,6 @@ import java.util.Date;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.validation.ConstraintViolationException;
 
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.LoanDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
@@ -58,6 +57,7 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
     user1.setAddress("Over there");
     user1.setUserType(UserType.CUSTOMER);
     user1.setTotalFines(BigDecimal.ZERO);
+    user1.setLogin("tommy1");
     em.persist(user1);
 
     book1 = new Book();
@@ -85,7 +85,7 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
   }
 
   @Test(expectedExceptions = NullPointerException.class)
-  public void createNullBookInstanceTest() {
+  public void createNullLoanTest() {
     loanDao.create(null);
   }
 
@@ -99,16 +99,16 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
     assertIsEqual(value, expected);
   }
 
-  @Test(expectedExceptions = ConstraintViolationException.class)
+  @Test(expectedExceptions = NullPointerException.class)
   public void createLoanNoUser() {
     Loan loan = getDefaultLoan();
     loan.setUser(null);
     loanDao.create(loan);
   }
 
-  @Test(expectedExceptions = ConstraintViolationException.class)
+  @Test(expectedExceptions = NullPointerException.class)
   public void createLoanNoBook() {
-    Loan loan =getDefaultLoan();
+    Loan loan = getDefaultLoan();
     loan.setBookInstance(null);
     loanDao.create(loan);
   }
@@ -184,14 +184,14 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
     loanDao.update(null);
   }
 
-  @Test(expectedExceptions = ConstraintViolationException.class)
+  @Test(expectedExceptions = NullPointerException.class)
   public void updateLoanNoUser() {
     Loan loan = getDefaultLoan();
     loan.setUser(null);
     loanDao.update(loan);
   }
 
-  @Test(expectedExceptions = ConstraintViolationException.class)
+  @Test(expectedExceptions = NullPointerException.class)
   public void updateLoanNoBook() {
     Loan loan = getDefaultLoan();
     loan.setBookInstance(null);
