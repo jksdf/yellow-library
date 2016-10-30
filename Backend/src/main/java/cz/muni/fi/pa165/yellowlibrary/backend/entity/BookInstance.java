@@ -113,4 +113,15 @@ public class BookInstance {
       return Objects.hash(getBookState(), getBookAvailability(), getBook());
     }
 
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(this.getBook().getName() + ":");
+    sb.append("\n\tID: " + this.getId());
+    sb.append("\n\tVersion: " + this.getVersion());
+    sb.append("\n\tState: " + this.getBookState());
+    sb.append("\n");
+    return sb.toString();
+  }
+
 }

@@ -49,8 +49,9 @@ public class BookInstanceDaoImpl implements BookInstanceDao {
     if(bookInstance == null) {
       throw new NullPointerException("BookInstance cannot be null.");
     }
-    // TODO: If no such entity exists, do not merge.
-    bookInstance = entityManager.find(BookInstance.class, bookInstance.getId());
+
+    // TODO: Cannot use findById() first -- will overwrite new entity
+    // entityManager.findById(BookInstance.class, bookInstance.getId());
     entityManager.merge(bookInstance);
   }
 }
