@@ -55,7 +55,7 @@ public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
     secondBookInstance = new BookInstance();
 
 
-    Department d1 = createDepartment("Department 1", "D1", b1);
+    Department d1 = createDepartment("Department 1", "DPT", b1);
     b1 = setBook(firstBookInstance, b1, "Joshua Bloch", "Effective Java brings together"
         + " seventy-eight indispensable programmer’s rules of thumb", "Effective Java", 346,
         "978-0321356680", d1);
@@ -68,7 +68,7 @@ public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
     firstBookInstance.setBook(b1);
 
 
-    Department d2 = createDepartment("Department 2", "D2", b2);
+    Department d2 = createDepartment("Department 2", "DKT", b2);
     b2 = setBook(secondBookInstance, b2, "Erich Gamma et al.", "What patterns are and how they can "
         + "help you design object-oriented software.", "Design Patterns: Elements of Reusable "
         + "Object-Oriented Software", 395, "978-0201633610", d2);
@@ -239,7 +239,7 @@ public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
   private BookInstance getBookInstanceWithNullState() {
     BookInstance bookInstance = new BookInstance();
     Book book = new Book();
-    Department department = createDepartment("Department", "D", book);
+    Department department = createDepartment("Department", "DPT", book);
     book = setBook(bookInstance, book, "author", "desc", "name", 100, "ISBN", department);
     bookInstance.setBookState(null);
     bookInstance.setBookAvailability(BookAvailability.AVAILABLE);
@@ -257,7 +257,7 @@ public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
   private BookInstance getBookInstanceWithNullAvailability() {
     BookInstance bookInstance = new BookInstance();
     Book book = new Book();
-    Department department = createDepartment("Department", "D", book);
+    Department department = createDepartment("Department", "DPT", book);
     book = setBook(bookInstance, book, "author", "desc", "name", 100, "ISBN", department);
     bookInstance.setBookState("new");
     bookInstance.setBookAvailability(null);
