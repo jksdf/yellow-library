@@ -13,7 +13,11 @@ import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
 
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.BookDao;
+import cz.muni.fi.pa165.yellowlibrary.backend.dao.DepartmentDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
+import cz.muni.fi.pa165.yellowlibrary.backend.entity.Department;
+
+import static org.mockito.Mockito.mock;
 
 /**
  * BookDao Test Class
@@ -28,8 +32,13 @@ public class BookDaoTest extends AbstractTestNGSpringContextTests {
   @Inject
   private BookDao bookDao;
 
+  @Inject
+  private DepartmentDao departmentDao;
+
   private Book bookOne;
   private Book bookTwo;
+
+  private Department department;
 
   @BeforeMethod
   public void prepareBooks() {
@@ -50,6 +59,21 @@ public class BookDaoTest extends AbstractTestNGSpringContextTests {
 
     bookOne.setPages(776);
     bookTwo.setPages(988);
+
+    department = new Department();
+    Department dep2 = new Department();
+
+    department.setName("Comedy");
+    dep2.setName("Fantasy");
+
+    department.setShortName("COM");
+    dep2.setShortName("FNT");
+
+    departmentDao.create(department);
+    departmentDao.create(dep2);
+
+    bookOne.setDepartment(department);
+    bookTwo.setDepartment(dep2);
   }
 
 //  Primitive long cannot be null
@@ -122,6 +146,7 @@ public class BookDaoTest extends AbstractTestNGSpringContextTests {
     bookNoName.setDescription("The book without name.");
     bookNoName.setIsbn("404-404-404");
     bookNoName.setPages(404);
+    bookNoName.setDepartment(department);
 
     bookDao.create(bookNoName);
   }
@@ -134,7 +159,20 @@ public class BookDaoTest extends AbstractTestNGSpringContextTests {
     bookPages.setDescription("How to crowdsource writing in three easy steps.");
     bookPages.setIsbn("112-911-999");
     bookPages.setPages(-25);
+    bookPages.setDepartment(department);
 
     bookDao.create(bookPages);
+  }
+
+  @Test(expectedExceptions = ConstraintViolationException.class)
+  public void testCreateBookWithNoDepartment() {
+    Book bookDepartment = new Book();
+    bookDepartment.setName("Where do I live?");
+    bookDepartment.setAuthor("Homeless Joe");
+    bookDepartment.setDescription("The story of book looking for its department.");
+    bookDepartment.setIsbn("999-111-222");
+    bookDepartment.setPages(444);
+
+    bookDao.create(bookDepartment);
   }
 }
