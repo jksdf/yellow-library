@@ -75,13 +75,6 @@ public class BookDaoTest extends AbstractTestNGSpringContextTests {
     bookTwo.setDepartment(dep2);
   }
 
-//  Primitive long cannot be null
-//
-//  @Test(expectedExceptions = NullPointerException.class)
-//  public void testRetrieveNullIdBook() {
-//    bookDao.getBookFromId(null);
-//  }
-
   @Test(expectedExceptions = NullPointerException.class)
   public void testRemoveNullBook() {
     bookDao.remove(null);
