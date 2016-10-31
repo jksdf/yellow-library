@@ -141,6 +141,11 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
     assertIsEqual(loan, getDefaultLoan());
   }
 
+  @Test(expectedExceptions = NullPointerException.class)
+  public void retrieveLoanNullId() {
+    loanDao.findLoanById(null);
+  }
+
   @Test
   public void retrieveNonExistentLoan() {
     assertNull(loanDao.findLoanById(100L));
