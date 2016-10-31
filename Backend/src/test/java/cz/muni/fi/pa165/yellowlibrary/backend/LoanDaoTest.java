@@ -21,6 +21,7 @@ import javax.persistence.PersistenceContext;
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.LoanDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
+import cz.muni.fi.pa165.yellowlibrary.backend.entity.Department;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 import cz.muni.fi.pa165.yellowlibrary.backend.enums.BookAvailability;
@@ -50,8 +51,15 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
 
   private BookInstance bookInstance1;
 
+  private Department department;
+
   @BeforeMethod
   public void setUp() {
+    department = new Department();
+    department.setName("Art");
+    department.setShortName("ART");
+    em.persist(department);
+
     user1 = new User();
     user1.setName("Tommy");
     user1.setAddress("Over there");
@@ -66,6 +74,7 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
     book1.setPages(1);
     book1.setName("Good book");
     book1.setDescription("This is a great book");
+    book1.setDepartment(department);
     em.persist(book1);
 
     bookInstance1 = new BookInstance();
@@ -130,6 +139,11 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
     em.persist(loan);
     Loan loaded = loanDao.findLoanById(loan.getId());
     assertIsEqual(loan, getDefaultLoan());
+  }
+
+  @Test(expectedExceptions = NullPointerException.class)
+  public void retrieveLoanNullId() {
+    loanDao.findLoanById(null);
   }
 
   @Test

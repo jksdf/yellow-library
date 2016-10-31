@@ -51,28 +51,8 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
   private Loan loan;
 
   @BeforeMethod
-  public void setUp() throws Exception {
-    book = new Book();
-    book.setAuthor("J.K.Rowling");
-    book.setIsbn("123-456");
-    book.setPages(1);
-    book.setName("Harry Potter");
-    book.setDescription("Fantasy book");
-    em.persist(book);
+  public void setUp() {
 
-    bookInstance = new BookInstance();
-    bookInstance.setBook(book);
-    bookInstance.setBookAvailability(BookAvailability.AVAILABLE);
-    bookInstance.setVersion("1.0");
-    bookInstance.setBookState("New");
-    em.persist(bookInstance);
-
-    loan = new Loan();
-    loan.setDateFrom(new Date(123456));
-    loan.setBookInstance(bookInstance);
-    loan.setLoanState("ok");
-    loan.setLoanLength(30);
-    loan.setFine(BigDecimal.ZERO);
   }
 
   @Test(expectedExceptions = NullPointerException.class)
@@ -85,6 +65,7 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     User user = new User();
     user.setName("James");
     user.setAddress("Smith");
+    user.setLogin("Jamesik123");
     user.setUserType(UserType.CUSTOMER);
     user.setTotalFines(BigDecimal.ZERO);
     user.setLoans(new HashSet<>());
@@ -106,11 +87,12 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     userDao.createUser(user);
   }
 
-  @Test(expectedExceptions = NullPointerException.class)
+  @Test(expectedExceptions = IllegalArgumentException.class)
   public void createUserEmptyName() {
     User user = new User();
     user.setName("");
     user.setAddress("Smith");
+    user.setLogin("Jamesik123");
     user.setUserType(UserType.CUSTOMER);
     user.setTotalFines(BigDecimal.ZERO);
     user.setLoans(new HashSet<>());
@@ -128,11 +110,12 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     userDao.createUser(user);
   }
 
-  @Test(expectedExceptions = NullPointerException.class)
+  @Test(expectedExceptions = IllegalArgumentException.class)
   public void createUserEmptyAddress() {
     User user = new User();
     user.setName("James");
     user.setAddress("");
+    user.setLogin("Jamesik123");
     user.setUserType(UserType.CUSTOMER);
     user.setTotalFines(BigDecimal.ZERO);
     user.setLoans(new HashSet<>());
@@ -144,6 +127,7 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     User user = new User();
     user.setName("James");
     user.setAddress("Smith");
+    user.setLogin("Jamesik123");
     user.setUserType(null);
     user.setTotalFines(BigDecimal.ZERO);
     user.setLoans(new HashSet<>());
@@ -165,7 +149,8 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
   public void deleteUserNullUser(){
     userDao.deleteUser(null);
   }
-  @Test(expectedExceptions = ConstraintViolationException.class)
+
+  @Test(expectedExceptions = NullPointerException.class)
   public void deleteUserEmptyUser(){
     userDao.deleteUser(new User());
   }
@@ -175,6 +160,7 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     User user = new User();
     user.setName("James");
     user.setAddress("Smith");
+    user.setLogin("Jamesik123");
     user.setUserType(UserType.CUSTOMER);
     user.setTotalFines(BigDecimal.ZERO);
     user.setLoans(new HashSet<>());
@@ -199,6 +185,7 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     User user = new User();
     user.setName("James");
     user.setAddress("Smith");
+    user.setLogin("Jamesik123");
     user.setUserType(UserType.CUSTOMER);
     user.setTotalFines(BigDecimal.ZERO);
     user.setLoans(new HashSet<>());
@@ -218,6 +205,7 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     User user = new User();
     user.setName("James");
     user.setAddress("Smith");
+    user.setLogin("Jamesik123");
     user.setUserType(UserType.CUSTOMER);
     user.setTotalFines(BigDecimal.ZERO);
     user.setLoans(new HashSet<>());
