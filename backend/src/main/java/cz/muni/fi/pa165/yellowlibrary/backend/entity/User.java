@@ -47,6 +47,7 @@ public class User {
   private BigDecimal totalFines;
 
   @OneToMany(mappedBy = "user")
+  @NotNull
   private Set<Loan> loans;
 
   @Enumerated
