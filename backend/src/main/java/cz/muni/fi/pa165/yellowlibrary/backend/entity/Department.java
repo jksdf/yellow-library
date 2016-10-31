@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.yellowlibrary.backend.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -69,5 +70,20 @@ public class Department {
 
   public void setBooks(List<Book> books) {
     this.books = books;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof Department)) {
+      return false;
+    }
+    Department that = (Department) o;
+    return Objects.equals(that.getShortName(), getShortName());
+
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getShortName());
   }
 }
