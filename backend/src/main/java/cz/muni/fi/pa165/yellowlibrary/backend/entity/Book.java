@@ -140,18 +140,18 @@ public class Book {
       return false;
     }
     Book other = (Book) o;
-    if (isbn == null && other.isbn == null) {
-      return Objects.equals(author, other.author)
-          && Objects.equals(name, other.name);
+    if (getIsbn() == null && other.getIsbn() == null) {
+      return Objects.equals(getAuthor(), other.getAuthor())
+          && Objects.equals(getName(), other.getName());
     }
-    return Objects.equals(isbn, ((Book) o).isbn);
+    return Objects.equals(getIsbn(), ((Book) o).getIsbn());
   }
 
   @Override
   public int hashCode() {
-    if (isbn == null) {
-      return Objects.hash(author, name);
+    if (getIsbn() == null) {
+      return Objects.hash(getAuthor(), getName());
     }
-    return isbn.hashCode();
+    return getIsbn().hashCode();
   }
 }
