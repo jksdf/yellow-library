@@ -1,10 +1,13 @@
 package cz.muni.fi.pa165.yellowlibrary.backend;
 
+import com.google.common.collect.ImmutableList;
+
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -50,9 +53,12 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
 
   private Loan loan;
 
-  @BeforeMethod
-  public void setUp() {
-
+  @AfterMethod
+  private void tearDown() {
+    em.clear();
+    for (User user : ImmutableList.copyOf(em.createQuery("SELECT u FROM User u", User.class).getResultList())) {
+      em.remove(user);
+    }
   }
 
   @Test(expectedExceptions = NullPointerException.class)
@@ -81,6 +87,7 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     User user = new User();
     user.setName(null);
     user.setAddress("Smith");
+    user.setLogin("Jamesik123");
     user.setUserType(UserType.CUSTOMER);
     user.setTotalFines(BigDecimal.ZERO);
     user.setLoans(new HashSet<>());
@@ -103,6 +110,7 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
   public void createUserNullAddress() {
     User user = new User();
     user.setName("James");
+    user.setLogin("Jamesik123");
     user.setAddress(null);
     user.setUserType(UserType.CUSTOMER);
     user.setTotalFines(BigDecimal.ZERO);
@@ -135,10 +143,23 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
   }
 
   @Test(expectedExceptions = NullPointerException.class)
+  public void createUserNullLoans() {
+    User user = new User();
+    user.setName("James");
+    user.setAddress("Smith");
+    user.setLogin("Jamesik123");
+    user.setUserType(null);
+    user.setTotalFines(BigDecimal.ZERO);
+    user.setLoans(null);
+    userDao.createUser(user);
+  }
+
+  @Test(expectedExceptions = NullPointerException.class)
   public void createUserNullNullFines(){
     User user = new User();
     user.setName("James");
     user.setAddress("Smith");
+    user.setLogin("Jamesik123");
     user.setUserType(UserType.CUSTOMER);
     user.setTotalFines(null);
     user.setLoans(new HashSet<>());

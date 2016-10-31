@@ -10,14 +10,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
 
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.BookDao;
-import cz.muni.fi.pa165.yellowlibrary.backend.dao.DepartmentDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Department;
-
-import static org.mockito.Mockito.mock;
 
 /**
  * BookDao Test Class
@@ -32,8 +31,8 @@ public class BookDaoTest extends AbstractTestNGSpringContextTests {
   @Inject
   private BookDao bookDao;
 
-  @Inject
-  private DepartmentDao departmentDao;
+  @PersistenceContext
+  private EntityManager entityManager;
 
   private Book bookOne;
   private Book bookTwo;
@@ -69,19 +68,12 @@ public class BookDaoTest extends AbstractTestNGSpringContextTests {
     department.setShortName("COM");
     dep2.setShortName("FNT");
 
-    departmentDao.create(department);
-    departmentDao.create(dep2);
+    entityManager.persist(department);
+    entityManager.persist(dep2);
 
     bookOne.setDepartment(department);
     bookTwo.setDepartment(dep2);
   }
-
-//  Primitive long cannot be null
-//
-//  @Test(expectedExceptions = NullPointerException.class)
-//  public void testRetrieveNullIdBook() {
-//    bookDao.getBookFromId(null);
-//  }
 
   @Test(expectedExceptions = NullPointerException.class)
   public void testRemoveNullBook() {

@@ -100,6 +100,7 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
 
   @Test
   public void createLoanAllFilled() {
+    persistUnusedLoan();
     Loan original = getDefaultLoan();
     loanDao.create(original);
 
@@ -110,6 +111,7 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
 
   @Test(expectedExceptions = NullPointerException.class)
   public void createLoanNoUser() {
+    persistUnusedLoan();
     Loan loan = getDefaultLoan();
     loan.setUser(null);
     loanDao.create(loan);
@@ -117,6 +119,7 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
 
   @Test(expectedExceptions = NullPointerException.class)
   public void createLoanNoBook() {
+    persistUnusedLoan();
     Loan loan = getDefaultLoan();
     loan.setBookInstance(null);
     loanDao.create(loan);
@@ -124,6 +127,7 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
 
   @Test
   public void createLoanNotReturned() {
+    persistUnusedLoan();
     Loan loan = getDefaultLoan();
     loan.setReturnDate(null);
     loanDao.create(loan);
@@ -135,6 +139,7 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
 
   @Test
   public void retrieveLoan() {
+    persistUnusedLoan();
     Loan loan = getDefaultLoan();
     em.persist(loan);
     Loan loaded = loanDao.findLoanById(loan.getId());
@@ -143,16 +148,19 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
 
   @Test(expectedExceptions = NullPointerException.class)
   public void retrieveLoanNullId() {
+    persistUnusedLoan();
     loanDao.findLoanById(null);
   }
 
   @Test
   public void retrieveNonExistentLoan() {
+    persistUnusedLoan();
     assertNull(loanDao.findLoanById(100L));
   }
 
   @Test
   public void deleteLoan() {
+    persistUnusedLoan();
     Loan loan = getDefaultLoan();
     em.persist(loan);
 
@@ -162,12 +170,14 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
 
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void deleteNonexistentLoan() {
+    persistUnusedLoan();
     Loan loan = getDefaultLoan();
     loanDao.delete(loan);
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void deleteDetachedLoan() {
+    persistUnusedLoan();
     Loan loan = getDefaultLoan();
     em.persist(loan);
     Loan detached = getDefaultLoan();
@@ -176,11 +186,13 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
 
   @Test(expectedExceptions = NullPointerException.class)
   public void deleteNullLoan() {
+    persistUnusedLoan();
     loanDao.delete(null);
   }
 
   @Test
   public void updateLoan() {
+    persistUnusedLoan();
     Loan original = getDefaultLoan();
     em.persist(original);
     Loan modified = getDefaultLoan();
@@ -200,6 +212,7 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
 
   @Test(expectedExceptions = NullPointerException.class)
   public void updateLoanNoUser() {
+    persistUnusedLoan();
     Loan loan = getDefaultLoan();
     loan.setUser(null);
     loanDao.update(loan);
@@ -207,6 +220,7 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
 
   @Test(expectedExceptions = NullPointerException.class)
   public void updateLoanNoBook() {
+    persistUnusedLoan();
     Loan loan = getDefaultLoan();
     loan.setBookInstance(null);
     loanDao.update(loan);
@@ -224,6 +238,21 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
     loan.setLoanState("Fine");
     loan.setFine(BigDecimal.ONE);
     return loan;
+  }
+
+  /** Tests for other entities. */
+  private void persistUnusedLoan() {
+    Loan loan = new Loan();
+    loan.setUser(user1);
+    loan.setBookInstance(bookInstance1);
+    Date loanDate = new Date(1);
+    Date returnDate = new Date(5);
+    loan.setDateFrom(loanDate);
+    loan.setReturnDate(returnDate);
+    loan.setLoanLength(10);
+    loan.setLoanState("OK");
+    loan.setFine(BigDecimal.TEN);
+    em.persist(loan);
   }
 
   private void assertIsEqual(Loan loan1, Loan loan2) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>cz.muni.fi.pa165.yellowlibrary</groupId>
@@ -11,6 +11,26 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
+
+    <developers>
+        <developer>
+            <name>Čokinová, Jana</name>
+            <email>422534@mail.muni.cz</email>
+        </developer>
+        <developer>
+            <name>Gallo, Matej</name>
+            <email>422328@mail.muni.cz</email>
+        </developer>
+        <developer>
+            <name>Slivka, Norbert</name>
+            <email>433308@mail.muni.cz</email>
+        </developer>
+        <developer>
+            <name>Živčic, Jozef</name>
+            <email>422777@mail.muni.cz</email>
+        </developer>
+    </developers>
+
     <modules>
         <module>backend</module>
     </modules>
