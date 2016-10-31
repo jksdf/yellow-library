@@ -21,6 +21,7 @@ public class Department {
   private Long id;
 
   @NotNull
+  @javax.validation.constraints.Size(min = 3, max = 3)
   private String shortName;
 
   @NotNull
