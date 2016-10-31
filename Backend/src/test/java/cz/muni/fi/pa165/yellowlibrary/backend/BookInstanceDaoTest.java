@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.yellowlibrary.backend;
 
+import com.google.common.collect.ImmutableList;
+
 import org.junit.Before;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -7,6 +9,7 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -78,6 +81,14 @@ public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
     secondBookInstance.setBookAvailability(BookAvailability.BORROWED);
     secondBookInstance.setBookState("new");
     secondBookInstance.setBook(b2);
+  }
+
+  @AfterMethod
+  public void tearDown() {
+    em.clear();
+    for (BookInstance bookInstance : ImmutableList.copyOf(em.createQuery("SELECT bi FROM "
+        + "BookInstance bi", BookInstance.class).getResultList()))
+      em.remove(bookInstance);
   }
 
   @Test(expectedExceptions = NullPointerException.class)
