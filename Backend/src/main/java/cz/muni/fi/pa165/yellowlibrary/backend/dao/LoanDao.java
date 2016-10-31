@@ -12,6 +12,9 @@ public interface LoanDao {
    * Persist new Loan into Database.
    *
    * @param loan Loan entity which is persisted.
+   * @throws NullPointerException when input parameter is null
+   * @throws IllegalArgumentException if Loan is not an entity or is a removed entity
+   * @throws javax.validation.ConstraintViolationException if Loan has not well defined parameters
    */
   void create(Loan loan);
 
@@ -19,6 +22,9 @@ public interface LoanDao {
    * Deletes specified Loan from database.
    *
    * @param loan Loan to be deleted.
+   * @throws NullPointerException when input parameter is null
+   * @throws IllegalArgumentException if Loan is not an entity or is a removed entity
+   * @throws javax.validation.ConstraintViolationException if Loan has not well defined parameters
    */
   void delete(Loan loan);
 
@@ -26,6 +32,7 @@ public interface LoanDao {
    * Finds Loan according to its id.
    *
    * @param id Unique identifier for Loan entities.
+   * @throws NullPointerException when input parameter is null
    * @return Loan with specific id.
    */
   Loan findLoanById(Long id);
@@ -34,6 +41,10 @@ public interface LoanDao {
    * Updates persisted loan with new loan.
    *
    * @param loan New Loan entity
+   * @throws NullPointerException when input parameter is null
+   * @throws IllegalArgumentException if Loan is not an entity or is a removed entity
+   * @throws javax.validation.ConstraintViolationException if Loan has not well defined parameters
+   * @return updated Loan, if no such Loan exists return new added loan
    */
   Loan update(Loan loan);
 }
