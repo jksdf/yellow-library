@@ -27,7 +27,7 @@ public class Department {
   @NotNull
   private String name;
 
-  @OneToMany
+  @OneToMany(mappedBy = "department")
   private List<Book> books;
 
   public Department() {
