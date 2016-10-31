@@ -48,8 +48,8 @@ public class DepartmentDaoTest extends AbstractTestNGSpringContextTests {
   @AfterMethod
   private void tearDown() {
     em.clear();
-    for (Department loan : ImmutableList.copyOf(em.createQuery("SELECT d FROM Department d", Department.class).getResultList())) {
-      em.remove(loan);
+    for (Department department : ImmutableList.copyOf(em.createQuery("SELECT d FROM Department d", Department.class).getResultList())) {
+      em.remove(department);
     }
   }
 
