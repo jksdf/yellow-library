@@ -40,7 +40,7 @@ public class Book {
   @ManyToOne
   private Department department;
 
-  @OneToMany
+  @OneToMany(mappedBy = "book")
   private Set<BookInstance> bookInstances;
 
   public Book() {
