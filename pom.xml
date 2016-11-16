@@ -33,5 +33,7 @@
 
     <modules>
         <module>backend</module>
+        <module>api</module>
+        <module>service</module>
     </modules>
 </project>
