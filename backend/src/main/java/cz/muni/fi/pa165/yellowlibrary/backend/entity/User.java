@@ -5,12 +5,9 @@
  */
 package cz.muni.fi.pa165.yellowlibrary.backend.entity;
 
-import cz.muni.fi.pa165.yellowlibrary.backend.enums.UserType;
-
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -22,6 +19,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import cz.muni.fi.pa165.yellowlibrary.backend.enums.UserType;
 
 /**
  * @author Jozef Zivcic
@@ -111,6 +110,22 @@ public class User {
 
   public boolean removeLoan(Loan loan) {
     return loans.remove(loan);
+  }
+
+  /**
+   * Checks whether user has role of employee.
+   * @return True if user is employee, false otherwise.
+   */
+  public boolean isEmployee() {
+    return userType == UserType.EMPLOYEE;
+  }
+
+  /**
+   * Checks whether user has role of customer.
+   * @return True if user is customer, false otherwise.
+   */
+  public boolean isCustomer() {
+    return userType == UserType.CUSTOMER;
   }
 
   @Override

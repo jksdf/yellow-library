@@ -1,5 +1,7 @@
 package cz.muni.fi.yellowlibrary.service;
 
+import java.util.List;
+
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 
 /**
@@ -39,4 +41,24 @@ public interface UserService {
    * @return User entity, which login corresponds to the one specified as parameter.
    */
   User findByLogin(String login);
+
+  /**
+   * Answers if user is employee.
+   * @param user User to be controlled.
+   * @return True if user is employee, false otherwise.
+   */
+  boolean isEmployee(User user);
+
+  /**
+   * Answers if user is customer.
+   * @param user User to be controlled.
+   * @return True if user is customer, false otherwise.
+   */
+  boolean isCustomer(User user);
+
+  /**
+   * Finds all users in system.
+   * @return List of all users, that are present in system.
+   */
+  List<User> findAllUsers();
 }
