@@ -1,5 +1,8 @@
 package cz.muni.fi.pa165.yellowlibrary.backend.dao;
 
+import java.util.List;
+
+import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
 
 /**
@@ -47,4 +50,13 @@ public interface LoanDao {
    * @return updated Loan, if no such Loan exists return new added loan
    */
   Loan update(Loan loan);
+
+  /**
+   * Find loan with specific book instance
+   * @param bookInstance
+   * @return list of loans containing specific book
+   */
+  List<Loan> findByBookInstance(BookInstance bookInstance);
+  List<Loan> findAll();
+  List<Loan> findNotReturned();
 }

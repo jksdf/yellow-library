@@ -2,10 +2,14 @@ package cz.muni.fi.pa165.yellowlibrary.backend.dao;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import javax.validation.constraints.AssertFalse;
 
+import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
 
 /**
@@ -49,4 +53,28 @@ public class LoanDaoImpl implements LoanDao {
     }
     return em.merge(loan);
   }
+
+  @Override
+  public List<Loan> findByBookInstance(BookInstance bookInstance) {
+    if (bookInstance == null) {
+      throw new NullPointerException("bookInstance cannot be null");
+    }
+
+    return em
+        .createQuery("select l from Loan l WHERE l.bookInstance = :bookInstance",
+            Loan.class).setParameter("bookInstance", bookInstance).getResultList();
+  }
+
+  @Override
+  public List<Loan> findAll() {
+    return em.createQuery("select l from Loan l", Loan.class)
+        .getResultList();
+  }
+
+  @Override
+  public List<Loan> findNotReturned() {
+    return em.createQuery("select l from Loan l where l.returnDate is null", Loan.class)
+        .getResultList();
+  }
+
 }
