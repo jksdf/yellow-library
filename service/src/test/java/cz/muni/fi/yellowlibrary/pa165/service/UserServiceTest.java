@@ -133,6 +133,11 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
 
   // update
 
+  @Test(expectedExceptions = NullPointerException.class)
+  public void updateNullUserTest() {
+    userService.update(null);
+  }
+
   @Test
   public void updateUserTest() {
     user3.setAddress("Brno");
@@ -142,6 +147,11 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
   }
 
   // delete
+
+  @Test(expectedExceptions = NullPointerException.class)
+  public void deleteNullUserTest() {
+    userService.delete(null);
+  }
 
   @Test
   public void deleteUserTest() {
