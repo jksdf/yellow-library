@@ -3,8 +3,12 @@ package cz.muni.fi.pa165.yellowlibrary.backend.dao;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.validation.constraints.Null;
 
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 
@@ -46,6 +50,25 @@ public class UserDaoImpl implements UserDao {
   public void updateUser(User user) {
     checkUser(user);
     em.merge(user);
+  }
+
+  @Override
+  public User findByLogin(String login) {
+    if (login == null)
+      throw new NullPointerException("Login cannot be null");
+    checkEmptyString(login, "login");
+    try {
+      return em.createQuery("SELECT u FROM User u WHERE login = :login", User.class)
+          .setParameter("login", login)
+          .getSingleResult();
+    }catch (NoResultException ex) {
+      return null;
+    }
+  }
+
+  @Override
+  public List<User> findAllUsers() {
+    return em.createQuery("SELECT u FROM User u", User.class).getResultList();
   }
 
   /**

@@ -8,30 +8,28 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.validation.ConstraintViolationException;
 
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.UserDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
-import cz.muni.fi.pa165.yellowlibrary.backend.enums.BookAvailability;
 import cz.muni.fi.pa165.yellowlibrary.backend.enums.UserType;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
 
 /**
  * @author Cokinova
@@ -239,4 +237,67 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     assertEquals(u.getName(), "Joshua");
   }
 
+  @Test(expectedExceptions = NullPointerException.class)
+  public void findUserByNullLoginTest() {
+    userDao.createUser(null);
+  }
+
+  @Test
+  public void findUserByLoginTest() {
+    User james = new User();
+    james.setName("James Good");
+    james.setAddress("London");
+    james.setLogin("james");
+    james.setUserType(UserType.CUSTOMER);
+    james.setTotalFines(BigDecimal.ZERO);
+
+    User john = new User();
+    john.setName("John Green");
+    john.setAddress("London");
+    john.setLogin("johnny");
+    john.setUserType(UserType.EMPLOYEE);
+    john.setTotalFines(BigDecimal.ZERO);
+
+    userDao.createUser(james);
+    userDao.createUser(john);
+
+    User retUser = userDao.findByLogin("not-existing");
+    assertNull(retUser);
+
+    retUser = userDao.findByLogin("james");
+    assertEquals(retUser, james);
+
+    retUser = userDao.findByLogin("johnny");
+    assertEquals(retUser, john);
+  }
+
+  @Test
+  public void findAllUsersTest() {
+    User james = new User();
+    james.setName("James Good");
+    james.setAddress("London");
+    james.setLogin("james");
+    james.setUserType(UserType.CUSTOMER);
+    james.setTotalFines(BigDecimal.ZERO);
+
+    User john = new User();
+    john.setName("John Green");
+    john.setAddress("London");
+    john.setLogin("johnny");
+    john.setUserType(UserType.EMPLOYEE);
+    john.setTotalFines(BigDecimal.ZERO);
+
+    List<User> users = userDao.findAllUsers();
+    assertTrue(users.isEmpty());
+
+    userDao.createUser(james);
+    users = userDao.findAllUsers();
+    assertFalse(users.isEmpty());
+    assertEquals(users.size(), 1);
+
+    userDao.createUser(john);
+    users = userDao.findAllUsers();
+    assertFalse(users.isEmpty());
+    assertEquals(users.size(), 2);
+  }
 }

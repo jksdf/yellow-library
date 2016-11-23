@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.yellowlibrary.backend.dao;
 
 
+import java.util.List;
+
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 
 /**
@@ -39,4 +41,18 @@ public interface UserDao {
    * @throws IllegalArgumentException if login, name or address are empty strings.
    */
   void updateUser(User user);
+
+  /**
+   * Finds user according to specified login.
+   * @param user User, which attribute login is user as searching key for finding specific user.
+   * @return User entity, which login corresponds to the one specified as parameter. If no user
+   * is found, then returns null.
+   */
+  User findByLogin(String login);
+
+  /**
+   * Finds all users in system.
+   * @return List of all users, that are present in system.
+   */
+  List<User> findAllUsers();
 }
