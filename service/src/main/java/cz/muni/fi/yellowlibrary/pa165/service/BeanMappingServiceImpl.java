@@ -1,6 +1,7 @@
 package cz.muni.fi.yellowlibrary.pa165.service;
 
 import org.dozer.Mapper;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,6 +12,7 @@ import javax.inject.Inject;
 /**
  * @author Jozef Zivcic
  */
+@Service
 public class BeanMappingServiceImpl implements BeanMappingService {
 
   @Inject
