@@ -56,6 +56,7 @@ public class UserDaoImpl implements UserDao {
   public User findByLogin(String login) {
     if (login == null)
       throw new NullPointerException("Login cannot be null");
+    checkEmptyString(login, "login");
     try {
       return em.createQuery("SELECT u FROM User u WHERE login = :login", User.class)
           .setParameter("login", login)
