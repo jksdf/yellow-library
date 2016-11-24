@@ -1,4 +1,4 @@
-package cz.muni.fi.yellowlibrary.pa165.service.configuration;
+package cz.muni.fi.pa165.yellowlibrary.service.configuration;
 
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
@@ -8,11 +8,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import cz.muni.fi.pa165.yellowlibrary.api.dto.BookDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
 import cz.muni.fi.pa165.yellowlibrary.backend.LibraryApplicationContext;
+import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
-import cz.muni.fi.yellowlibrary.pa165.service.UserServiceImpl;
-import cz.muni.fi.yellowlibrary.pa165.service.facade.UserFacadeImpl;
+import cz.muni.fi.pa165.yellowlibrary.service.UserServiceImpl;
+import cz.muni.fi.pa165.yellowlibrary.service.facade.UserFacadeImpl;
 
 /**
  * @author Jozef Zivcic
@@ -33,6 +35,7 @@ public class ServiceConfiguration {
     @Override
     protected void configure() {
       mapping(User.class, UserDTO.class);
+      mapping(Book.class, BookDTO.class);
     }
   }
 }

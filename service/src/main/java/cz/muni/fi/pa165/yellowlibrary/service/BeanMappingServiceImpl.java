@@ -1,4 +1,4 @@
-package cz.muni.fi.yellowlibrary.pa165.service;
+package cz.muni.fi.pa165.yellowlibrary.service;
 
 import org.dozer.Mapper;
 import org.springframework.stereotype.Service;
