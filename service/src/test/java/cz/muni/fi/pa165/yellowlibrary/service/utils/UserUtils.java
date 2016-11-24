@@ -5,13 +5,14 @@ import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 import static org.testng.Assert.assertEquals;
 
 /**
- * Created by jozef on 24.11.2016.
+ * @author Jozef Zivcic
  */
 public class UserUtils {
 
   public static void assertDeepEquals(User actual, User expected) {
     assertEquals(actual.getId(), expected.getId());
     assertEquals(actual.getLogin(), expected.getLogin());
+    assertEquals(actual.getPasswordHash(), expected.getPasswordHash());
     assertEquals(actual.getName(), expected.getName());
     assertEquals(actual.getAddress(), expected.getAddress());
     assertEquals(actual.getTotalFines(), expected.getTotalFines());
@@ -23,6 +24,7 @@ public class UserUtils {
     User newUser = new User();
     newUser.setId(user.getId());
     newUser.setLogin(user.getLogin());
+    newUser.setPasswordHash(user.getPasswordHash());
     newUser.setName(user.getName());
     newUser.setAddress(user.getAddress());
     newUser.setTotalFines(user.getTotalFines());

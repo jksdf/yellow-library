@@ -40,7 +40,7 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
   public static final Long user1Id = 10L;
   public static final Long user3Id = 1L;
   public static final Long nonExistingId = 3L;
-
+  public static final String password = "1234";
   @Mock
   private UserDao userDao;
 
@@ -96,15 +96,55 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
 
   @Test(expectedExceptions = NullPointerException.class)
   public void createNullUserTest() {
-    userService.create(null);
+    userService.create(null, password);
+  }
+
+  @Test(expectedExceptions = NullPointerException.class)
+  public void createUserWithNullPasswordTest() {
+    userService.create(user1, null);
+  }
+
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void createUserWithEmptyPasswordTest() {
+    userService.create(user1, "");
   }
 
   @Test
   public void createValidUserTest() {
-    userService.create(user1);
+    userService.create(user1, password);
     verify(userDao).createUser(user1);
     verifyNoMoreInteractions(userDao);
     assertEquals(user1Id, user1.getId());
+  }
+
+  // authenticate
+
+  @Test(expectedExceptions = NullPointerException.class)
+  public void authenticateUserWithNullUserTest() {
+    userService.authenticate(null, password);
+  }
+
+  @Test(expectedExceptions = NullPointerException.class)
+  public void authenticateUserWithNullPasswordTest() {
+    userService.authenticate(user1, null);
+  }
+
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void authenticateUserWithEmptyPasswordTest() {
+    userService.authenticate(user1, "");
+  }
+
+  @Test
+  public void authenticateUserSuccessTest() {
+    userService.create(user1, password);
+    assertTrue(userService.authenticate(user1, password));
+  }
+
+  @Test
+  public void authenticateUserFailureTest() {
+    userService.create(user1, password);
+    String newPassword = password + "something";
+    assertFalse(userService.authenticate(user1, newPassword));
   }
 
   // update

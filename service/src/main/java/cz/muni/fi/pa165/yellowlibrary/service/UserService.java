@@ -15,9 +15,19 @@ public interface UserService {
   /**
    * Creates new entity user.
    * @param user User which is created.
+   * @param plainTextPassword Password, which is going to be hashed.
    * @throws NullPointerException
    */
-  void create(User user);
+  void create(User user, String plainTextPassword);
+
+  /**
+   * Authenticates user - controls given plain text password if after applying hash function to it
+   * matches user's password hash.
+   * @param user User to be authenticated.
+   * @param plainTextPassword Password that should match user's hash.
+   * @return True, if hashed plain text password matches with user's hash, false otherwise.
+   */
+  boolean authenticate(User user, String plainTextPassword);
 
   /**
    * Updates user entity

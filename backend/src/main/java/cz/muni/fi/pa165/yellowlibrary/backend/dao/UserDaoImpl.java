@@ -82,6 +82,8 @@ public class UserDaoImpl implements UserDao {
       throw new NullPointerException("User is null");
     if (u.getLogin() == null)
       throw new NullPointerException("User login is null");
+    if (u.getPasswordHash() == null)
+      throw new NullPointerException("User password hash is null");
     if (u.getName() == null)
       throw new NullPointerException("User name cannot be null");
     if (u.getAddress() == null)

@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.yellowlibrary.api.facade;
 
 import java.util.List;
 
+import cz.muni.fi.pa165.yellowlibrary.api.dto.UserAuthenticateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
 
 /**
@@ -12,8 +13,17 @@ public interface UserFacade {
   /**
    * Creates new user in the system.
    * @param userDTO new user.
+   * @param plainTextPassword Password of the new user.
    */
-  void createUser(UserDTO userDTO);
+  void registerNewUser(UserDTO userDTO, String plainTextPassword);
+
+  /**
+   * Authenticates user - controls if given credentials are correct.
+   * @param userAuthenticateDTO User to be authenticated.
+   * @param plainTextPassword Password that should match user's hash.
+   * @return True, if user is authenticated, false otherwise.
+   */
+  boolean authenticateUser(UserAuthenticateDTO userAuthenticateDTO, String plainTextPassword);
 
   /**
    * Searches for user with id in system.
