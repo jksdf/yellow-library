@@ -1,13 +1,9 @@
-package cz.muni.fi.yellowlibrary.pa165.service.facade;
+package cz.muni.fi.pa165.yellowlibrary.service.facade;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.springframework.dao.CannotAcquireLockException;
-import org.springframework.dao.DataAccessException;
-import org.springframework.orm.hibernate3.HibernateJdbcException;
-import org.springframework.orm.hibernate3.HibernateQueryException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeMethod;
@@ -23,15 +19,12 @@ import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.UserFacade;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 import cz.muni.fi.pa165.yellowlibrary.backend.enums.UserType;
-import cz.muni.fi.yellowlibrary.pa165.service.BeanMappingService;
-import cz.muni.fi.yellowlibrary.pa165.service.BeanMappingServiceImpl;
-import cz.muni.fi.yellowlibrary.pa165.service.UserService;
-import cz.muni.fi.yellowlibrary.pa165.service.UserServiceImpl;
-import cz.muni.fi.yellowlibrary.pa165.service.configuration.ServiceConfiguration;
-import cz.muni.fi.yellowlibrary.pa165.service.utils.UserUtils;
+import cz.muni.fi.pa165.yellowlibrary.service.BeanMappingService;
+import cz.muni.fi.pa165.yellowlibrary.service.UserService;
+import cz.muni.fi.pa165.yellowlibrary.service.configuration.ServiceConfiguration;
+import cz.muni.fi.pa165.yellowlibrary.service.utils.UserUtils;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;

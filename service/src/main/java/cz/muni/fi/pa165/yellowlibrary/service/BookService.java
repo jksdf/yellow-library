@@ -1,6 +1,7 @@
-package cz.muni.pa165.yellowlibrary.service;
+package cz.muni.fi.pa165.yellowlibrary.service;
 
 import java.util.List;
+import java.util.Set;
 
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 
@@ -12,7 +13,8 @@ public interface BookService {
 
   List<Book> getAllBooks();
 
-  List<Book> getBooksByName(String name);
+  List<Book> searchBooks(String author, String name, String description, String isbn,
+                         Set<Long> departments);
 
   void editBook(Book book);
 }

@@ -1,4 +1,4 @@
-package cz.muni.fi.yellowlibrary.pa165.service.facade;
+package cz.muni.fi.pa165.yellowlibrary.service.facade;
 
 import java.util.List;
 
@@ -9,8 +9,8 @@ import cz.muni.fi.pa165.yellowlibrary.api.dto.BookSearchDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.UpdateBookDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookFacade;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
-import cz.muni.fi.yellowlibrary.pa165.service.BeanMappingService;
-import cz.muni.fi.yellowlibrary.pa165.service.BookService;
+import cz.muni.fi.pa165.yellowlibrary.service.BeanMappingService;
+import cz.muni.fi.pa165.yellowlibrary.service.BookService;
 
 /**
  * @author Norbert Slivka

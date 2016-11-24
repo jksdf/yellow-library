@@ -1,4 +1,4 @@
-package cz.muni.fi.yellowlibrary.pa165.service;
+package cz.muni.fi.pa165.yellowlibrary.service;
 
 import java.util.List;
 import java.util.Set;

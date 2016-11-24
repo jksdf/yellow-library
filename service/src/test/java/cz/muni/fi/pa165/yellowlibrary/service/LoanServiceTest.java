@@ -1,4 +1,4 @@
-package cz.muni.fi.yellowlibrary.pa165.service;
+package cz.muni.fi.pa165.yellowlibrary.service;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -27,7 +27,7 @@ import cz.muni.fi.pa165.yellowlibrary.backend.entity.Department;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 import cz.muni.fi.pa165.yellowlibrary.backend.enums.BookAvailability;
-import cz.muni.fi.yellowlibrary.pa165.service.configuration.ServiceConfiguration;
+import cz.muni.fi.pa165.yellowlibrary.service.configuration.ServiceConfiguration;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.any;

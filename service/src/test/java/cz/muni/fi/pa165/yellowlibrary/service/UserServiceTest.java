@@ -1,13 +1,11 @@
-package cz.muni.fi.yellowlibrary.pa165.service;
+package cz.muni.fi.pa165.yellowlibrary.service;
 
-import org.junit.Before;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
@@ -19,11 +17,9 @@ import javax.inject.Inject;
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.UserDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 import cz.muni.fi.pa165.yellowlibrary.backend.enums.UserType;
-import cz.muni.fi.yellowlibrary.pa165.service.configuration.ServiceConfiguration;
-import cz.muni.fi.yellowlibrary.pa165.service.utils.UserUtils;
+import cz.muni.fi.pa165.yellowlibrary.service.configuration.ServiceConfiguration;
+import cz.muni.fi.pa165.yellowlibrary.service.utils.UserUtils;
 
-import static cz.muni.fi.yellowlibrary.pa165.service.utils.UserUtils.assertDeepEquals;
-import static cz.muni.fi.yellowlibrary.pa165.service.utils.UserUtils.copyUser;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
@@ -123,7 +119,7 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
     user3.setAddress("Brno");
     userService.update(user3);
     User retUser = userService.findById(user3.getId());
-    assertDeepEquals(retUser, user3);
+    UserUtils.assertDeepEquals(retUser, user3);
   }
 
   // delete
@@ -135,7 +131,7 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
 
   @Test
   public void deleteUserTest() {
-    User newUser = copyUser(user3);
+    User newUser = UserUtils.copyUser(user3);
     newUser.setId(nonExistingId);
     when(userDao.findById(newUser.getId())).thenReturn(newUser).thenReturn(null);
     userService.delete(newUser);
@@ -153,7 +149,7 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
   @Test
   public void findByExistingIdsTest() {
     User user = userService.findById(user3Id);
-    assertDeepEquals(user, user3);
+    UserUtils.assertDeepEquals(user, user3);
   }
 
   @Test
@@ -180,14 +176,14 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
   public void findByLoginTest() {
     when(userDao.findByLogin(user3.getLogin())).thenReturn(user3);
     User retUser = userService.findByLogin(user3.getLogin());
-    assertDeepEquals(retUser, user3);
+    UserUtils.assertDeepEquals(retUser, user3);
   }
 
   // is employee
 
   @Test
   public void isEmployeeTest() {
-    User myUser = copyUser(user2);
+    User myUser = UserUtils.copyUser(user2);
     myUser.setId(5L);
     when(userDao.findById(myUser.getId())).thenReturn(myUser);
     assertTrue(userService.isEmployee(myUser));

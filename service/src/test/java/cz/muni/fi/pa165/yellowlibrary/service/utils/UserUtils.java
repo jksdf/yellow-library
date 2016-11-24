@@ -1,4 +1,4 @@
-package cz.muni.fi.yellowlibrary.pa165.service.utils;
+package cz.muni.fi.pa165.yellowlibrary.service.utils;
 
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 
