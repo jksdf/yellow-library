@@ -1,5 +1,7 @@
 package cz.muni.fi.yellowlibrary.pa165.service;
 
+import org.springframework.stereotype.Service;
+
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
 /**
  * @author cokinova
  */
+@Service
 public class LoanServiceImpl implements LoanService{
   @Inject
   private LoanDao loanDao;
