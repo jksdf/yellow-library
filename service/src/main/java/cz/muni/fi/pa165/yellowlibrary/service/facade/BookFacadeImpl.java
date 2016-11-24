@@ -25,7 +25,7 @@ public class BookFacadeImpl implements BookFacade {
 
   @Override
   public BookDTO getBook(long id) {
-    return null;
+    return mappingService.mapTo(bookService.getBook(id), BookDTO.class);
   }
 
   @Override
@@ -41,11 +41,15 @@ public class BookFacadeImpl implements BookFacade {
 
   @Override
   public long createBook(UpdateBookDTO book) {
-    return 0;
+    Book created = mappingService.mapTo(book, Book.class);
+    bookService.addBook(created);
+    return created.getId();
   }
 
   @Override
   public void updateBook(long id, UpdateBookDTO book) {
-
+    Book updated = mappingService.mapTo(book, Book.class);
+    updated.setId(id);
+    bookService.editBook(updated);
   }
 }
