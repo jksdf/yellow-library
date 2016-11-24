@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.yellowlibrary.backend;
 
 import com.google.common.collect.ImmutableList;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -169,14 +170,14 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
     assertNull(em.find(Loan.class, loan.getId()));
   }
 
-  @Test(expectedExceptions = IllegalArgumentException.class)
+  @Test(expectedExceptions = DataAccessException.class)
   public void deleteNonexistentLoan() {
     persistUnusedLoan();
     Loan loan = getDefaultLoan();
     loanDao.delete(loan);
   }
 
-  @Test(expectedExceptions = IllegalArgumentException.class)
+  @Test(expectedExceptions = DataAccessException.class)
   public void deleteDetachedLoan() {
     persistUnusedLoan();
     Loan loan = getDefaultLoan();

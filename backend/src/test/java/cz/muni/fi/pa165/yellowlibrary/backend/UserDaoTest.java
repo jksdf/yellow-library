@@ -87,6 +87,7 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     user.setName(null);
     user.setAddress("Smith");
     user.setLogin("Jamesik123");
+    user.setPasswordHash("ABCD");
     user.setUserType(UserType.CUSTOMER);
     user.setTotalFines(BigDecimal.ZERO);
     user.setLoans(new HashSet<>());
@@ -99,6 +100,7 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     user.setName("");
     user.setAddress("Smith");
     user.setLogin("Jamesik123");
+    user.setPasswordHash("ABCD");
     user.setUserType(UserType.CUSTOMER);
     user.setTotalFines(BigDecimal.ZERO);
     user.setLoans(new HashSet<>());
