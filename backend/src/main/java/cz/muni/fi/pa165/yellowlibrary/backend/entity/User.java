@@ -37,6 +37,9 @@ public class User {
   private String login;
 
   @NotNull
+  private String passwordHash;
+
+  @NotNull
   private String name;
 
   @NotNull
@@ -58,6 +61,14 @@ public class User {
 
   public void setId(Long id) {
     this.id = id;
+  }
+
+  public void setLogin(String login) {
+    this.login = login;
+  }
+
+  public void setPasswordHash(String passwordHash) {
+    this.passwordHash = passwordHash;
   }
 
   public void setName(String name) {
@@ -82,6 +93,14 @@ public class User {
 
   public Long getId() {
     return id;
+  }
+
+  public String getLogin() {
+    return login;
+  }
+
+  public String getPasswordHash() {
+    return passwordHash;
   }
 
   public String getName() {
@@ -138,6 +157,13 @@ public class User {
 
     User user = (User) o;
 
+    if (getLogin() != null ? !getLogin().equals(user.getLogin()) : user.getLogin() != null)
+      return false;
+
+    if (getPasswordHash() != null ? !getPasswordHash().equals(user.getPasswordHash()) :
+        user.getPasswordHash() != null)
+      return false;
+
     if (getName() != null ? !getName().equals(user.getName()) : user.getName() != null)
       return false;
 
@@ -159,18 +185,12 @@ public class User {
   @Override
   public int hashCode() {
     int result = getName() != null ? getName().hashCode() : 1;
+    result = 31 * result + (getLogin() != null ? getLogin().hashCode() : 1);
+    result = 31 * result + (getPasswordHash() != null ? getPasswordHash().hashCode() : 1);
     result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 1);
     result = 31 * result + (getTotalFines() != null ? getTotalFines().hashCode() : 1);
     result = 31 * result + (getLoans() != null ? getLoans().hashCode() : 1);
     result = 31 * result + (getUserType() != null ? getUserType().hashCode() : 1);
     return result;
-  }
-
-  public String getLogin() {
-    return login;
-  }
-
-  public void setLogin(String login) {
-    this.login = login;
   }
 }
