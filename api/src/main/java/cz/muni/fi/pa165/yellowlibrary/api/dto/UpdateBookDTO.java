@@ -12,7 +12,7 @@ public class UpdateBookDTO {
   private String description;
   private String author;
   private Integer pages;
-  private Long departmentId;
+  private DepartmentDTO department;
 
   public String getName() {
     return name;
@@ -54,12 +54,12 @@ public class UpdateBookDTO {
     this.pages = pages;
   }
 
-  public Long getDepartmentId() {
-    return departmentId;
+  public DepartmentDTO getDepartment() {
+    return department;
   }
 
-  public void setDepartmentId(Long departmentId) {
-    this.departmentId = departmentId;
+  public void setDepartmentId(DepartmentDTO department) {
+    this.department = department;
   }
 
   @Override
@@ -91,7 +91,7 @@ public class UpdateBookDTO {
         ", description='" + description + '\'' +
         ", author='" + author + '\'' +
         ", pages=" + pages +
-        ", departmentId=" + departmentId +
+        ", department=" + department +
         '}';
   }
 }
