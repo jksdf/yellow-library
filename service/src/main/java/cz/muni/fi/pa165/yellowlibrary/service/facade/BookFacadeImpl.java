@@ -1,5 +1,8 @@
 package cz.muni.fi.pa165.yellowlibrary.service.facade;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -15,6 +18,8 @@ import cz.muni.fi.pa165.yellowlibrary.service.BookService;
 /**
  * @author Norbert Slivka
  */
+@Service
+@Transactional
 public class BookFacadeImpl implements BookFacade {
 
   @Inject
