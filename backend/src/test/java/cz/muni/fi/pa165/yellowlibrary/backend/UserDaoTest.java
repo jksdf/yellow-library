@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.yellowlibrary.backend;
 
 import com.google.common.collect.ImmutableList;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -94,7 +95,7 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     userDao.createUser(user);
   }
 
-  @Test(expectedExceptions = IllegalArgumentException.class)
+  @Test(expectedExceptions = DataAccessException.class)
   public void createUserEmptyName() {
     User user = new User();
     user.setName("");
@@ -119,7 +120,7 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     userDao.createUser(user);
   }
 
-  @Test(expectedExceptions = IllegalArgumentException.class)
+  @Test(expectedExceptions = DataAccessException.class)
   public void createUserEmptyAddress() {
     User user = new User();
     user.setName("James");
