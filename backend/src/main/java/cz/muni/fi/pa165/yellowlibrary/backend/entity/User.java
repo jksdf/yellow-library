@@ -161,7 +161,7 @@ public class User {
     int result = getName() != null ? getName().hashCode() : 1;
     result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 1);
     result = 31 * result + (getTotalFines() != null ? getTotalFines().hashCode() : 1);
-    result = 31 * result + (getLoans() != null ? getLoans().hashCode() : 1);
+    result = 31 * result + (getLoans() != null ? Integer.hashCode(getLoans().size()) : 1);
     result = 31 * result + (getUserType() != null ? getUserType().hashCode() : 1);
     return result;
   }
