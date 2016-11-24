@@ -15,6 +15,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import cz.muni.fi.pa165.yellowlibrary.api.dto.UserAuthenticateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.UserFacade;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
@@ -25,6 +26,7 @@ import cz.muni.fi.pa165.yellowlibrary.service.configuration.ServiceConfiguration
 import cz.muni.fi.pa165.yellowlibrary.service.utils.UserUtils;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
@@ -37,10 +39,8 @@ import static org.testng.Assert.assertTrue;
 @ContextConfiguration(classes = ServiceConfiguration.class)
 public class UserFacadeTest extends AbstractTestNGSpringContextTests {
 
-  public static final Long user1Id = 1L;
   public static final Long user2Id = 2L;
-  public static final Long nonExistingId = 3L;
-
+  public static final String password = "1234";
   @Mock
   private UserService userService;
 
@@ -65,13 +65,27 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
     when(userService.isCustomer(user1)).thenReturn(user1.isCustomer());
     when(userService.isEmployee(user2)).thenReturn(user2.isEmployee());
     when(userService.isCustomer(user2)).thenReturn(user2.isCustomer());
+    when(userService.authenticate(user2, password)).thenReturn(true);
   }
 
   @Test
-  public void createUserTest() {
+  public void registerNewUserTest() {
     UserDTO userDTO = mappingService.mapTo(user1, UserDTO.class);
-    userFacade.createUser(userDTO);
-    verify(userService).create(any(User.class));
+    userFacade.registerNewUser(userDTO, password);
+    verify(userService).create(any(User.class), eq(password));
+  }
+
+  @Test
+  public void authenticateUserSuccessTest() {
+    UserAuthenticateDTO ua = mappingService.mapTo(user2, UserAuthenticateDTO.class);
+    assertTrue(userFacade.authenticateUser(ua, password));
+  }
+
+  @Test
+  public void authenticateUserFailureTest() {
+    String modifiedPassword = password + "something";
+    UserAuthenticateDTO ua = mappingService.mapTo(user2, UserAuthenticateDTO.class);
+    assertFalse(userFacade.authenticateUser(ua, modifiedPassword));
   }
 
   @Test

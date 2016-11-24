@@ -5,7 +5,7 @@ import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 import static org.testng.Assert.assertEquals;
 
 /**
- * Created by jozef on 24.11.2016.
+ * @author Jozef Zivcic
  */
 public class UserUtils {
 
