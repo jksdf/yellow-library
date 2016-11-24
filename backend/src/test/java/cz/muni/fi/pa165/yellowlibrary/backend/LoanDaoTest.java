@@ -66,6 +66,7 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
     user1.setUserType(UserType.CUSTOMER);
     user1.setTotalFines(BigDecimal.ZERO);
     user1.setLogin("tommy1");
+    user1.setPasswordHash("ABCD");
     em.persist(user1);
 
     book1 = new Book();

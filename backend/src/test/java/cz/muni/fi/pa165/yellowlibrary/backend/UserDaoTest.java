@@ -70,6 +70,7 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     user.setName("James");
     user.setAddress("Smith");
     user.setLogin("Jamesik123");
+    user.setPasswordHash("ABCD");
     user.setUserType(UserType.CUSTOMER);
     user.setTotalFines(BigDecimal.ZERO);
     user.setLoans(new HashSet<>());
@@ -122,6 +123,7 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     user.setName("James");
     user.setAddress("");
     user.setLogin("Jamesik123");
+    user.setPasswordHash("ABCD");
     user.setUserType(UserType.CUSTOMER);
     user.setTotalFines(BigDecimal.ZERO);
     user.setLoans(new HashSet<>());
@@ -180,6 +182,7 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     user.setName("James");
     user.setAddress("Smith");
     user.setLogin("Jamesik123");
+    user.setPasswordHash("ABCD");
     user.setUserType(UserType.CUSTOMER);
     user.setTotalFines(BigDecimal.ZERO);
     user.setLoans(new HashSet<>());
@@ -205,6 +208,7 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     user.setName("James");
     user.setAddress("Smith");
     user.setLogin("Jamesik123");
+    user.setPasswordHash("jamesHash");
     user.setUserType(UserType.CUSTOMER);
     user.setTotalFines(BigDecimal.ZERO);
     user.setLoans(new HashSet<>());
@@ -225,6 +229,7 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     user.setName("James");
     user.setAddress("Smith");
     user.setLogin("Jamesik123");
+    user.setPasswordHash("jamesHash");
     user.setUserType(UserType.CUSTOMER);
     user.setTotalFines(BigDecimal.ZERO);
     user.setLoans(new HashSet<>());
@@ -248,6 +253,7 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     james.setName("James Good");
     james.setAddress("London");
     james.setLogin("james");
+    james.setPasswordHash("jamesHash");
     james.setUserType(UserType.CUSTOMER);
     james.setTotalFines(BigDecimal.ZERO);
 
@@ -255,6 +261,7 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     john.setName("John Green");
     john.setAddress("London");
     john.setLogin("johnny");
+    john.setPasswordHash("johnHash");
     john.setUserType(UserType.EMPLOYEE);
     john.setTotalFines(BigDecimal.ZERO);
 
@@ -277,6 +284,7 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     james.setName("James Good");
     james.setAddress("London");
     james.setLogin("james");
+    james.setPasswordHash("jamesHash");
     james.setUserType(UserType.CUSTOMER);
     james.setTotalFines(BigDecimal.ZERO);
 
@@ -284,6 +292,7 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     john.setName("John Green");
     john.setAddress("London");
     john.setLogin("johnny");
+    john.setPasswordHash("johnHash");
     john.setUserType(UserType.EMPLOYEE);
     john.setTotalFines(BigDecimal.ZERO);
 

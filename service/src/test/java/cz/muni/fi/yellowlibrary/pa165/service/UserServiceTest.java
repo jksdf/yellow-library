@@ -1,5 +1,6 @@
 package cz.muni.fi.yellowlibrary.pa165.service;
 
+import org.junit.Before;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -19,7 +20,10 @@ import cz.muni.fi.pa165.yellowlibrary.backend.dao.UserDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 import cz.muni.fi.pa165.yellowlibrary.backend.enums.UserType;
 import cz.muni.fi.yellowlibrary.pa165.service.configuration.ServiceConfiguration;
+import cz.muni.fi.yellowlibrary.pa165.service.utils.UserUtils;
 
+import static cz.muni.fi.yellowlibrary.pa165.service.utils.UserUtils.assertDeepEquals;
+import static cz.muni.fi.yellowlibrary.pa165.service.utils.UserUtils.copyUser;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
@@ -37,48 +41,24 @@ import static org.testng.Assert.assertTrue;
 @ContextConfiguration(classes = ServiceConfiguration.class)
 public class UserServiceTest extends AbstractTestNGSpringContextTests {
 
+  public static final Long user1Id = 10L;
+  public static final Long user3Id = 1L;
+  public static final Long nonExistingId = 3L;
+
   @Mock
   private UserDao userDao;
 
   @Inject
   @InjectMocks
   private UserService userService;
-
   private User user1;
   private User user2;
+
   private User user3;
 
-  public static final Long user1Id = 10L;
-  public static final Long user3Id = 1L;
-  public static final Long nonExistingId = 3L;
-
-  @BeforeTest
-  public void setUpUsers() {
-    user1 = new User();
-    user1.setName("Joshua Bloch");
-    user1.setAddress("USA");
-    user1.setLogin("xbloch");
-    user1.setUserType(UserType.CUSTOMER);
-    user1.setTotalFines(BigDecimal.ZERO);
-
-    user2 = new User();
-    user2.setName("John Good");
-    user2.setAddress("4125 7th Ave, New York, NY 10022, USA");
-    user2.setLogin("xgood");
-    user2.setUserType(UserType.EMPLOYEE);
-    user2.setTotalFines(BigDecimal.ZERO);
-
-    user3 = new User();
-    user3.setId(user3Id);
-    user3.setName("Pete Green");
-    user3.setAddress("123456 NW 24nd Ave. - Miami, Fl 33142, USA");
-    user3.setLogin("xgreen");
-    user3.setUserType(UserType.CUSTOMER);
-    user3.setTotalFines(BigDecimal.ONE);
-  }
-
   @BeforeMethod
-  public void setUpMocks() {
+  public void setUp() {
+    setUpUsers();
     MockitoAnnotations.initMocks(this);
     when(userDao.findById(user3Id)).thenReturn(user3);
     when(userDao.findById(user1Id)).thenReturn(user1);
@@ -222,25 +202,27 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
     assertFalse(userService.isEmployee(user3));
   }
 
-  private void assertDeepEquals(User actual, User expected) {
-    assertEquals(actual.getId(), expected.getId());
-    assertEquals(actual.getLogin(), expected.getLogin());
-    assertEquals(actual.getName(), expected.getName());
-    assertEquals(actual.getAddress(), expected.getAddress());
-    assertEquals(actual.getTotalFines(), expected.getTotalFines());
-    assertEquals(actual.getLoans(), expected.getLoans());
-    assertEquals(actual.getUserType(), expected.getUserType());
-  }
+  private void setUpUsers() {
+    user1 = new User();
+    user1.setName("Joshua Bloch");
+    user1.setAddress("USA");
+    user1.setLogin("xbloch");
+    user1.setUserType(UserType.CUSTOMER);
+    user1.setTotalFines(BigDecimal.ZERO);
 
-  private User copyUser(User user) {
-    User newUser = new User();
-    newUser.setId(user.getId());
-    newUser.setLogin(user.getLogin());
-    newUser.setName(user.getName());
-    newUser.setAddress(user.getAddress());
-    newUser.setTotalFines(user.getTotalFines());
-    newUser.setLoans(user.getLoans());
-    newUser.setUserType(user.getUserType());
-    return newUser;
+    user2 = new User();
+    user2.setName("John Good");
+    user2.setAddress("4125 7th Ave, New York, NY 10022, USA");
+    user2.setLogin("xgood");
+    user2.setUserType(UserType.EMPLOYEE);
+    user2.setTotalFines(BigDecimal.ZERO);
+
+    user3 = new User();
+    user3.setId(user3Id);
+    user3.setName("Pete Green");
+    user3.setAddress("123456 NW 24nd Ave. - Miami, Fl 33142, USA");
+    user3.setLogin("xgreen");
+    user3.setUserType(UserType.CUSTOMER);
+    user3.setTotalFines(BigDecimal.ONE);
   }
 }
