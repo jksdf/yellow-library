@@ -1,11 +1,10 @@
 package cz.muni.fi.pa165.yellowlibrary.api.dto;
 
-import org.hibernate.validator.constraints.NotBlank;
 
 import java.math.BigDecimal;
-import java.util.Set;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import cz.muni.fi.pa165.yellowlibrary.api.enums.UserType;
 
@@ -17,10 +16,10 @@ public class UserDTO {
   @NotNull
   private Long id;
 
-  @NotBlank
+  @Size(min = 1)
   private String name;
 
-  @NotBlank
+  @Size(min = 1)
   private String login;
 
   @NotNull
