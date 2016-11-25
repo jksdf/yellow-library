@@ -18,6 +18,7 @@ import cz.muni.fi.pa165.yellowlibrary.api.facade.BookFacade;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Department;
+import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 import cz.muni.fi.pa165.yellowlibrary.backend.enums.BookAvailability;
 import cz.muni.fi.pa165.yellowlibrary.service.BeanMappingService;
 import cz.muni.fi.pa165.yellowlibrary.service.BookService;
@@ -25,6 +26,8 @@ import cz.muni.fi.pa165.yellowlibrary.service.configuration.ServiceConfiguration
 import cz.muni.fi.pa165.yellowlibrary.service.utils.BookUtils;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -98,9 +101,20 @@ public class BookFacadeTest extends AbstractTestNGSpringContextTests {
 
   @Test
   public void testCreateBook(){
+    doAnswer(invocation -> {
+      Object arg = invocation.getArguments()[0];
+      if (arg == null)
+        throw new NullPointerException("Argument cannot be null");
+      Book book = (Book) arg;
+      if (book.getId() != null)
+        throw new NullPointerException("User id must be null");
+      book.setId(1L);
+      return null;
+    }).when(bookService).addBook(any(Book.class));
     BookDTO bookDTO = mappingService.mapTo(book1, BookDTO.class);
     bookDTO.setId(null);
     bookFacade.createBook(bookDTO);
+    bookDTO = mappingService.mapTo(book1, BookDTO.class);
     assertThat(bookDTO.getId()).isNotNull();
   }
 
