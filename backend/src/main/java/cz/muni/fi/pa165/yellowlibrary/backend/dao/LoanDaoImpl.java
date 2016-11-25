@@ -81,6 +81,15 @@ public class LoanDaoImpl implements LoanDao {
 
   @Override
   public List<Loan> findByDate(Date fromDate, Date toDate) {
+    if (fromDate == null) {
+      throw new NullPointerException("fromDate cannot be null");
+    }
+    if (toDate == null) {
+      throw new NullPointerException("toDate cannot be null");
+    }
+    if(fromDate.after(toDate)) {
+      throw new IllegalArgumentException("fromDate cannot be after toDate");
+    }
     return em.createQuery("select l from Loan l where l.returnDate between :fromDate AND :toDate",
         Loan.class)
         .setParameter("fromDate", fromDate, TemporalType.DATE)
