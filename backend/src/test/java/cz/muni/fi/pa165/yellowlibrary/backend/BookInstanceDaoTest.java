@@ -143,6 +143,16 @@ public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
   }
 
   @Test
+  public void testFindAll() {
+    bookInstanceDao.createBookInstance(firstBookInstance);
+    assertTrue(bookInstanceDao.findAll().size() == 1);
+    bookInstanceDao.createBookInstance(secondBookInstance);
+    assertTrue(bookInstanceDao.findAll().size() == 2);
+    assertDeepEquals(bookInstanceDao.findAll().get(0), firstBookInstance);
+    assertDeepEquals(bookInstanceDao.findAll().get(1), secondBookInstance);
+  }
+
+  @Test
   public void createAndGetTwoBookInstancesTest() {
     bookInstanceDao.createBookInstance(firstBookInstance);
     bookInstanceDao.createBookInstance(secondBookInstance);
