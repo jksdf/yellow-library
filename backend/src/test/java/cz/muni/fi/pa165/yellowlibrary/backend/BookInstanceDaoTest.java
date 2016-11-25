@@ -28,6 +28,7 @@ import cz.muni.fi.pa165.yellowlibrary.backend.enums.BookAvailability;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Class for testing BookInstance
