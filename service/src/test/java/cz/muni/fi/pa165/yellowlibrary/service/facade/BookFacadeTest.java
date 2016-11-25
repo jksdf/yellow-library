@@ -53,6 +53,7 @@ public class BookFacadeTest extends AbstractTestNGSpringContextTests {
 
   @BeforeMethod
   public void setUp() {
+    MockitoAnnotations.initMocks(this);
     department = new Department();
     department.setId(0L);
     department.setName("Department");
