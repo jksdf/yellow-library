@@ -26,4 +26,6 @@ public interface LoanService {
   List<Loan> getNotReturnedLoans();
 
   List<Loan> getLoansByDate(Date fromDate, Date expectedReturnDate);
+
+  void calculateFines();
 }

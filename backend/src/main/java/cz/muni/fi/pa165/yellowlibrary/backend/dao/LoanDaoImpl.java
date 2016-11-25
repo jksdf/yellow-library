@@ -2,10 +2,12 @@ package cz.muni.fi.pa165.yellowlibrary.backend.dao;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TemporalType;
 import javax.transaction.Transactional;
 import javax.validation.constraints.AssertFalse;
 
@@ -77,4 +79,12 @@ public class LoanDaoImpl implements LoanDao {
         .getResultList();
   }
 
+  @Override
+  public List<Loan> findByDate(Date fromDate, Date toDate) {
+    return em.createQuery("select l from Loan l where l.returnDate between :fromDate AND :toDate",
+        Loan.class)
+        .setParameter("fromDate", fromDate, TemporalType.DATE)
+        .setParameter("toDate", toDate, TemporalType.DATE)
+        .getResultList();
+  }
 }

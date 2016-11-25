@@ -2,6 +2,8 @@ package cz.muni.fi.pa165.yellowlibrary.service;
 
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -57,7 +59,21 @@ public class LoanServiceImpl implements LoanService{
   }
 
   @Override
-  public List<Loan> getLoansByDate(Date fromDate, Date expectedReturnDate) {
-    return null;
+  public List<Loan> getLoansByDate(Date fromDate, Date toDate) {
+    return loanDao.findByDate(fromDate, toDate);
+  }
+
+  @Override
+  public void calculateFines() {
+    List<Loan> notReturned = loanDao.findNotReturned();
+
+    for (Loan l : notReturned) {
+      Calendar loanDate = Calendar.getInstance();
+      loanDate.setTime(l.getDateFrom());
+      loanDate.add(Calendar.DAY_OF_YEAR, l.getLoanLength());
+      if (loanDate.after(Calendar.getInstance())){
+        l.setFine(BigDecimal.valueOf(100.00));
+      }
+    }
   }
 }

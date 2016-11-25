@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.yellowlibrary.backend.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
@@ -57,6 +58,24 @@ public interface LoanDao {
    * @return list of loans containing specific book
    */
   List<Loan> findByBookInstance(BookInstance bookInstance);
+
+  /**
+   * Find all loans
+   * @return history of all loans
+   */
   List<Loan> findAll();
+
+  /**
+   * Find loans which haven't been returned yet
+   * @return list of loans with null returner date
+   */
   List<Loan> findNotReturned();
+
+  /**
+   * Find loan created between specific date
+   * @param from
+   * @param to
+   * @return list of loan created between specific date
+   */
+  List<Loan> findByDate(Date from, Date to);
 }
