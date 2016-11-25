@@ -24,9 +24,9 @@ import cz.muni.fi.pa165.yellowlibrary.backend.entity.Department;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 
 /**
- * TODO(slivka): not final coverage.
  * @author Norbert Slivka
  */
 @ContextConfiguration(classes = LibraryApplicationContext.class)
@@ -44,13 +44,74 @@ public class DepartmentDaoTest extends AbstractTestNGSpringContextTests {
   public void setUp() {
   }
 
-
   @AfterMethod
   private void tearDown() {
     em.clear();
     for (Department department : ImmutableList.copyOf(em.createQuery("SELECT d FROM Department d", Department.class).getResultList())) {
       em.remove(department);
     }
+  }
+
+  @Test
+  public void getDepartmentFromNotExistingId() {
+    Department dep = getDefaultDepartment();
+    em.persist(dep);
+    long id = dep.getId();
+    id += 1;
+    assertNull(departmentDao.getDepartmentFromId(id));
+  }
+
+  @Test
+  public void getDepartmentFromId() {
+    Department dep = getDefaultDepartment();
+    em.persist(dep);
+    Department ret = departmentDao.getDepartmentFromId(dep.getId());
+    assertDeepEquals(dep, ret);
+  }
+
+  @Test(expectedExceptions = NullPointerException.class)
+  public void getDepartmentFromNullShortName() {
+    departmentDao.getDepartmentFromShortName(null);
+  }
+
+  @Test
+  public void getDepartmentFromNotExistingShortName() {
+    Department dep = getDefaultDepartment();
+    dep.setShortName("ABC");
+    em.persist(dep);
+    assertNull(departmentDao.getDepartmentFromShortName("AAA"));
+  }
+
+  @Test
+  public void getDepartmentFromShortName() {
+    Department dep = getDefaultDepartment();
+    dep.setShortName("ABC");
+    em.persist(dep);
+    Department ret = departmentDao.getDepartmentFromShortName(dep.getShortName());
+    assertDeepEquals(dep, ret);
+  }
+
+  @Test(expectedExceptions = NullPointerException.class)
+  public void updateDepartmentWithNull() {
+    departmentDao.update(null);
+  }
+
+  @Test(expectedExceptions = NullPointerException.class)
+  public void updateDepartmentWithNullId() {
+    Department dep = getDefaultDepartment();
+    dep.setId(null);
+    departmentDao.update(dep);
+  }
+
+  @Test
+  public void updateDepartment() {
+    Department dep = getDefaultDepartment();
+    dep.setShortName("AAA");
+    em.persist(dep);
+    dep.setShortName("BBB");
+    departmentDao.update(dep);
+    Department ret = em.find(Department.class, dep.getId());
+    assertDeepEquals(dep, ret);
   }
 
   @Test(expectedExceptions = NullPointerException.class)

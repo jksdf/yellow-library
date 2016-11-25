@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Department;
@@ -29,9 +30,15 @@ public class DepartmentDaoImpl implements DepartmentDao {
 
   @Override
   public Department getDepartmentFromShortName(String shortName) {
-    return entityManager.createQuery("SELECT d FROM Department d WHERE d = :name", Department.class)
-        .setParameter("name", shortName)
-        .getSingleResult();
+    checkNotNull(shortName);
+    try {
+      return entityManager.createQuery("SELECT d FROM Department d WHERE d.shortName = :name",
+          Department.class)
+          .setParameter("name", shortName)
+          .getSingleResult();
+    }catch (NoResultException ex){
+      return null;
+    }
   }
 
   @Override
