@@ -159,6 +159,7 @@ public class LoanServiceTest extends AbstractTestNGSpringContextTests {
     when(loanDao.findByBookInstance(bookInstance1)).thenReturn(ImmutableList.of(loan1, loan3));
     when(loanDao.findByBookInstance(bookInstance2)).thenReturn(ImmutableList.of(loan2));
     when(loanDao.findNotReturned()).thenReturn(ImmutableList.of(loan2));
+    when(loanDao.findByDate(new Date(123), new Date(234))).thenReturn(ImmutableList.of(loan1));
     when(loanDao.findByBookInstance(null))
         .thenThrow(new NullPointerException("Book instance can not be null"));
     when(loanDao.findLoanById(null))
@@ -295,24 +296,9 @@ public class LoanServiceTest extends AbstractTestNGSpringContextTests {
     assertThat(loans).containsExactly(loan2);
   }
 
-  @Test(expectedExceptions = NullPointerException.class)
-  public void getLoansByDateNullFrom() {
-    loanService.getLoansByDate(null, new Date(2));
-  }
-
-  @Test(expectedExceptions = NullPointerException.class)
-  public void getLoansByDateNullReturn() {
-    loanService.getLoansByDate(new Date(2), null);
-  }
-
   @Test
   public void getLoansByDateOK() {
     assertThat(loanService.getLoansByDate(new Date(123), new Date(234))).containsExactly(loan1);
-  }
-
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void getLoansByDateBadOrder() {
-    loanService.getLoansByDate(new Date(45), new Date(12));
   }
 
   @Test
