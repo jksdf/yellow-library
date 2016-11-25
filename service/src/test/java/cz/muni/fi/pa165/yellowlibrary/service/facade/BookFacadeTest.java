@@ -24,6 +24,7 @@ import cz.muni.fi.pa165.yellowlibrary.service.BookService;
 import cz.muni.fi.pa165.yellowlibrary.service.configuration.ServiceConfiguration;
 import cz.muni.fi.pa165.yellowlibrary.service.utils.BookUtils;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -98,9 +99,16 @@ public class BookFacadeTest extends AbstractTestNGSpringContextTests {
   @Test
   public void testCreateBook(){
     BookDTO bookDTO = mappingService.mapTo(book1, BookDTO.class);
+    bookDTO.setId(null);
     bookFacade.createBook(bookDTO);
-    verify(bookService).getBook(book1.getId());
-    Book book = mappingService.mapTo(bookDTO, Book.class);
-    BookUtils.assertDeepEquals(book, book1);
+    assertThat(bookDTO.getId()).isNotNull();
+  }
+
+  @Test
+  public void testUpdateBook(){
+    BookDTO bookDTO = mappingService.mapTo(book1, BookDTO.class);
+    bookDTO.setId(null);
+    bookFacade.getBook(book1.getId());
+    BookUtils.assertDeepEquals(book1, book1);
   }
 }
