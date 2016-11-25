@@ -1,5 +1,8 @@
 package cz.muni.fi.pa165.yellowlibrary.service.facade;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.inject.Inject;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.DepartmentDTO;
@@ -11,6 +14,8 @@ import cz.muni.fi.pa165.yellowlibrary.service.DepartmentService;
 /**
  * @author Norbert Slivka
  */
+@Service
+@Transactional
 public class DepartmentFacadeImpl implements DepartmentFacade {
 
   @Inject
@@ -26,7 +31,9 @@ public class DepartmentFacadeImpl implements DepartmentFacade {
 
   @Override
   public void create(DepartmentDTO department) {
-    departmentService.create(mappingService.mapTo(department, Department.class));
+    Department department1 = mappingService.mapTo(department, Department.class);
+    departmentService.create(department1);
+    department.setId(department1.getId());
   }
 
   @Override

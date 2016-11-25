@@ -5,6 +5,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -33,7 +35,7 @@ import static org.testng.Assert.assertEquals;
  *  @author cokinova
  */
 @ContextConfiguration(classes = ServiceConfiguration.class)
-public class BookServiceTest {
+public class BookServiceTest extends AbstractTestNGSpringContextTests {
   @Mock
   private BookDao bookDao;
 
@@ -46,7 +48,7 @@ public class BookServiceTest {
   private Book book1;
   private Book book2;
 
-  @BeforeTest
+  @BeforeMethod
   public void setUp() {
     department = new Department();
     department.setId(0L);
@@ -123,7 +125,7 @@ public class BookServiceTest {
     bookService.addBook(null);
   }
 
-  @Test(expectedExceptions = IllegalArgumentException.class)
+  @Test(expectedExceptions = NullPointerException.class)
   public void testAddBookSetId(){
     Book book = new Book();
     book.setId(42L);
@@ -176,7 +178,6 @@ public class BookServiceTest {
     Book book = bookService.getBook(book1.getId());
     book1.setName("New Name");
     bookService.editBook(book1);
-    verifyNoMoreInteractions(bookDao);
     assertDeepEquals(book, book1);
   }
 

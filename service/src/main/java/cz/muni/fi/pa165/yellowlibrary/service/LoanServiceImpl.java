@@ -64,15 +64,15 @@ public class LoanServiceImpl implements LoanService{
   }
 
   @Override
-  public void calculateFines() {
+  public void calculateFines(Calendar now) {
     List<Loan> notReturned = loanDao.findNotReturned();
-
     for (Loan l : notReturned) {
       Calendar loanDate = Calendar.getInstance();
       loanDate.setTime(l.getDateFrom());
       loanDate.add(Calendar.DAY_OF_YEAR, l.getLoanLength());
-      if (loanDate.after(Calendar.getInstance())){
-        l.setFine(BigDecimal.valueOf(100.00));
+      if (loanDate.after(now)) {
+        l.setFine(BigDecimal.valueOf(100L));
+        loanDao.update(l);
       }
     }
   }
