@@ -3,11 +3,9 @@ package cz.muni.fi.pa165.yellowlibrary.service;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeMethod;
@@ -39,7 +37,6 @@ import static org.mockito.Mockito.when;
 /**
  * @author Norbert Slivka
  */
-@RunWith(MockitoJUnitRunner.class)
 @ContextConfiguration(classes = ServiceConfiguration.class)
 public class LoanServiceTest extends AbstractTestNGSpringContextTests {
   @Mock
