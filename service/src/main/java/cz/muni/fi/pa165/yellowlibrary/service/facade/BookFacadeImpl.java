@@ -47,6 +47,7 @@ public class BookFacadeImpl implements BookFacade {
   public long createBook(BookDTO book) {
     Book created = mappingService.mapTo(book, Book.class);
     bookService.addBook(created);
+    book.setId(created.getId());
     return created.getId();
   }
 
