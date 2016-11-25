@@ -13,7 +13,10 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.validation.constraints.AssertFalse;
@@ -109,6 +112,12 @@ public class BookFacadeTest extends AbstractTestNGSpringContextTests {
       return book;
     }).when(bookService).addBook(any(Book.class));
 
+    doAnswer(invocation -> {
+      List<BookDTO> list = new ArrayList<>();
+      BookDTO bookDTO = mappingService.mapTo(book1, BookDTO.class);
+      list.add(bookDTO);
+      return list;
+    }).when(bookService).searchBooks(any(String.class), any(String.class), any(String.class), any(String.class), any(Set.class));
   }
 
   @Test
