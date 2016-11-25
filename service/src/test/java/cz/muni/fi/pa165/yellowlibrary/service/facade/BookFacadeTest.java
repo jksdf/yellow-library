@@ -25,6 +25,8 @@ import cz.muni.fi.pa165.yellowlibrary.service.configuration.ServiceConfiguration
 import cz.muni.fi.pa165.yellowlibrary.service.utils.BookUtils;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -86,6 +88,18 @@ public class BookFacadeTest extends AbstractTestNGSpringContextTests {
     when(bookService.getBook(book1.getId())).thenReturn(book1);
     when(bookService.getBook(book2.getId())).thenReturn(book2);
     when(bookService.getAllBooks()).thenReturn(ImmutableList.of(book1, book2));
+    doAnswer(invocation -> {
+      Object arg = invocation.getArguments()[0];
+      if (arg == null) {
+        throw new NullPointerException("Argument cannot be null");
+      }
+      Book book = (Book) arg;
+      if (book.getId() != null) {
+        throw new IllegalArgumentException("Book id must be null");
+      }
+      book.setId(89L);
+      return book;
+    }).when(bookService).addBook(any(Book.class));
   }
 
   @Test
