@@ -28,6 +28,13 @@ public class DepartmentDaoImpl implements DepartmentDao {
   }
 
   @Override
+  public Department getDepartmentFromShortName(String shortName) {
+    return entityManager.createQuery("SELECT d FROM Department d WHERE d = :name", Department.class)
+        .setParameter("name", shortName)
+        .getSingleResult();
+  }
+
+  @Override
   public List<Department> getAllDepartments() {
     return entityManager
         .createQuery("SELECT d FROM Department d", Department.class)

@@ -15,6 +15,11 @@ public interface DepartmentDao {
   Department getDepartmentFromId(long id);
 
   /**
+   * Retrieve the department.
+   */
+  Department getDepartmentFromShortName(String shortName);
+
+  /**
    * Retrieve all department.
    */
   List<Department> getAllDepartments();
