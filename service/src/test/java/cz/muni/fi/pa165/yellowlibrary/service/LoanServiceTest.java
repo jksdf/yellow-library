@@ -13,6 +13,8 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -151,6 +153,7 @@ public class LoanServiceTest extends AbstractTestNGSpringContextTests {
   @BeforeMethod
   public void setUpMocks() {
     MockitoAnnotations.initMocks(this);
+
 
     when(loanDao.findLoanById(loan1.getId())).thenReturn(loan1);
     when(loanDao.findLoanById(loan2.getId())).thenReturn(loan2);
@@ -304,6 +307,62 @@ public class LoanServiceTest extends AbstractTestNGSpringContextTests {
   @Test
   public void getLoansByDateEmpty() {
     assertThat(loanService.getLoansByDate(new Date(999998), new Date(999999))).isEmpty();
+  }
+
+  @Test
+  public void calculateFines() {
+    Loan closed = new Loan();
+    closed.setId(0L);
+    closed.setUser(user1);
+    closed.setDateFrom(new Date(123));
+    closed.setReturnDate(new Date(234));
+    closed.setBookInstance(bookInstance1);
+    closed.setLoanLength(1);
+    closed.setFine(null);
+    closed.setLoanState("OK");
+
+    Loan ok = new Loan();
+    ok.setId(1L);
+    ok.setUser(user1);
+    ok.setDateFrom(new Date(123));
+    ok.setReturnDate(new Date(234));
+    ok.setBookInstance(bookInstance1);
+    ok.setLoanLength(2);
+    ok.setFine(null);
+    ok.setLoanState("OK");
+
+    Loan bad = new Loan();
+    bad.setId(2L);
+    bad.setUser(user1);
+    bad.setDateFrom(new Date(456));
+    bad.setReturnDate(null);
+    bad.setBookInstance(bookInstance2);
+    bad.setLoanLength(1);
+    bad.setFine(null);
+    bad.setLoanState("OK");
+
+    final List<Loan> loans = new ArrayList<>();
+    doAnswer(invocation -> {
+      Object arg = invocation.getArguments()[0];
+      if (arg == null) {
+        throw new NullPointerException("Argument cannot be null");
+      }
+      Loan loan = (Loan) arg;
+      if (loan.getId() == null) {
+        throw new NullPointerException("Loan id must be set");
+      }
+      loans.add(loan);
+      return loan;
+    }).when(loanDao).update(any(Loan.class));
+
+    when(loanDao.findAll()).thenReturn(ImmutableList.of(closed, ok, bad));
+
+    Calendar c = Calendar.getInstance();
+    c.setTime(new Date(123456));
+
+    loanService.calculateFines(c);
+    assertThat(loans).containsExactly(bad);
+    assertThat(loans.get(0).getFine()).isEqualTo(BigDecimal.valueOf(100L));
   }
 
 

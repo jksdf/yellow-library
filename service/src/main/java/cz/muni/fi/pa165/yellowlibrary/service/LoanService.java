@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.yellowlibrary.service;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -27,5 +28,5 @@ public interface LoanService {
 
   List<Loan> getLoansByDate(Date fromDate, Date expectedReturnDate);
 
-  void calculateFines();
+  void calculateFines(Calendar now);
 }

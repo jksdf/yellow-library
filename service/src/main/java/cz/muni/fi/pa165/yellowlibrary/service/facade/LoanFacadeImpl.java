@@ -14,6 +14,7 @@ import cz.muni.fi.pa165.yellowlibrary.api.facade.LoanFacade;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
 import cz.muni.fi.pa165.yellowlibrary.service.BeanMappingService;
+import cz.muni.fi.pa165.yellowlibrary.service.DateService;
 import cz.muni.fi.pa165.yellowlibrary.service.LoanService;
 
 /**
@@ -27,6 +28,9 @@ public class LoanFacadeImpl implements LoanFacade {
 
   @Inject
   private BeanMappingService mappingService;
+
+  @Inject
+  private DateService dateService;
 
   @Override
   public void create(LoanDTO loanDTO) {
@@ -97,6 +101,6 @@ public class LoanFacadeImpl implements LoanFacade {
 
   @Override
   public void CalculateFinesForExpiredLoans() {
-    loanService.calculateFines();
+    loanService.calculateFines(dateService.now());
   }
 }
