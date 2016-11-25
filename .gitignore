@@ -14,3 +14,5 @@ hs_err_pid*
 *.iml
 Backend/target/
 backend/target/
+api/target/
+service/target/

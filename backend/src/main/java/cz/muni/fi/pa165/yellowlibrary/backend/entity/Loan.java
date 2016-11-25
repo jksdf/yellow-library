@@ -118,7 +118,7 @@ public class Loan {
     if (this == o) {
       return true;
     }
-    if (o == null ||  o instanceof  Loan) {
+    if (o == null ||  !(o instanceof  Loan)) {
       return false;
     }
 
