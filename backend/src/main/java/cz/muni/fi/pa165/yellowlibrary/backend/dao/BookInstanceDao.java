@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.yellowlibrary.backend.dao;
 
+import java.util.List;
+
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 
 /**
@@ -19,6 +21,12 @@ public interface BookInstanceDao {
    * @return BookInstance entity
    */
   BookInstance findById(Long id);
+
+  /**
+   * Retrieve all book instances
+   * @return List of all book instances
+   */
+  List<BookInstance> findAll();
 
   /**
    * Remove an instance of a book

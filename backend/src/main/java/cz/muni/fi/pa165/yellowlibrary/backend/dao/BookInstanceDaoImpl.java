@@ -2,6 +2,8 @@ package cz.muni.fi.pa165.yellowlibrary.backend.dao;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -26,11 +28,16 @@ public class BookInstanceDaoImpl implements BookInstanceDao {
   }
 
   @Override
+  public List<BookInstance> findAll() {
+    return entityManager.createQuery("select b from BookInstance b", BookInstance.class)
+        .getResultList();
+  }
+
+  @Override
   public void deleteBookInstance(BookInstance bookInstance) {
     if(bookInstance == null) {
       throw new NullPointerException("BookInstance cannot be null.");
     }
-    // TODO: Check what happens when no such entity exists
     bookInstance = entityManager.find(BookInstance.class, bookInstance.getId());
     entityManager.remove(bookInstance);
   }
@@ -50,8 +57,6 @@ public class BookInstanceDaoImpl implements BookInstanceDao {
       throw new NullPointerException("BookInstance cannot be null.");
     }
 
-    // TODO: Cannot use findById() first -- will overwrite new entity
-    // entityManager.findById(BookInstance.class, bookInstance.getId());
     entityManager.merge(bookInstance);
   }
 }

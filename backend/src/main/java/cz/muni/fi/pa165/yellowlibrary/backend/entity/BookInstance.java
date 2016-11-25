@@ -104,7 +104,7 @@ public class BookInstance {
         : that.getVersion() != null) {
       return false;
     }
-    if (availability != that.getBookAvailability()) {
+    if (getBookAvailability() != that.getBookAvailability()) {
       return false;
     }
     return getBook().equals(that.getBook());
