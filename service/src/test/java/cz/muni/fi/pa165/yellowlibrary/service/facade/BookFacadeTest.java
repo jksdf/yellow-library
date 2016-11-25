@@ -2,6 +2,8 @@ package cz.muni.fi.pa165.yellowlibrary.service.facade;
 
 import com.google.common.collect.ImmutableList;
 
+import junit.framework.Assert;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -11,9 +13,13 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 import javax.inject.Inject;
+import javax.validation.constraints.AssertFalse;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.dto.BookSearchDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookFacade;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
@@ -94,13 +100,14 @@ public class BookFacadeTest extends AbstractTestNGSpringContextTests {
       if (arg == null) {
         throw new NullPointerException("Argument cannot be null");
       }
-      Book book = (Book) arg;
+      Book book= (Book) arg;
       if (book.getId() != null) {
         throw new IllegalArgumentException("Book id must be null");
       }
-      book.setId(89L);
+      book.setId(40L);
       return book;
     }).when(bookService).addBook(any(Book.class));
+
   }
 
   @Test
@@ -115,15 +122,28 @@ public class BookFacadeTest extends AbstractTestNGSpringContextTests {
   public void testCreateBook(){
     BookDTO bookDTO = mappingService.mapTo(book1, BookDTO.class);
     bookDTO.setId(null);
-    bookFacade.createBook(bookDTO);
-    assertThat(bookDTO.getId()).isNotNull();
+    Long b = bookFacade.createBook(bookDTO);
+    assertThat(b).isNotNull();
   }
 
   @Test
   public void testUpdateBook(){
     BookDTO bookDTO = mappingService.mapTo(book1, BookDTO.class);
-    bookDTO.setId(null);
-    bookFacade.getBook(book1.getId());
-    BookUtils.assertDeepEquals(book1, book1);
+    bookDTO.setName("aaa");
+    bookFacade.updateBook(bookDTO);
+    BookDTO updated = bookFacade.getBook(bookDTO.getId());
+    Book updateBook = mappingService.mapTo(updated, Book.class);
+    BookUtils.assertDeepEquals(updateBook, book1);
+  }
+
+  @Test
+  public void testFindBook(){
+    BookSearchDTO bookSearchDTO = new BookSearchDTO();
+    bookSearchDTO.setName("Spievankovo");
+
+    List<BookDTO> books = bookFacade.findBooks(bookSearchDTO);
+    Assert.assertEquals(books.size(),1);
+    Book search = mappingService.mapTo(books.get(0), Book.class);
+    BookUtils.assertDeepEquals(search, book1);
   }
 }
