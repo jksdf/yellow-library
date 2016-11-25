@@ -12,7 +12,6 @@ public class LoanDTO {
   private Long id;
 
   @NotNull
-
   private Date dateFrom;
 
   private Date returnDate;
