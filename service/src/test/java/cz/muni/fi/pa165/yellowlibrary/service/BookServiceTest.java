@@ -1,13 +1,13 @@
 package cz.muni.fi.pa165.yellowlibrary.service;
 
 import com.google.common.collect.ImmutableList;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.util.HashSet;
@@ -181,40 +181,12 @@ public class BookServiceTest extends AbstractTestNGSpringContextTests {
     assertDeepEquals(book, book1);
   }
 
-  @Test(expectedExceptions = NullPointerException.class)
-  public void testbookSearchNullAutor(){
-    Set<Long> departments = new HashSet<>();
-    bookService.searchBooks(null, "name", "desc", "isbn", departments);
-  }
-
-  @Test(expectedExceptions = NullPointerException.class)
-  public void testbookSearchNullName(){
-    Set<Long> departments = new HashSet<>();
-    bookService.searchBooks("auth", null, "desc", "isbn", departments);
-  }
-  @Test(expectedExceptions = NullPointerException.class)
-  public void testbookSearchNullDesc(){
-    Set<Long> departments = new HashSet<>();
-    bookService.searchBooks("auth", "name", null, "isbn", departments);
-  }
-  @Test(expectedExceptions = NullPointerException.class)
-  public void testbookSearchNullIsbn(){
-    Set<Long> departments = new HashSet<>();
-    bookService.searchBooks("auth", "name", "desc", null, departments);
-  }
-  @Test(expectedExceptions = NullPointerException.class)
-  public void testbookSearchNullDepartment(){
-    Set<Long> departments = new HashSet<>();
-    bookService.searchBooks("auth", "name", "desc", "isbn", null);
-  }
-
   @Test
-  public void testbookSearch(){
+  public void testbookSearchAuthor() {
     Set<Long> departments = new HashSet<>();
-    List<Book> books = bookService.searchBooks(book1.getAuthor(), "", "", "", null);
-    for (Book book: books) {
-      assertDeepEquals(book1,book);
-    }
+    List<Book> books = bookService.searchBooks(book2.getAuthor(), null, null, null, null);
+    assertThat(books).hasSize(1);
+    assertDeepEquals(books.get(0), book2);
   }
 
   private void assertDeepEquals(Book book1, Book book2) {

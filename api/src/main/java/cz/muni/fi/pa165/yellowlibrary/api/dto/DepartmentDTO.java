@@ -2,12 +2,16 @@ package cz.muni.fi.pa165.yellowlibrary.api.dto;
 
 import java.util.Objects;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @author Norbert Slivka
  */
 public class DepartmentDTO {
   private Long id;
+  @NotNull
   private String name;
+  @NotNull
   private String shortName;
 
   public DepartmentDTO() {

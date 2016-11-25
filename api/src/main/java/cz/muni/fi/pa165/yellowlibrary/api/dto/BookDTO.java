@@ -2,16 +2,23 @@ package cz.muni.fi.pa165.yellowlibrary.api.dto;
 
 import java.util.Objects;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 /**
  * @author Norbert Slivka
  */
 public class BookDTO {
   private Long id;
+  @NotNull
   private String name;
   private String isbn;
   private String description;
   private String author;
+  @NotNull
+  @Min(0)
   private Integer pages;
+  @NotNull
   private DepartmentDTO department;
 
   public BookDTO() {
