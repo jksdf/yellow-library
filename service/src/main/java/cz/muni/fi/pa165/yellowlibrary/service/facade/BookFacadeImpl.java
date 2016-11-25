@@ -9,7 +9,6 @@ import javax.inject.Inject;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookSearchDTO;
-import cz.muni.fi.pa165.yellowlibrary.api.dto.UpdateBookDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookFacade;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 import cz.muni.fi.pa165.yellowlibrary.service.BeanMappingService;
@@ -45,16 +44,15 @@ public class BookFacadeImpl implements BookFacade {
   }
 
   @Override
-  public long createBook(UpdateBookDTO book) {
+  public long createBook(BookDTO book) {
     Book created = mappingService.mapTo(book, Book.class);
     bookService.addBook(created);
     return created.getId();
   }
 
   @Override
-  public void updateBook(long id, UpdateBookDTO book) {
+  public void updateBook(BookDTO book) {
     Book updated = mappingService.mapTo(book, Book.class);
-    updated.setId(id);
     bookService.editBook(updated);
   }
 }

@@ -8,7 +8,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.validation.constraints.Null;
 
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 

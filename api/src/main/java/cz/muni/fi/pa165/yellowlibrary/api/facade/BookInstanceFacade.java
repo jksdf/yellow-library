@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.yellowlibrary.api.facade;
 
 import java.util.List;
 
-import cz.muni.fi.pa165.yellowlibrary.api.dto.BookDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.enums.BookInstanceAvailability;

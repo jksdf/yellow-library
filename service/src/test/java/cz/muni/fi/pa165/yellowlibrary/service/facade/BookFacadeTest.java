@@ -9,17 +9,12 @@ import org.mockito.Spy;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookDTO;
-import cz.muni.fi.pa165.yellowlibrary.api.dto.BookSearchDTO;
-import cz.muni.fi.pa165.yellowlibrary.api.dto.DepartmentDTO;
-import cz.muni.fi.pa165.yellowlibrary.api.dto.UpdateBookDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookFacade;
-import cz.muni.fi.pa165.yellowlibrary.backend.dao.BookDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Department;
@@ -29,8 +24,6 @@ import cz.muni.fi.pa165.yellowlibrary.service.BookService;
 import cz.muni.fi.pa165.yellowlibrary.service.configuration.ServiceConfiguration;
 import cz.muni.fi.pa165.yellowlibrary.service.utils.BookUtils;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -104,10 +97,8 @@ public class BookFacadeTest extends AbstractTestNGSpringContextTests {
 
   @Test
   public void testCreateBook(){
-    DepartmentDTO departmentDTO = mappingService.mapTo(department, DepartmentDTO.class);
-    UpdateBookDTO bookDTO = mappingService.mapTo(book1, UpdateBookDTO.class);
-    bookDTO.setDepartmentId(departmentDTO);
-    long createdId = bookFacade.createBook(bookDTO);
+    BookDTO bookDTO = mappingService.mapTo(book1, BookDTO.class);
+    bookFacade.createBook(bookDTO);
     verify(bookService).getBook(book1.getId());
     Book book = mappingService.mapTo(bookDTO, Book.class);
     BookUtils.assertDeepEquals(book, book1);
