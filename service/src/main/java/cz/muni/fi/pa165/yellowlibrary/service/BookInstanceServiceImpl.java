@@ -35,16 +35,19 @@ public class BookInstanceServiceImpl implements BookInstanceService {
   @Override
   public void setBook(BookInstance bookInstance, Book book) {
     bookInstance.setBook(book);
+    bookInstanceDao.updateBookInstance(bookInstance);
   }
 
   @Override
   public void changeState(BookInstance bookInstance, String newState) {
     bookInstance.setBookState(newState);
+    bookInstanceDao.updateBookInstance(bookInstance);
   }
 
   @Override
   public void changeAvailability(BookInstance bookInstance, BookAvailability newAvailability) {
     bookInstance.setBookAvailability(newAvailability);
+    bookInstanceDao.updateBookInstance(bookInstance);
   }
 
   @Override

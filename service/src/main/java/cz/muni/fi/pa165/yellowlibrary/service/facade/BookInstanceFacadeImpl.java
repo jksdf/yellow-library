@@ -38,7 +38,12 @@ public class BookInstanceFacadeImpl implements BookInstanceFacade {
 
   @Override
   public BookInstanceDTO findById(long id) {
-    return null;
+    BookInstance bookInstance = bookInstanceService.getBookInstanceById(id);
+    if (bookInstance == null) {
+      return null;
+    } else {
+      return beanMappingService.mapTo(bookInstance, BookInstanceDTO.class);
+    }
   }
 
   @Override
