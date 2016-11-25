@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.yellowlibrary.service;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Set;
 
@@ -8,6 +10,7 @@ import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 /**
  * @author Norbert Slivka
  */
+@Service
 public interface BookService {
 
   /**

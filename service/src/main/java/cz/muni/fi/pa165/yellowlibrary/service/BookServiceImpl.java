@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.yellowlibrary.service;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -12,6 +14,7 @@ import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 /**
  * @author Norbert Slivka
  */
+@Service
 public class BookServiceImpl implements BookService {
 
   @Inject
