@@ -2,6 +2,8 @@ package cz.muni.fi.pa165.yellowlibrary.api.dto;
 
 import java.util.Objects;
 
+import javax.validation.constraints.NotNull;
+
 import cz.muni.fi.pa165.yellowlibrary.api.enums.BookInstanceAvailability;
 
 /**
@@ -10,9 +12,12 @@ import cz.muni.fi.pa165.yellowlibrary.api.enums.BookInstanceAvailability;
 public class BookInstanceDTO {
 
   private Long id;
+  @NotNull
   private String bookState;
   private String version;
+  @NotNull
   private BookInstanceAvailability bookAvailability;
+  @NotNull
   private BookDTO book;
 
   public BookInstanceDTO(Long id, String bookState, String version,
