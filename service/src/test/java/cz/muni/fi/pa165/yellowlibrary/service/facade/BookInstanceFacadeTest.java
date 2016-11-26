@@ -116,6 +116,8 @@ public class BookInstanceFacadeTest extends AbstractTestNGSpringContextTests {
 
   @Test
   public void testChangeBookState() {
+    when(bookInstanceService.getBookInstanceById(bookInstanceOne.getId()))
+        .thenReturn(bookInstanceOne);
     String newState = "NEW STATE";
     bookInstanceFacade.changeBookState(bookInstanceOne.getId(), newState);
     verify(bookInstanceService).changeState(bookInstanceOne, newState);
@@ -135,13 +137,15 @@ public class BookInstanceFacadeTest extends AbstractTestNGSpringContextTests {
 
   @Test
   public void testSetBook() {
-    bookInstanceFacade.setBook(bookInstanceOne.getId(), 15L);
+    when(bookInstanceService.getBookInstanceById(bookInstanceOne.getId()))
+        .thenReturn(bookInstanceOne);
     Book newBook = new Book();
     newBook.setDepartment(dep);
     newBook.setName("NEW BOOK");
     newBook.setPages(123);
     newBook.setId(15L);
     when(bookService.getBook(15L)).thenReturn(newBook);
+    bookInstanceFacade.setBook(bookInstanceOne.getId(), 15L);
     verify(bookInstanceService).setBook(bookInstanceOne, newBook);
   }
 
