@@ -33,7 +33,7 @@ public class BeanMappingServiceImpl implements BeanMappingService {
 
   @Override
   public <T> T mapTo(Object source, Class<T> mapToClass) {
-    if (source.getClass().isEnum() && mapToClass.isEnum()) {
+    if (source != null && mapToClass != null && source.getClass().isEnum() && mapToClass.isEnum()) {
       return (T)this.getEnum(source, mapToClass);
     }
 
