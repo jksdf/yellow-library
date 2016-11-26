@@ -1,5 +1,8 @@
 package cz.muni.fi.pa165.yellowlibrary.service.facade;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -9,6 +12,8 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -147,6 +152,44 @@ public class BookInstanceFacadeTest extends AbstractTestNGSpringContextTests {
     when(bookService.getBook(15L)).thenReturn(newBook);
     bookInstanceFacade.setBook(bookInstanceOne.getId(), 15L);
     verify(bookInstanceService).setBook(bookInstanceOne, newBook);
+  }
+
+  @Test
+  public void testGetAllBookInstances() {
+    newBookInstance.setId(55L);
+    newBookInstance.setBookState("THIS IS SECOND BOOK");
+    when(bookInstanceService.getAllBookInstances()).thenReturn(
+        ImmutableList.of(bookInstanceOne, newBookInstance));
+
+    List<BookInstance> bookInstanceList = beanMappingService.mapTo(bookInstanceFacade.getAllBookInstances(),
+        BookInstance.class);
+
+    Assert.assertEquals(bookInstanceList.size(), 2);
+    Assert.assertTrue(bookInstanceList.containsAll(ImmutableList.of(bookInstanceOne, newBookInstance)));
+  }
+
+  @Test
+  public void testGetAllBorrowedInstances() {
+    newBookInstance.setBookAvailability(BookAvailability.BORROWED);
+    when(bookInstanceService.getAllBookInstances()).thenReturn(
+        ImmutableList.of(bookInstanceOne, newBookInstance));
+    List<BookInstance> bookInstanceList = beanMappingService.mapTo(bookInstanceFacade.getAllBorrowedBookInstances(),
+        BookInstance.class);
+
+    Assert.assertEquals(bookInstanceList.size(), 1);
+    Assert.assertTrue(bookInstanceList.contains(newBookInstance));
+  }
+
+  @Test
+  public void testGetAllCopies() {
+    newBookInstance.setBookAvailability(BookAvailability.BORROWED);
+    newBookInstance.setBookState("Slightly Torn");
+    book.setBookInstances(ImmutableSet.of(bookInstanceOne, newBookInstance));
+
+    when(bookService.getBook(book.getId())).thenReturn(book);
+    List<BookInstance> bookInstanceList = beanMappingService.mapTo(bookInstanceFacade.getAllCopies(book.getId()), BookInstance.class);
+    Assert.assertEquals(bookInstanceList.size(), 2);
+    Assert.assertTrue(bookInstanceList.containsAll(ImmutableList.of(bookInstanceOne, newBookInstance)));
   }
 
 }
