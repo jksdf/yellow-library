@@ -26,7 +26,6 @@ import cz.muni.fi.pa165.yellowlibrary.service.BookService;
 import cz.muni.fi.pa165.yellowlibrary.service.configuration.ServiceConfiguration;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -124,8 +123,14 @@ public class BookInstanceFacadeTest extends AbstractTestNGSpringContextTests {
 
   @Test
   public void testChangeBookAvailability() {
+    when(bookInstanceService.getBookInstanceById(bookInstanceOne.getId()))
+        .thenReturn(bookInstanceOne);
     bookInstanceFacade.changeBookAvailability(bookInstanceOne.getId(), BookInstanceAvailability.REMOVED);
-    verify(bookInstanceService).changeAvailability(bookInstanceOne, BookAvailability.REMOVED);
+
+    BookInstanceDTO bookInstanceDTO = bookInstanceFacade.findById(bookInstanceOne.getId());
+    BookInstance bookInstance = beanMappingService.mapTo(bookInstanceDTO, BookInstance.class);
+
+    verify(bookInstanceService).changeAvailability(bookInstance, BookAvailability.REMOVED);
   }
 
   @Test

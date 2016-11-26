@@ -1,13 +1,18 @@
 package cz.muni.fi.pa165.yellowlibrary.service;
 
 import org.dozer.Mapper;
+import org.dozer.MappingException;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import cz.muni.fi.pa165.yellowlibrary.backend.enums.BookAvailability;
 
 /**
  * @author Jozef Zivcic
@@ -28,6 +33,10 @@ public class BeanMappingServiceImpl implements BeanMappingService {
 
   @Override
   public <T> T mapTo(Object source, Class<T> mapToClass) {
+    if (source.getClass().isEnum() && mapToClass.isEnum()) {
+      return (T)this.getEnum(source, mapToClass);
+    }
+
     return mapper.map(source, mapToClass);
   }
 
@@ -35,4 +44,24 @@ public class BeanMappingServiceImpl implements BeanMappingService {
   public Mapper getMapper() {
     return mapper;
   }
+
+  private Object getEnum(Object source, Class<?> mapToClass){
+      Method [] ms = mapToClass.getMethods();
+      for(Method m : ms) {
+        if (m.getName().equalsIgnoreCase("valueOf")) {
+          try {
+            return m.invoke(mapToClass.getClass(), source.toString());
+          } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+          } catch (IllegalAccessException e) {
+            e.printStackTrace();
+          } catch (InvocationTargetException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+
+    throw new MappingException("Enum cannot be converted to destination type!");
+  }
+
 }
