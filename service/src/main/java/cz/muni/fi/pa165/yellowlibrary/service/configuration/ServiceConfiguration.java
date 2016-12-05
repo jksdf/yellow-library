@@ -17,15 +17,15 @@ import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Department;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
-import cz.muni.fi.pa165.yellowlibrary.service.UserServiceImpl;
-import cz.muni.fi.pa165.yellowlibrary.service.facade.UserFacadeImpl;
+import cz.muni.fi.pa165.yellowlibrary.service.ServicePackage;
+import cz.muni.fi.pa165.yellowlibrary.service.facade.FacadePackage;
 
 /**
  * @author Jozef Zivcic
  */
 @Configuration
 @Import(LibraryApplicationContext.class)
-@ComponentScan(basePackageClasses = {UserServiceImpl.class, UserFacadeImpl.class})
+@ComponentScan(basePackageClasses = {ServicePackage.class, FacadePackage.class})
 public class ServiceConfiguration {
 
   @Bean
