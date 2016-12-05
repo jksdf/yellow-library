@@ -19,7 +19,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.sql.DataSource;
 
-import cz.muni.fi.pa165.yellowlibrary.backend.dao.UserDao;
+import cz.muni.fi.pa165.yellowlibrary.backend.dao.DaoPackage;
 
 /**
  *
@@ -28,7 +28,7 @@ import cz.muni.fi.pa165.yellowlibrary.backend.dao.UserDao;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories
-@ComponentScan(basePackageClasses={UserDao.class})
+@ComponentScan(basePackageClasses = {DaoPackage.class})
 public class LibraryApplicationContext {
 
   @Bean
