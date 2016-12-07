@@ -19,7 +19,7 @@ import cz.muni.fi.pa165.yellowlibrary.rest.ApiUris;
 @RestController
 public class MainController {
 
-  private static final Logger logger = org.apache.log4j.Logger.getLogger(MainController.class);
+  private static final Logger logger = Logger.getLogger(MainController.class);
 
   /**
    * Main entry of REST API
