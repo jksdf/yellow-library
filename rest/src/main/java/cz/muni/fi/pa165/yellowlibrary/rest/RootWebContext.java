@@ -21,8 +21,10 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
+import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
 import cz.muni.fi.pa165.yellowlibrary.rest.assemblers.AssemblersPackage;
 import cz.muni.fi.pa165.yellowlibrary.rest.controllers.ControllersPackage;
+import cz.muni.fi.pa165.yellowlibrary.rest.mixins.UserDTOMixin;
 import cz.muni.fi.pa165.yellowlibrary.service.configuration.ServiceConfiguration;
 
 @EnableWebMvc
@@ -49,6 +51,8 @@ public class RootWebContext extends WebMvcConfigurerAdapter {
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH));
+
+    objectMapper.addMixIn(UserDTO.class, UserDTOMixin.class);
 
     objectMapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
 
