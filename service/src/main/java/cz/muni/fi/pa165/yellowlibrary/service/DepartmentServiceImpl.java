@@ -2,6 +2,8 @@ package cz.muni.fi.pa165.yellowlibrary.service;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.DepartmentDao;
@@ -29,5 +31,10 @@ public class DepartmentServiceImpl implements DepartmentService {
   @Override
   public Department findByShortName(String name) {
     return departmentDao.getDepartmentFromShortName(name);
+  }
+
+  @Override
+  public List<Department> getAll() {
+    return departmentDao.getAllDepartments();
   }
 }

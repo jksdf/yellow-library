@@ -3,6 +3,8 @@ package cz.muni.fi.pa165.yellowlibrary.service.facade;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.DepartmentDTO;
@@ -39,5 +41,10 @@ public class DepartmentFacadeImpl implements DepartmentFacade {
   @Override
   public DepartmentDTO findByShortName(String name) {
     return mappingService.mapTo(departmentService.findByShortName(name), DepartmentDTO.class);
+  }
+
+  @Override
+  public List<DepartmentDTO> getAll() {
+    return mappingService.mapTo(departmentService.getAll(), DepartmentDTO.class);
   }
 }
