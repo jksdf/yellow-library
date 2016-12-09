@@ -12,7 +12,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import cz.muni.fi.pa165.yellowlibrary.backend.enums.BookAvailability;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Jozef Zivcic
@@ -33,10 +33,13 @@ public class BeanMappingServiceImpl implements BeanMappingService {
 
   @Override
   public <T> T mapTo(Object source, Class<T> mapToClass) {
-    if (source != null && mapToClass != null && source.getClass().isEnum() && mapToClass.isEnum()) {
+    checkNotNull(mapToClass);
+    if (source == null) {
+      return null;
+    }
+    if (mapToClass != null && source.getClass().isEnum() && mapToClass.isEnum()) {
       return (T)this.getEnum(source, mapToClass);
     }
-
     return mapper.map(source, mapToClass);
   }
 
