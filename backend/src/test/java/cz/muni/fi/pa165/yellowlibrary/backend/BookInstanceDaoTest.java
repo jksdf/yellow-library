@@ -47,6 +47,8 @@ public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
 
   private BookInstance firstBookInstance;
   private BookInstance secondBookInstance;
+  private Department department1;
+  private Department department2;
 
   @BeforeMethod
   public void setUp() {
@@ -55,12 +57,11 @@ public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
     firstBookInstance = new BookInstance();
     secondBookInstance = new BookInstance();
 
-
-    Department d1 = createDepartment("Department 1", "DPT", b1);
+    department1 = createDepartment("Department 1", "DPT", b1);
     b1 = setBook(firstBookInstance, b1, "Joshua Bloch", "Effective Java brings together"
         + " seventy-eight indispensable programmer’s rules of thumb", "Effective Java", 346,
-        "978-0321356680", d1);
-    em.persist(d1);
+        "978-0321356680", department1);
+    em.persist(department1);
     em.persist(b1);
 
     firstBookInstance.setBookAvailability(BookAvailability.AVAILABLE);
@@ -68,12 +69,11 @@ public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
     firstBookInstance.setVersion("second");
     firstBookInstance.setBook(b1);
 
-
-    Department d2 = createDepartment("Department 2", "DKT", b2);
+    department2 = createDepartment("Department 2", "DKT", b2);
     b2 = setBook(secondBookInstance, b2, "Erich Gamma et al.", "What patterns are and how they can "
         + "help you design object-oriented software.", "Design Patterns: Elements of Reusable "
-        + "Object-Oriented Software", 395, "978-0201633610", d2);
-    em.persist(d2);
+        + "Object-Oriented Software", 395, "978-0201633610", department2);
+    em.persist(department2);
     em.persist(b2);
 
     secondBookInstance.setBookAvailability(BookAvailability.BORROWED);
@@ -85,8 +85,9 @@ public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
   public void tearDown() {
     em.clear();
     for (BookInstance bookInstance : ImmutableList.copyOf(em.createQuery("SELECT bi FROM "
-        + "BookInstance bi", BookInstance.class).getResultList()))
+        + "BookInstance bi", BookInstance.class).getResultList())) {
       em.remove(bookInstance);
+    }
   }
 
   @Test(expectedExceptions = NullPointerException.class)
@@ -258,12 +259,10 @@ public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
   private BookInstance getBookInstanceWithNullState() {
     BookInstance bookInstance = new BookInstance();
     Book book = new Book();
-    Department department = createDepartment("Department", "DPT", book);
-    book = setBook(bookInstance, book, "author", "desc", "name", 100, "ISBN", department);
+    book = setBook(bookInstance, book, "author", "desc", "name", 100, "ISBN", department1);
     bookInstance.setBookState(null);
     bookInstance.setBookAvailability(BookAvailability.AVAILABLE);
     bookInstance.setBook(book);
-    em.persist(department);
     em.persist(book);
     return bookInstance;
   }
@@ -276,12 +275,10 @@ public class BookInstanceDaoTest extends AbstractTestNGSpringContextTests {
   private BookInstance getBookInstanceWithNullAvailability() {
     BookInstance bookInstance = new BookInstance();
     Book book = new Book();
-    Department department = createDepartment("Department", "DPT", book);
-    book = setBook(bookInstance, book, "author", "desc", "name", 100, "ISBN", department);
+    book = setBook(bookInstance, book, "author", "desc", "name", 100, "ISBN", department2);
     bookInstance.setBookState("new");
     bookInstance.setBookAvailability(null);
     bookInstance.setBook(book);
-    em.persist(department);
     em.persist(book);
     return bookInstance;
   }
