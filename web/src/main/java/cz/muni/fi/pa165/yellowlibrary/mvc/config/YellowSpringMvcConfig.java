@@ -15,6 +15,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.validation.Validator;
 
+import cz.muni.fi.pa165.yellowlibrary.mvc.config.security.YellowSecurityConfig;
 import cz.muni.fi.pa165.yellowlibrary.sampledata.SampleDataConfiguration;
 
 /**
@@ -22,7 +23,7 @@ import cz.muni.fi.pa165.yellowlibrary.sampledata.SampleDataConfiguration;
  */
 @EnableWebMvc
 @Configuration
-@Import({SampleDataConfiguration.class})
+@Import({SampleDataConfiguration.class, YellowSecurityConfig.class})
 @ComponentScan(basePackages = "cz.muni.fi.pa165.yellowlibrary.mvc.controllers")
 public class YellowSpringMvcConfig extends WebMvcConfigurerAdapter {
 
