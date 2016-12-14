@@ -64,6 +64,11 @@
             </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
         <!-- Dependency on sample data -->
         <dependency>
             <groupId>cz.muni.fi.pa165.yellowlibrary</groupId>
