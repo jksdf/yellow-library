@@ -17,3 +17,5 @@ backend/target/
 api/target/
 service/target/
 rest/target/
+sample-data/target/
+web/target/
