@@ -10,7 +10,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.internal.matchers.Null;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -38,9 +38,8 @@ import static org.mockito.Mockito.when;
 /**
  * @author Matej Gallo
  */
-
-@ContextConfiguration(classes= ServiceConfiguration.class)
-public class BookInstanceServiceTest extends AbstractTransactionalTestNGSpringContextTests {
+@ContextConfiguration(classes = ServiceConfiguration.class)
+public class BookInstanceServiceTest extends AbstractTestNGSpringContextTests {
 
   @Mock
   private BookInstanceDao bookInstanceDao;

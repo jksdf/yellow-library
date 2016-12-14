@@ -18,6 +18,7 @@ import java.util.Date;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolationException;
 
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.LoanDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
@@ -111,7 +112,7 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
     assertIsEqual(value, expected);
   }
 
-  @Test(expectedExceptions = NullPointerException.class)
+  @Test(expectedExceptions = ConstraintViolationException.class)
   public void createLoanNoUser() {
     persistUnusedLoan();
     Loan loan = getDefaultLoan();
@@ -119,7 +120,7 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
     loanDao.create(loan);
   }
 
-  @Test(expectedExceptions = NullPointerException.class)
+  @Test(expectedExceptions = ConstraintViolationException.class)
   public void createLoanNoBook() {
     persistUnusedLoan();
     Loan loan = getDefaultLoan();
@@ -212,7 +213,7 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
     loanDao.update(null);
   }
 
-  @Test(expectedExceptions = NullPointerException.class)
+  @Test(expectedExceptions = ConstraintViolationException.class)
   public void updateLoanNoUser() {
     persistUnusedLoan();
     Loan loan = getDefaultLoan();
@@ -220,7 +221,7 @@ public class LoanDaoTest extends AbstractTestNGSpringContextTests {
     loanDao.update(loan);
   }
 
-  @Test(expectedExceptions = NullPointerException.class)
+  @Test(expectedExceptions = ConstraintViolationException.class)
   public void updateLoanNoBook() {
     persistUnusedLoan();
     Loan loan = getDefaultLoan();

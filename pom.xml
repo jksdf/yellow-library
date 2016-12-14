@@ -4,8 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cz.muni.fi.pa165.yellowlibrary</groupId>
     <artifactId>yellow-library</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>Yellow Library</name>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -30,6 +32,46 @@
             <email>422777@mail.muni.cz</email>
         </developer>
     </developers>
+
+    <!-- dependency management  -->
+    <parent>
+        <groupId>io.spring.platform</groupId>
+        <artifactId>platform-bom</artifactId>
+        <version>1.1.5.RELEASE</version>
+        <relativePath/>
+    </parent>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>2.0.2-beta</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer</artifactId>
+                <version>5.5.1</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <defaultGoal>clean install</defaultGoal>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>8</source>
+                        <target>8</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
     <modules>
         <module>backend</module>

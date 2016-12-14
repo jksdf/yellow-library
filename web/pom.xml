@@ -18,49 +18,57 @@
 
         <!-- servlet, JSP, JSTL -->
         <!-- must be this instead of javaee-web for the springmvc-tests to succeed -->
-
-
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-api</artifactId>
-            <version>7.0.65</version>
+            <version>${tomcat.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.taglibs</groupId>
             <artifactId>taglibs-standard-impl</artifactId>
-            <version>1.2.3</version>
+            <version>${taglibs-standard.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.taglibs</groupId>
+            <artifactId>taglibs-standard-spec</artifactId>
+            <version>${taglibs-standard.version}</version>
         </dependency>
 
         <!-- Spring MVC -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>4.2.3.RELEASE</version>
         </dependency>
 
         <!-- validator for bean properties -->
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
-            <version>1.1.0.Final</version>
         </dependency>
-
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>4.3.0.Beta1</version>
         </dependency>
 
+        <!-- Logging implementation -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
-            <version>1.1.4.RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j-over-slf4j</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
+        <!-- Dependency on sample data -->
         <dependency>
             <groupId>cz.muni.fi.pa165.yellowlibrary</groupId>
             <artifactId>sample-data</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 

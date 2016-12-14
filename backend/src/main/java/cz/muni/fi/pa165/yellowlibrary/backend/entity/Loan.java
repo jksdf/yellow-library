@@ -7,6 +7,7 @@ package cz.muni.fi.pa165.yellowlibrary.backend.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -140,10 +141,6 @@ public class Loan {
 
   @Override
   public int hashCode() {
-    int result = getDateFrom().hashCode();
-    result = 31 * result + (getReturnDate() != null ? getReturnDate().hashCode() : 0);
-    result = 31 * result + getUser().hashCode();
-    result = 31 * result + getBookInstance().hashCode();
-    return result;
+      return Objects.hash(getReturnDate(), getUser(), getBookInstance());
   }
 }

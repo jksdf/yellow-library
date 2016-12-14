@@ -2,11 +2,13 @@ package cz.muni.fi.pa165.yellowlibrary.service;
 
 import com.google.common.collect.ImmutableList;
 
+import org.hibernate.service.spi.ServiceException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -47,6 +49,11 @@ public class BookServiceTest extends AbstractTestNGSpringContextTests {
   private Department department;
   private Book book1;
   private Book book2;
+
+  @BeforeClass
+  public void setup() throws ServiceException {
+    MockitoAnnotations.initMocks(this);
+  }
 
   @BeforeMethod
   public void setUp() {
