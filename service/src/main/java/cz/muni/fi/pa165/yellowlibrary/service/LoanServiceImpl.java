@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.yellowlibrary.service;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -18,6 +19,9 @@ import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
  */
 @Service
 public class LoanServiceImpl implements LoanService{
+
+  private Logger logger = Logger.getLogger(LoanServiceImpl.class);
+
   @Inject
   private LoanDao loanDao;
 
@@ -55,6 +59,7 @@ public class LoanServiceImpl implements LoanService{
 
   @Override
   public List<Loan> getNotReturnedLoans() {
+    logger.debug("getting not returned loans");
     return loanDao.findNotReturned();
   }
 

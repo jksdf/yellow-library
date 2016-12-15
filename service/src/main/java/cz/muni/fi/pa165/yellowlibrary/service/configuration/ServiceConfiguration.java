@@ -11,11 +11,13 @@ import org.springframework.context.annotation.Import;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.DepartmentDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
 import cz.muni.fi.pa165.yellowlibrary.backend.LibraryApplicationContext;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Department;
+import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 import cz.muni.fi.pa165.yellowlibrary.service.ServicePackage;
 import cz.muni.fi.pa165.yellowlibrary.service.facade.FacadePackage;
@@ -42,6 +44,7 @@ public class ServiceConfiguration {
       mapping(Book.class, BookDTO.class);
       mapping(BookInstance.class, BookInstanceDTO.class);
       mapping(Department.class, DepartmentDTO.class);
+      mapping(Loan.class, LoanDTO.class);
     }
   }
 }

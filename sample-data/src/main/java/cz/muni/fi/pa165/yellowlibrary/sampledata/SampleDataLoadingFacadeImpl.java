@@ -1,13 +1,17 @@
 package cz.muni.fi.pa165.yellowlibrary.sampledata;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import javax.inject.Inject;
 
-import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanDTO;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Department;
@@ -21,14 +25,6 @@ import cz.muni.fi.pa165.yellowlibrary.service.DepartmentService;
 import cz.muni.fi.pa165.yellowlibrary.service.LoanService;
 import cz.muni.fi.pa165.yellowlibrary.service.UserService;
 
-import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
-import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
-import cz.muni.fi.pa165.yellowlibrary.api.facade.UserFacade;
-
 /**
  * @author Jozef Zivcic
  */
@@ -36,7 +32,8 @@ import cz.muni.fi.pa165.yellowlibrary.api.facade.UserFacade;
 @Transactional
 public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
-  final static Logger log = LoggerFactory.getLogger(SampleDataLoadingFacadeImpl.class);
+  final static Logger log = Logger.getLogger(SampleDataLoadingFacadeImpl.class);
+
 
   @Inject
   private BookInstanceService bookInstanceService;

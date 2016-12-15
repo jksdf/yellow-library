@@ -1,16 +1,16 @@
 package cz.muni.fi.pa165.yellowlibrary.sampledata;
 
-import cz.muni.fi.pa165.yellowlibrary.service.configuration.ServiceConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import java.io.IOException;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import java.io.IOException;
+import cz.muni.fi.pa165.yellowlibrary.service.configuration.ServiceConfiguration;
 /**
  * @author Jozef Zivcic
  */
@@ -19,14 +19,15 @@ import java.io.IOException;
 @ComponentScan(basePackageClasses = {SampleDataLoadingFacadeImpl.class})
 public class SampleDataConfiguration {
 
-  final static Logger log = LoggerFactory.getLogger(SampleDataConfiguration.class);
+  final static Logger log = Logger.getLogger(SampleDataConfiguration.class);
 
   @Inject
   private SampleDataLoadingFacade loadingFacade;
 
   @PostConstruct
   public void dataLoading() throws IOException {
-    log.debug("dataLoading()");
+    log.debug("sample data loading");
     loadingFacade.loadData();
+    log.debug("sample data loaded");
   }
 }

@@ -7,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.time.Year;
+
 import javax.inject.Inject;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
@@ -57,5 +59,10 @@ public abstract class CommonController {
   @ModelAttribute("getUserDTO")
   public UserDTO getUserDTO() {
     return userFacade.findByLogin(getLogin());
+  }
+
+  @ModelAttribute("getYear")
+  public String getYear() {
+    return Year.now().toString();
   }
 }
