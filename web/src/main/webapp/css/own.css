@@ -59,3 +59,7 @@ body {
 .bookInstance tr th:first-of-type {
     border-bottom: 0;
 }
+
+.glyphic form {
+    display: inline;
+}

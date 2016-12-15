@@ -19,6 +19,7 @@ import javax.inject.Inject;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewStateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.enums.BookInstanceAvailability;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookInstanceFacade;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
@@ -123,8 +124,11 @@ public class BookInstanceFacadeTest extends AbstractTestNGSpringContextTests {
   public void testChangeBookState() {
     when(bookInstanceService.getBookInstanceById(bookInstanceOne.getId()))
         .thenReturn(bookInstanceOne);
-    String newState = "NEW STATE";
-    bookInstanceFacade.changeBookState(bookInstanceOne.getId(), newState);
+    BookInstanceNewStateDTO newStateDTO = new BookInstanceNewStateDTO();
+    String newState = "THIS IS NEW STATE";
+    newStateDTO.setId(bookInstanceOne.getId());
+    newStateDTO.setBookState(newState);
+    bookInstanceFacade.changeBookState(newStateDTO);
     verify(bookInstanceService).changeState(bookInstanceOne, newState);
   }
 

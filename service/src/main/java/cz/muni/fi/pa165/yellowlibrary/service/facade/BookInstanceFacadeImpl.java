@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewStateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.enums.BookInstanceAvailability;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookInstanceFacade;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
@@ -56,9 +57,9 @@ public class BookInstanceFacadeImpl implements BookInstanceFacade {
   }
 
   @Override
-  public void changeBookState(Long bookInstanceId, String newState) {
-    bookInstanceService.changeState(bookInstanceService.getBookInstanceById(bookInstanceId),
-        newState);
+  public void changeBookState(BookInstanceNewStateDTO newStateDTO) {
+    bookInstanceService.changeState(bookInstanceService.getBookInstanceById(newStateDTO.getId()),
+        newStateDTO.getBookState());
   }
 
   @Override
