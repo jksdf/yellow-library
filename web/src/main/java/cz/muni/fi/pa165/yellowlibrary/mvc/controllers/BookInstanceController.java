@@ -23,8 +23,6 @@ import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.enums.BookInstanceAvailability;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookInstanceFacade;
-import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
-import cz.muni.fi.pa165.yellowlibrary.service.BookInstanceService;
 
 /**
  * Created by Matej Gallo
@@ -32,15 +30,12 @@ import cz.muni.fi.pa165.yellowlibrary.service.BookInstanceService;
 
 @Controller
 @RequestMapping("/bookinstance")
-public class BookInstanceController {
+public class BookInstanceController extends CommonController {
 
   final static Logger log = LoggerFactory.getLogger(BookInstanceController.class);
 
   @Inject
   private BookInstanceFacade bookInstanceFacade;
-
-  @Inject
-  private BookInstanceService bookInstanceService;
 
   @RequestMapping(value = "/list", method = RequestMethod.GET)
   public String list(Model model) {
@@ -57,6 +52,8 @@ public class BookInstanceController {
 
   @RequestMapping(value = "/new", method = RequestMethod.GET)
   public String newBookInstance(Model model) {
+    // TODO: Retrieve to bookID from URL
+    model.addAttribute("bookId", 1);
     log.debug("add()");
     model.addAttribute("bookInstanceCreate", new BookInstanceDTO());
     return "bookinstance/new";
@@ -93,7 +90,7 @@ public class BookInstanceController {
     }
     Long id = bookInstanceFacade.createBookInstance(formBean);
     redirectAttributes.addFlashAttribute("alert_success", "Book instance " + id + "was created");
-    return "redirect:" + uriComponentsBuilder.path("/bookinstance/view/{id}").buildAndExpand(id).encode().toUriString();
+    return "redirect:" + uriComponentsBuilder.path("/bookinstance/list").buildAndExpand(id).encode().toUriString();
   }
 
   @ModelAttribute("bookAvailabilities")

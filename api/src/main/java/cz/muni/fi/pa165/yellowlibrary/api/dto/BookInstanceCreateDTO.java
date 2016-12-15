@@ -13,11 +13,11 @@ import cz.muni.fi.pa165.yellowlibrary.api.enums.BookInstanceAvailability;
 public class BookInstanceCreateDTO {
 
   @NotNull
-  @Size(min = 3, max = 10)
+  @Size(min = 3, max = 30)
   private String bookState;
 
   @NotNull
-  private BookInstanceAvailability bookInstanceAvailability;
+  private BookInstanceAvailability bookAvailability;
 
   private String version;
 
@@ -32,12 +32,12 @@ public class BookInstanceCreateDTO {
     this.bookState = bookState;
   }
 
-  public BookInstanceAvailability getBookInstanceAvailability() {
-    return bookInstanceAvailability;
+  public BookInstanceAvailability getBookAvailability() {
+    return bookAvailability;
   }
 
-  public void setBookInstanceAvailability(BookInstanceAvailability bookAvailability) {
-    this.bookInstanceAvailability = bookAvailability;
+  public void setBookAvailability(BookInstanceAvailability bookAvailability) {
+    this.bookAvailability = bookAvailability;
   }
 
   public String getVersion() {
@@ -74,7 +74,7 @@ public class BookInstanceCreateDTO {
         : that.getVersion() != null) {
       return false;
     }
-    if (getBookInstanceAvailability() != that.getBookInstanceAvailability()) {
+    if (getBookAvailability() != that.getBookAvailability()) {
       return false;
     }
     return getBookId().equals(that.getBookId());
@@ -83,7 +83,7 @@ public class BookInstanceCreateDTO {
 
   @Override
   public int hashCode() {
-    return Objects.hash(getBookState(), getBookInstanceAvailability(), getBookId());
+    return Objects.hash(getBookState(), getBookAvailability(), getBookId());
   }
 
   @Override
