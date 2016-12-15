@@ -17,6 +17,7 @@ public interface BookInstanceFacade {
   void changeBookState(Long bookInstanceId, String newState);
   void changeBookAvailability(Long bookInstanceId, BookInstanceAvailability newAvailability);
   void setBook(Long bookInstanceId, Long bookId);
+  void deleteBookInstance(Long bookInstanceId);
   List<BookInstanceDTO> getAllBookInstances();
   List<BookInstanceDTO> getAllBorrowedBookInstances();
   List<BookInstanceDTO> getAllCopies(Long bookId);

@@ -20,20 +20,12 @@ public class BookInstanceDTO {
   @NotNull
   private BookDTO book;
 
-  public BookInstanceDTO(Long id, String bookState, String version,
-                         BookInstanceAvailability bookAvailability, BookDTO book) {
-    this.id = id;
-    this.bookState = bookState;
-    this.version = version;
-    this.bookAvailability = bookAvailability;
-    this.book = book;
-  }
-
-  public BookInstanceDTO() {
-  }
-
   public Long getId() {
     return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public String getBookState() {
@@ -79,7 +71,7 @@ public class BookInstanceDTO {
 
     BookInstanceDTO that = (BookInstanceDTO) o;
 
-    if (getBookState() != that.getBookState()) {
+    if (!getBookState().equals(that.getBookState())) {
       return false;
     }
     if (getVersion() != null ? !getVersion().equals(that.getVersion())

@@ -15,6 +15,7 @@
     <name>REST Layer</name>
 
     <build>
+        <defaultGoal>tomcat7:run</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
