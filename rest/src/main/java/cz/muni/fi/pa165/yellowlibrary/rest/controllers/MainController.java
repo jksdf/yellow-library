@@ -35,6 +35,7 @@ public class MainController {
     resourcesMap.put("user_uri", ApiUris.ROOT_URI_USER);
     resourcesMap.put("department_uri", ApiUris.ROOT_URI_DEPARTMENT);
     resourcesMap.put("loan_uri", ApiUris.ROOT_URI_LOAN);
+    resourcesMap.put("bookinstance_uri", ApiUris.ROOT_URI_BOOKINSTANCES);
 
     return resourcesMap.build();
   }

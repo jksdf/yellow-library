@@ -8,6 +8,7 @@ public final class ApiUris {
   public static final String ROOT_URI_USER = "/user";
   public static final String ROOT_URI_DEPARTMENT = "/department";
   public static final String ROOT_URI_LOAN = "/loan";
+  public static final String ROOT_URI_BOOKINSTANCES = "/bookinstance";
 
 
   private ApiUris() {

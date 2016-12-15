@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.validation.Valid;
 
@@ -66,9 +64,8 @@ public class BookInstanceController extends CommonController {
     BookInstanceDTO bookInstanceDTO = bookInstanceFacade.findById(id);
     bookInstanceFacade.deleteBookInstance(id);
     log.debug("delete({})", id);
-    redirectAttributes.addFlashAttribute("alert_success", "BookInstance \"" +
-        bookInstanceDTO.getBook().getName() + " " + bookInstanceDTO.getId() +
-        "was deleted.");
+    redirectAttributes.addFlashAttribute("alert_success", "Book instance of \"" +
+        bookInstanceDTO.getBook().getName() + "\" has been successfully deleted.");
     return "redirect:" + uriComponentsBuilder.path("/bookinstance/list").toUriString();
   }
 
@@ -89,8 +86,10 @@ public class BookInstanceController extends CommonController {
       return "bookinstance/new";
     }
     Long id = bookInstanceFacade.createBookInstance(formBean);
-    redirectAttributes.addFlashAttribute("alert_success", "Book instance " + id + "was created");
-    return "redirect:" + uriComponentsBuilder.path("/bookinstance/list").buildAndExpand(id).encode().toUriString();
+    String bookName = bookInstanceFacade.findById(id).getBook().getName();
+    redirectAttributes.addFlashAttribute("alert_success", "New book instance of \"" + bookName +
+        "\" has been successfully created");
+    return "redirect:" + uriComponentsBuilder.path("/bookinstance/list").toUriString();
   }
 
   @ModelAttribute("bookAvailabilities")

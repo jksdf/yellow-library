@@ -15,6 +15,7 @@
 <my:mainpage title="New Book Instance">
 <jsp:attribute name="body">
 
+    <div class="col-md-7 center">
     <form:form method="post" action="${pageContext.request.contextPath}/bookinstance/create"
                modelAttribute="bookInstanceCreate" cssClass="form-horizontal">
 
@@ -50,6 +51,6 @@
 
         <button class="btn btn-primary" type="submit">Create book instance</button>
     </form:form>
-
+    </div>
 </jsp:attribute>
 </my:mainpage>
