@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.inject.Inject;
 
-import cz.muni.fi.pa165.yellowlibrary.api.dto.UserAuthenticateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.UserFacade;
 

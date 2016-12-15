@@ -14,6 +14,7 @@ import javax.inject.Inject;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.UserFacade;
+import cz.muni.fi.pa165.yellowlibrary.mvc.exceptions.ResourceNotFoundException;
 
 /**
  * @author Jozef Zivcic
@@ -32,8 +33,7 @@ public class UserController extends CommonController {
     log.info("UserController.userInfo()");
     UserDTO userDTO = userFacade.findById(id);
     if (userDTO == null)
-      //TODO: redirect to not found
-      return null;
+      throw new ResourceNotFoundException();
     model.addAttribute("user", userDTO);
     return "user/user";
   }
