@@ -8,6 +8,12 @@
 <own:mainpage>
     <jsp:attribute name="body">
         <div class="container">
+            <c:if test="${not empty param.error}">
+                <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <fmt:message key="err.invalid_username_password" />
+                </div>
+            </c:if>
             <form class="form-signin" method="post">
                 <h2 class="form-signin-heading"><fmt:message key="login.signin" /> </h2>
                 <label for="user_login" class="sr-only"><fmt:message key="login.login" /></label>

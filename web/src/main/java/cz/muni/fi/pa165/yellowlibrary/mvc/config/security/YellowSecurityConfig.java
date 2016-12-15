@@ -32,6 +32,7 @@ public class YellowSecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
         .antMatchers("/", "/home", "/css/own.css").permitAll()
+        .antMatchers("/user").hasAnyRole("EMPLOYEE")
         .antMatchers("/*").hasAnyRole("EMPLOYEE", "CUSTOMER")
         .anyRequest().authenticated()
         .and()
@@ -43,6 +44,8 @@ public class YellowSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .logout()
         .permitAll()
+        .and()
+        .exceptionHandling().accessDeniedPage("/access_denied")
         .and()
         .csrf().disable();
   }
@@ -58,7 +61,7 @@ public class YellowSecurityConfig extends WebSecurityConfigurerAdapter {
       }
       if (userDTO.isCustomer()) {
         auth.inMemoryAuthentication().withUser(userDTO.getLogin())
-            .password(userDTO.getPasswordHash()).roles("CUSTOMER");
+            .password("cust").roles("CUSTOMER");
       }
     }
   }
