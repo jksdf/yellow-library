@@ -18,15 +18,15 @@ import cz.muni.fi.pa165.yellowlibrary.api.facade.UserFacade;
 @RequestMapping(value = {"", "/", "/home"})
 public class HomeController extends CommonController {
 
-  final static Logger log = LoggerFactory.getLogger(HomeController.class);
+  private final static Logger log = LoggerFactory.getLogger(HomeController.class);
 
   @Inject
   private UserFacade userFacade;
 
   @RequestMapping(value = {"", "/", "/index"}, method = RequestMethod.GET)
   public String index(Model model) {
+    log.info("HomeController.index()");
     model.addAttribute("title", "Yellow library");
-    log.debug(String.valueOf(userFacade.findAllUsers().size()));
     model.addAttribute("users", userFacade.findAllUsers());
     return "home/index";
   }

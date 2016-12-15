@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class LoginController extends CommonController {
 
-  final static Logger log = LoggerFactory.getLogger(LoginController.class);
+  private final static Logger log = LoggerFactory.getLogger(LoginController.class);
 
   @RequestMapping(value = "/login", method = RequestMethod.GET)
   public String loginGet(Model model) {

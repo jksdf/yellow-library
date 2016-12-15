@@ -18,5 +18,4 @@
             <p>user is NOT authenticated</p>
         </c:if>
     </jsp:attribute>
-
 </own:mainpage>

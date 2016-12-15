@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.yellowlibrary.mvc.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -18,8 +20,11 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class LogoutController extends CommonController {
 
+  private final static Logger log = LoggerFactory.getLogger(LogoutController.class);
+
   @RequestMapping(value = "/logout", method = RequestMethod.GET)
   public String logout(HttpServletRequest request, HttpServletResponse response) {
+    log.info("LogoutController.logout()");
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     if (auth != null){
       new SecurityContextLogoutHandler().logout(request, response, auth);
