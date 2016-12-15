@@ -8,6 +8,7 @@ package cz.muni.fi.pa165.yellowlibrary.backend.entity;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -157,40 +158,12 @@ public class User {
 
     User user = (User) o;
 
-    if (getLogin() != null ? !getLogin().equals(user.getLogin()) : user.getLogin() != null)
-      return false;
-
-    if (getPasswordHash() != null ? !getPasswordHash().equals(user.getPasswordHash()) :
-        user.getPasswordHash() != null)
-      return false;
-
-    if (getName() != null ? !getName().equals(user.getName()) : user.getName() != null)
-      return false;
-
-    if (getAddress() != null ? !getAddress().equals(user.getAddress())
-        : user.getAddress() != null)
-      return false;
-
-    if (getTotalFines() != null ? !getTotalFines().equals(user.getTotalFines())
-        : user.getTotalFines() != null)
-      return false;
-
-    if (getLoans() != null ? !getLoans().equals(user.getLoans()) : user.getLoans() != null)
-      return false;
-
-    return getUserType() == user.getUserType();
+    return getLogin().equals(user.getLogin());
 
   }
 
   @Override
   public int hashCode() {
-    int result = getName() != null ? getName().hashCode() : 1;
-    result = 31 * result + (getLogin() != null ? getLogin().hashCode() : 1);
-    result = 31 * result + (getPasswordHash() != null ? getPasswordHash().hashCode() : 1);
-    result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 1);
-    result = 31 * result + (getTotalFines() != null ? getTotalFines().hashCode() : 1);
-    result = 31 * result + (getLoans() != null ? Integer.hashCode(getLoans().size()) : 1);
-    result = 31 * result + (getUserType() != null ? getUserType().hashCode() : 1);
-    return result;
+    return Objects.hashCode(getLogin());
   }
 }

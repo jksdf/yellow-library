@@ -53,7 +53,8 @@
             <ul class="nav navbar-nav">
                 <li><a href="${pageContext.request.contextPath}/books"><fmt:message key="nav.books"/> <span class="sr-only">(current)</span></a></li>
                 <li><a href="${pageContext.request.contextPath}/loan/list"><fmt:message key="nav.loans"/> </a></li>
-                <li><a href="${pageContext.request.contextPath}/departments"><fmt:message key="nav.departments"/></a></li>
+                <li><a href="${pageContext.request.contextPath}/department"><fmt:message key="nav.departments"/></a>
+                </li>
                 <li><a href="${pageContext.request.contextPath}/user/"><fmt:message key="nav.info"/></a></li>
                 <li><a href="${pageContext.request.contextPath}/bookinstance/list"><fmt:message key="nav.bookinstance"/></a></li>
             </ul>

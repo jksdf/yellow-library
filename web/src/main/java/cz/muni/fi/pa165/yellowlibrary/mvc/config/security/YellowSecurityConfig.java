@@ -4,8 +4,8 @@ package cz.muni.fi.pa165.yellowlibrary.mvc.config.security;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
@@ -33,6 +33,7 @@ public class YellowSecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
         .antMatchers("/", "/home", "/css/own.css", "/favicon.ico").permitAll()
+        .antMatchers("/department", "/department/list").permitAll()
         .antMatchers("/user/").hasAnyRole("EMPLOYEE", "CUSTOMER")
         .antMatchers("/user/**").hasAnyRole("EMPLOYEE")
         .antMatchers("/*").hasAnyRole("EMPLOYEE", "CUSTOMER")
