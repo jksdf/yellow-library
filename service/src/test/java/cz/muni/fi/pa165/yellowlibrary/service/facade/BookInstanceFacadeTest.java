@@ -108,7 +108,7 @@ public class BookInstanceFacadeTest extends AbstractTestNGSpringContextTests {
   @Test
   public void testCreateBookInstance() {
     BookInstanceCreateDTO bookInstanceDTO = new BookInstanceCreateDTO();
-    bookInstanceDTO.setBookInstanceAvailability(BookInstanceAvailability.AVAILABLE);
+    bookInstanceDTO.setBookAvailability(BookInstanceAvailability.AVAILABLE);
     bookInstanceDTO.setBookId(13L);
     bookInstanceDTO.setBookState("NEW");
 

@@ -52,3 +52,10 @@ body {
     text-align: center;
 }
 
+.bookInstance tr td:first-of-type {
+    border-top: 0;
+}
+.bookInstance tr th:first-of-type {
+    border-bottom: 0;
+}
+
