@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
@@ -53,15 +54,16 @@ public class YellowSecurityConfig extends WebSecurityConfigurerAdapter {
   @Inject
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     List<UserDTO> users = userFacade.findAllUsers();
+    PasswordEncoder passwordEncoder = new PasswordEncoderImpl();
 
     for (UserDTO userDTO : users) {
       if (userDTO.isEmployee()) {
-        auth.inMemoryAuthentication().withUser(userDTO.getLogin())
-            .password("admin").roles("EMPLOYEE");
+        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder).withUser(userDTO.getLogin())
+            .password(userDTO.getPasswordHash()).roles("EMPLOYEE");
       }
       if (userDTO.isCustomer()) {
-        auth.inMemoryAuthentication().withUser(userDTO.getLogin())
-            .password("cust").roles("CUSTOMER");
+        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder).withUser(userDTO.getLogin())
+            .password(userDTO.getPasswordHash()).roles("CUSTOMER");
       }
     }
   }
