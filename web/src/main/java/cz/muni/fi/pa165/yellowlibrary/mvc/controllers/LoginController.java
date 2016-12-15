@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author Jozef Zivcic
  */
 @Controller
-public class LoginController {
+public class LoginController extends CommonController {
 
   final static Logger log = LoggerFactory.getLogger(LoginController.class);
 
@@ -19,5 +19,11 @@ public class LoginController {
   public String loginGet(Model model) {
     log.info("LoginController.loginGet()");
     return "authentication/login";
+  }
+
+  @RequestMapping(value = "/login", method = RequestMethod.POST)
+  public String loginPost(Model model) {
+    log.info("LoginController.loginPost()");
+    return "/login";
   }
 }

@@ -22,6 +22,9 @@ public class UserDTO {
   @Size(min = 1)
   private String login;
 
+  @Size(min=1)
+  private String passwordHash;
+
   @NotNull
   private String address;
 
@@ -76,6 +79,22 @@ public class UserDTO {
 
   public void setUserType(UserType userType) {
     this.userType = userType;
+  }
+
+  public String getPasswordHash() {
+    return passwordHash;
+  }
+
+  public void setPasswordHash(String passwordHash) {
+    this.passwordHash = passwordHash;
+  }
+
+  public boolean isEmployee() {
+    return getUserType().equals(UserType.EMPLOYEE);
+  }
+
+  public boolean isCustomer() {
+    return getUserType().equals(UserType.CUSTOMER);
   }
 
   @Override

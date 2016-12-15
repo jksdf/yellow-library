@@ -57,7 +57,12 @@
                 <li><a href="${pageContext.request.contextPath}/user"><fmt:message key="nav.info"/></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="${pageContext.request.contextPath}/logout"><div class="glyphicon glyphicon-log-out"></div>&nbsp;<fmt:message key="nav.logout"/></a></li>
+                <c:if test="${isAuthenticated}">
+                    <li><a href="${pageContext.request.contextPath}/logout"><div class="glyphicon glyphicon-log-out"></div>&nbsp;<fmt:message key="nav.logout"/></a></li>
+                </c:if>
+                <c:if test="${not isAuthenticated}">
+                    <li><a href="${pageContext.request.contextPath}/login"><div class="glyphicon glyphicon-log-out"></div>&nbsp;<fmt:message key="login.signin"/></a></li>
+                </c:if>
             </ul>
         </div>
     </div>
