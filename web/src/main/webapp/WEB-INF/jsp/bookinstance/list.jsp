@@ -31,7 +31,7 @@
                 <tr>
                     <td class="center">
                         <form method="post" action="${pageContext.request.contextPath}/bookinstance/delete/${bookinstance.id}">
-                            <button type="submit" class="btn btn-link">
+                            <button type="submit" class="btn btn-xs btn-link">
                                 <span class="glyphicon glyphicon-minus text-danger" aria-hidden="true"></span>
                             </button>
                         </form>

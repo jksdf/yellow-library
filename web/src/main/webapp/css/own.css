@@ -49,7 +49,8 @@ body {
 }
 
 .center {
-    text-align: center;
+    text-align: right;
+    vertical-align: bottom;
 }
 
 .bookInstance tr td:first-of-type {
@@ -58,4 +59,3 @@ body {
 .bookInstance tr th:first-of-type {
     border-bottom: 0;
 }
-
