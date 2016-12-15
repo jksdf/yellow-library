@@ -31,4 +31,18 @@ public abstract class CommonController {
     String name = authentication.getName();
     return name;
   }
+
+  @ModelAttribute("isEmployee")
+  public boolean isEmployee() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String role = authentication.getAuthorities().toString();
+    return role.equals("[ROLE_EMPLOYEE]");
+  }
+
+  @ModelAttribute("isCustomer")
+  public boolean isCustomer() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String role = authentication.getAuthorities().toString();
+    return role.equals("[ROLE_CUSTOMER]");
+  }
 }
