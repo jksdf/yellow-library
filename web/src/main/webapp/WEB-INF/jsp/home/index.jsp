@@ -11,7 +11,7 @@
         <c:forEach items="${users}" var="user">
                     <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2"><!-- bootstrap responsive grid -->
                             <div class="thumbnail">
-                                <a href="${pageContext.request.contextPath}/users/${user.id}"><span class="glyphicon glyphicon-user " aria-hidden="true"></span></a><br>
+                                <a href="${pageContext.request.contextPath}/user/${user.id}"><span class="glyphicon glyphicon-user " aria-hidden="true"></span></a><br>
                                 <div class="caption">
                                     <h4><c:out value="${user.name}"/></h4>
                                 </div>
