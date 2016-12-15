@@ -63,3 +63,20 @@ body {
 .glyphic form {
     display: inline;
 }
+
+.glyphicon.glyphicon-user {
+    font-size: 10em;
+}
+
+.caption h4 {
+    text-align: center;
+}
+
+.thumbnail {
+    text-align: center;
+}
+
+.test {
+    border-style: dashed;
+    border-width: 2px;
+}
