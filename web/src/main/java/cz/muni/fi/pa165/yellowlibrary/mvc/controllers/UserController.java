@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends CommonController {
 
   final static Logger log = LoggerFactory.getLogger(UserController.class);
 

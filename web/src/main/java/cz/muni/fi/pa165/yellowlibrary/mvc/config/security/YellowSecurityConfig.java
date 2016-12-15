@@ -7,33 +7,59 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
+import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.facade.UserFacade;
+
 /**
+ * https://spring.io/guides/gs/securing-web/
+ * Multiple roles:
+ * http://www.concretepage.com/spring/spring-security/spring-mvc-security-in-memory-authentication-example-with-authenticationmanagerbuilder-using-java-configuration
+ *
  * @author Jozef Zivcic
  */
 @Configuration
 @EnableWebSecurity
 public class YellowSecurityConfig extends WebSecurityConfigurerAdapter {
 
+  @Inject
+  private UserFacade userFacade;
+
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
-        .antMatchers("/", "/home", "/css/own.css", "/bookinstance/list", "/favicon.ico").permitAll()
+        .antMatchers("/", "/home", "/css/own.css", "/favicon.ico").permitAll()
+        .antMatchers("/*").hasAnyRole("EMPLOYEE", "CUSTOMER")
         .anyRequest().authenticated()
         .and()
         .formLogin()
         .loginPage("/login")
+        .failureUrl("/login?error=invalid_attempt")
+        .usernameParameter("user_login").passwordParameter("user_password")
         .permitAll()
         .and()
         .logout()
-        .permitAll();
+        .permitAll()
+        .and()
+        .csrf().disable();
   }
 
   @Inject
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    auth
-        .inMemoryAuthentication()
-        .withUser("user").password("password").roles("USER");
+    List<UserDTO> users = userFacade.findAllUsers();
+
+    for (UserDTO userDTO : users) {
+      if (userDTO.isEmployee()) {
+        auth.inMemoryAuthentication().withUser(userDTO.getLogin())
+            .password("admin").roles("EMPLOYEE");
+      }
+      if (userDTO.isCustomer()) {
+        auth.inMemoryAuthentication().withUser(userDTO.getLogin())
+            .password(userDTO.getPasswordHash()).roles("CUSTOMER");
+      }
+    }
   }
 }

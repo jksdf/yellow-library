@@ -7,16 +7,6 @@
 
 <own:mainpage>
     <jsp:attribute name="body">
-        <p>Hello world</p>
-        <c:forEach items="${users}" var="user">
-            <p>${user.name}</p>
-        </c:forEach>
-        <c:if test="${isAuthenticated}">
-            <p>user is authenticated</p>
-        </c:if>
-        <c:if test="${not isAuthenticated}">
-            <p>user is NOT authenticated</p>
-        </c:if>
+        <p><fmt:message key="nav.logout" /></p>
     </jsp:attribute>
-
 </own:mainpage>
