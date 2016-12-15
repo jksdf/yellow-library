@@ -79,7 +79,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
     createUsers();
 
-    log.debug("Loaded users.")
+    log.debug("Loaded users.");
   }
 
   private BookInstance bookInstance(Book book, BookAvailability bookAvailability, String bookState,
