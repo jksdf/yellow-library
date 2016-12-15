@@ -29,6 +29,6 @@ public class LogoutController extends CommonController {
     if (auth != null){
       new SecurityContextLogoutHandler().logout(request, response, auth);
     }
-    return "redirect:/home";
+    return "redirect:/home/index";
   }
 }
