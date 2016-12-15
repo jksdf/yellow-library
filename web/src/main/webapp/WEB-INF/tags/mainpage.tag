@@ -76,7 +76,7 @@
 <!-- footer -->
 <footer class="footer">
     <div class="container">
-        <p class="text-muted">&copy;&nbsp;<%=java.time.Year.now().toString()%>&nbsp;Yellow team</p>
+        <p class="text-muted">&copy;&nbsp;<c:out value="${getYear}"/>&nbsp;Yellow team</p>
     </div>
 </footer>
 </body>
