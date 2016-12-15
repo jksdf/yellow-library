@@ -19,7 +19,7 @@ public class YellowSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
-        .antMatchers("/", "/home", "/css/own.css").permitAll()
+        .antMatchers("/", "/home", "/css/own.css", "/bookinstance/list", "/favicon.ico").permitAll()
         .anyRequest().authenticated()
         .and()
         .formLogin()

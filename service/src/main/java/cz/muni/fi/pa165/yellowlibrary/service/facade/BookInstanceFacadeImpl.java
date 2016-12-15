@@ -95,4 +95,9 @@ public class BookInstanceFacadeImpl implements BookInstanceFacade {
     return beanMappingService.mapTo(book.getBookInstances(), BookInstanceDTO.class);
   }
 
+  @Override
+  public void deleteBookInstance(Long bookInstanceId) {
+    bookInstanceService.deleteBookInstance(bookInstanceService.getBookInstanceById(bookInstanceId));
+  }
+
 }
