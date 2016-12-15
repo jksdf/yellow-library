@@ -25,11 +25,12 @@ import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
 import cz.muni.fi.pa165.yellowlibrary.rest.assemblers.AssemblersPackage;
 import cz.muni.fi.pa165.yellowlibrary.rest.controllers.ControllersPackage;
 import cz.muni.fi.pa165.yellowlibrary.rest.mixins.UserDTOMixin;
+import cz.muni.fi.pa165.yellowlibrary.sampledata.SampleDataConfiguration;
 import cz.muni.fi.pa165.yellowlibrary.service.configuration.ServiceConfiguration;
 
 @EnableWebMvc
 @Configuration
-@Import({ServiceConfiguration.class})
+@Import({ServiceConfiguration.class, SampleDataConfiguration.class})
 @ComponentScan(basePackageClasses = {AssemblersPackage.class, ControllersPackage.class})
 public class RootWebContext extends WebMvcConfigurerAdapter {
 

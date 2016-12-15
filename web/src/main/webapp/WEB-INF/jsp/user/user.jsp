@@ -28,8 +28,8 @@
                     <td><c:out value="${user.address}" /></td>
                     <td><c:out value="${user.totalFines}" /></td>
                     <c:if test="${isEmployee}">
-                        <c:if test="${user.userType == 'EMPLOYEE'}"><th><fmt:message key="user.employee" /></th></c:if>
-                        <c:if test="${user.userType == 'CUSTOMER'}"><th><fmt:message key="user.customer" /></th></c:if>
+                        <c:if test="${user.userType == 'EMPLOYEE'}"><td><fmt:message key="user.employee" /></td></c:if>
+                        <c:if test="${user.userType == 'CUSTOMER'}"><td><fmt:message key="user.customer" /></td></c:if>
                     </c:if>
                 </tr>
             </tbody>
