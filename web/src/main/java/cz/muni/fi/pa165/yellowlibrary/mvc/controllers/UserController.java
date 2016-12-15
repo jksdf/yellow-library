@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
@@ -29,7 +31,7 @@ public class UserController extends CommonController {
   public String userInfo(@PathVariable long id, Model model) {
     log.info("UserController.userInfo()");
     UserDTO userDTO = userFacade.findById(id);
-    if (userDTO.isCustomer())
+    if (userDTO == null)
       //TODO: redirect to not found
       return null;
     model.addAttribute("user", userDTO);
@@ -42,5 +44,13 @@ public class UserController extends CommonController {
     UserDTO userDTO = getUserDTO();
     model.addAttribute("user", userDTO);
     return "user/user";
+  }
+
+  @RequestMapping(value = "/list", method = RequestMethod.GET)
+  public String listUsers(Model model) {
+    log.info("UserController.listUsers()");
+    List<UserDTO> users = userFacade.findAllUsers();
+    model.addAttribute("users", users);
+    return "user/userlist";
   }
 }

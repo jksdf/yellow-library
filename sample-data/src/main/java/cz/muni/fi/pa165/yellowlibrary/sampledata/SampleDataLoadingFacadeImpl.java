@@ -93,9 +93,9 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
     log.debug("Loaded users.");
 
-    Loan loan1 = loan(user1, bookInstance1, new GregorianCalendar(2016, Calendar.JANUARY, 20).getTime(), 30);
-    Loan loan2 = loan(user2, bookInstance2, new GregorianCalendar(2016, Calendar.FEBRUARY, 11).getTime(), 30);
-    Loan loan3 = loan(user3, bookInstance3, new GregorianCalendar(2016, Calendar.DECEMBER, 15).getTime(), 30);
+    Loan loan1 = loan(user1, bookInstance1, new GregorianCalendar(2016, Calendar.JANUARY, 20).getTime(), 30, "normal loan");
+    Loan loan2 = loan(user2, bookInstance2, new GregorianCalendar(2016, Calendar.FEBRUARY, 11).getTime(), 30, "normal loan");
+    Loan loan3 = loan(user3, bookInstance3, new GregorianCalendar(2016, Calendar.DECEMBER, 15).getTime(), 30, "extended date loan");
 
   }
 
@@ -149,13 +149,14 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     return user;
   }
 
-  private Loan loan(User user, BookInstance bookInstance, Date dateFrom, int loanLength){
+  private Loan loan(User user, BookInstance bookInstance, Date dateFrom, int loanLength, String loanState){
     Loan l = new Loan();
     l.setUser(user);
     l.setBookInstance(bookInstance);
     l.setDateFrom(dateFrom);
     l.setLoanLength(loanLength);
     l.setFine(BigDecimal.ZERO);
+    l.setLoanState(loanState);
     loanService.create(l);
     return l;
   }
