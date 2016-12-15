@@ -80,15 +80,6 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
     log.debug("Loaded book instances.");
 
-    createUsers();
-
-    /*Loan loan = loan(user1, bookInstance1, new GregorianCalendar(2016, Calendar.JANUARY, 20).getTime(), 30);
-    Loan loan = loan(user2, bookInstance2, new GregorianCalendar(2016, Calendar.FEBRUARY, 11).getTime(), 30);
-    Loan loan = loan(user3, bookInstance3, new GregorianCalendar(2016, Calendar.DECEMBER, 15).getTime(), 30);*/
-
-  }
-
-  private void createUsers() {
     User user1 = getNewUser("John Green", "admin", "admin", "4125 7th Ave, New York, NY 10022, "
         + "USA", UserType.EMPLOYEE);
     userService.create(user1, user1.getPasswordHash());
@@ -101,6 +92,11 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     userService.create(user3, user3.getPasswordHash());
 
     log.debug("Loaded users.");
+
+    Loan loan1 = loan(user1, bookInstance1, new GregorianCalendar(2016, Calendar.JANUARY, 20).getTime(), 30);
+    Loan loan2 = loan(user2, bookInstance2, new GregorianCalendar(2016, Calendar.FEBRUARY, 11).getTime(), 30);
+    Loan loan3 = loan(user3, bookInstance3, new GregorianCalendar(2016, Calendar.DECEMBER, 15).getTime(), 30);
+
   }
 
   private BookInstance bookInstance(Book book, BookAvailability bookAvailability, String bookState,
@@ -159,7 +155,9 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     l.setBookInstance(bookInstance);
     l.setDateFrom(dateFrom);
     l.setLoanLength(loanLength);
+    l.setFine(BigDecimal.ZERO);
     loanService.create(l);
     return l;
   }
+
 }
