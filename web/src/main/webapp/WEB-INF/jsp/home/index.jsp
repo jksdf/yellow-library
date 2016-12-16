@@ -13,7 +13,8 @@
                             <div class="thumbnail">
                                 <a href="${pageContext.request.contextPath}/user/${user.id}"><span class="glyphicon glyphicon-user " aria-hidden="true"></span></a><br>
                                 <div class="caption">
-                                    <h4><c:out value="${user.name}"/></h4>
+                                    <h4>Login: <c:out value="${user.login}"/></h4>
+                                    <p>Password: <c:out value="${user.login}"/></p>
                                 </div>
                             </div>
                         </a>
