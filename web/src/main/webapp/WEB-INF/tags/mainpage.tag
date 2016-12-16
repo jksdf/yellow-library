@@ -60,15 +60,25 @@
                 <li><a href="${pageContext.request.contextPath}/loan/list"><fmt:message key="nav.loans"/> </a></li>
                 <li><a href="${pageContext.request.contextPath}/department"><fmt:message key="nav.departments"/></a>
                 </li>
-                <li><a href="${pageContext.request.contextPath}/user/"><fmt:message key="nav.info"/></a></li>
                 <li><a href="${pageContext.request.contextPath}/bookinstance/list"><fmt:message key="nav.bookinstance"/></a></li>
+                <c:if test="${isEmployee}">
+                    <li><a href="${pageContext.request.contextPath}/user/list"><fmt:message key="nav.users"/></a></li>
+                </c:if>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <c:if test="${isAuthenticated}">
-                    <li><a href="${pageContext.request.contextPath}/logout"><div class="glyphicon glyphicon-log-out"></div>&nbsp;<fmt:message key="nav.logout"/></a></li>
-                </c:if>
                 <c:if test="${not isAuthenticated}">
                     <li><a href="${pageContext.request.contextPath}/login"><div class="glyphicon glyphicon-log-out"></div>&nbsp;<fmt:message key="login.signin"/></a></li>
+                </c:if>
+                <c:if test="${isAuthenticated}">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${getUserDTO.name} <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="${pageContext.request.contextPath}/user/"><fmt:message key="nav.info"/></a></li>
+                        <li><a href="https://github.com/jksdf/yellow-library" target="_blank"><fmt:message key="nav.about_application" /></a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="${pageContext.request.contextPath}/logout"><div class="glyphicon glyphicon-log-out"></div>&nbsp;<fmt:message key="nav.logout"/></a></li>
+                    </ul>
+                </li>
                 </c:if>
             </ul>
         </div>
