@@ -18,6 +18,8 @@ import cz.muni.fi.pa165.yellowlibrary.rest.ApiUris;
 import cz.muni.fi.pa165.yellowlibrary.rest.exceptions.ResourceNotFoundException;
 
 /**
+ * For testing methods on this controller see file /rest/readme.txt
+ *
  * @author cokinova
  */
 @RestController

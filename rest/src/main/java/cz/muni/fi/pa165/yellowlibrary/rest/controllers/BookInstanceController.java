@@ -24,6 +24,8 @@ import cz.muni.fi.pa165.yellowlibrary.rest.exceptions.ResourceNotFoundException;
 import cz.muni.fi.pa165.yellowlibrary.rest.exceptions.YellowServiceException;
 
 /**
+ * For testing methods on this controller see file /rest/readme.txt
+ *
  * Created by Matej Gallo
  */
 @RestController

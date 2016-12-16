@@ -26,6 +26,8 @@ import cz.muni.fi.pa165.yellowlibrary.rest.exceptions.ResourceNotFoundException;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
+ * For testing methods on this controller see file /rest/readme.txt
+ *
  * TODO(slivka): caching
  * @author Norbert Slivka
  */

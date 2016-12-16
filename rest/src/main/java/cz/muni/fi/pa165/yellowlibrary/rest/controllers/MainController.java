@@ -14,6 +14,8 @@ import cz.muni.fi.pa165.yellowlibrary.rest.ApiUris;
 
 
 /**
+ * For testing methods on this controller see file /rest/readme.txt
+ *
  * @author Norbert Slivka
  */
 @RestController

@@ -25,6 +25,8 @@ import cz.muni.fi.pa165.yellowlibrary.rest.assemblers.UserAssembler;
 import cz.muni.fi.pa165.yellowlibrary.rest.exceptions.ResourceNotFoundException;
 
 /**
+ * For testing methods on this controller see file /rest/readme.txt
+ * 
  * @author Jozef Zivcic
  */
 @RestController
