@@ -84,10 +84,10 @@ public class LoanServiceImpl implements LoanService{
   public void calculateFines(Calendar now) {
     List<Loan> notReturned = loanDao.findNotReturned();
     for (Loan l : notReturned) {
-      Calendar loanDate = Calendar.getInstance();
-      loanDate.setTime(l.getDateFrom());
-      loanDate.add(Calendar.DAY_OF_YEAR, l.getLoanLength());
-      if (loanDate.before(now)) {
+      Calendar calculatedReturnedDate = Calendar.getInstance();
+      calculatedReturnedDate.setTime(l.getDateFrom());
+      calculatedReturnedDate.add(Calendar.DAY_OF_YEAR, l.getLoanLength());
+      if (calculatedReturnedDate.before(now)&& (l.getFine() == null || l.getFine() == BigDecimal.ZERO)) {
         l.setFine(BigDecimal.valueOf(100L));
         loanDao.update(l);
       }

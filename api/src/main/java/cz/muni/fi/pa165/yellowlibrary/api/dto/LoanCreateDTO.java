@@ -14,6 +14,8 @@ public class LoanCreateDTO {
   @NotNull
   private Date dateFrom;
 
+  private Date returnDate;
+
   @NotNull
   private int loanLength;
 
@@ -34,6 +36,13 @@ public class LoanCreateDTO {
     this.dateFrom = dateFrom;
   }
 
+  public Date getReturnDate() {
+    return returnDate;
+  }
+
+  public void setReturnDate(Date returnDate) {
+    this.returnDate = returnDate;
+  }
 
   public int getLoanLength() {
     return loanLength;
@@ -72,27 +81,29 @@ public class LoanCreateDTO {
     if (this == o) {
       return true;
     }
-    if (o == null || !(o instanceof LoanDTO)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
 
     LoanCreateDTO that = (LoanCreateDTO) o;
 
-    if (!getDateFrom().equals(that.getDateFrom())) {
+    if (getDateFrom() != null ? !getDateFrom().equals(that.getDateFrom())
+        : that.getDateFrom() != null) {
       return false;
     }
-    if (!getUser().equals(that.getUser())) {
+    if (getUser() != null ? !getUser().equals(that.getUser()) : that.getUser() != null) {
       return false;
     }
-    return getBookInstance().equals(that.getBookInstance());
+    return getBookInstance() != null ? getBookInstance().equals(that.getBookInstance())
+        : that.getBookInstance() == null;
 
   }
 
   @Override
   public int hashCode() {
-    int result = getDateFrom().hashCode();
-    result = 31 * result + getUser().hashCode();
-    result = 31 * result + getBookInstance().hashCode();
+    int result = getDateFrom() != null ? getDateFrom().hashCode() : 0;
+    result = 31 * result + (getUser() != null ? getUser().hashCode() : 0);
+    result = 31 * result + (getBookInstance() != null ? getBookInstance().hashCode() : 0);
     return result;
   }
 

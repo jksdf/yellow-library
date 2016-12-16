@@ -102,31 +102,20 @@ public class LoanDTO {
     if (o == null || !(o instanceof LoanDTO)) {
       return false;
     }
-
     LoanDTO loanDTO = (LoanDTO) o;
 
-    if (getId() != null ? !getId().equals(loanDTO.getId()) : loanDTO.getId() != null) {
-      return false;
-    }
     if (!getDateFrom().equals(loanDTO.getDateFrom())) {
-      return false;
-    }
-    if (getReturnDate() != null ? !getReturnDate().equals(loanDTO.getReturnDate())
-        : loanDTO.getReturnDate() != null) {
       return false;
     }
     if (!getUser().equals(loanDTO.getUser())) {
       return false;
     }
     return getBookInstance().equals(loanDTO.getBookInstance());
-
   }
 
   @Override
   public int hashCode() {
-    int result = getId() != null ? getId().hashCode() : 0;
-    result = 31 * result + getDateFrom().hashCode();
-    result = 31 * result + (getReturnDate() != null ? getReturnDate().hashCode() : 0);
+    int result = getDateFrom().hashCode();
     result = 31 * result + getUser().hashCode();
     result = 31 * result + getBookInstance().hashCode();
     return result;

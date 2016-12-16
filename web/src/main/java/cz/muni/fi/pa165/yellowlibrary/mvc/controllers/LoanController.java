@@ -2,11 +2,14 @@ package cz.muni.fi.pa165.yellowlibrary.mvc.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.beans.PropertyEditorSupport;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -47,7 +52,36 @@ public class LoanController extends CommonController{
   @Inject
   private UserFacade userFacade;
 
-  @RequestMapping(value = "/list", method = RequestMethod.GET)
+  @InitBinder
+  protected void initBinder(WebDataBinder binder) {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd. MM. yyyy");
+    dateFormat.setLenient(false);
+    binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+
+    binder.registerCustomEditor(UserDTO.class, new PropertyEditorSupport() {
+      @Override
+      public void setAsText(String text) throws IllegalArgumentException {
+        try {
+          UserDTO user = userFacade.findById(Long.parseLong(text));
+          setValue(user);
+        }
+        catch (Exception ex) {}
+      }
+    });
+
+    binder.registerCustomEditor(BookInstanceDTO.class, new PropertyEditorSupport() {
+      @Override
+      public void setAsText(String text) throws IllegalArgumentException {
+        try {
+          BookInstanceDTO bookInstance = bookInstanceFacade.findById(Long.parseLong(text));
+          setValue(bookInstance);
+        }
+        catch (Exception ex) {}
+      }
+    });
+  }
+
+  @RequestMapping(value = {"", "/","/list"}, method = RequestMethod.GET)
   public String list(Model model) {
     if (isEmployee()){
       model.addAttribute("loans", loanFacade.getAllLoans());
@@ -58,15 +92,16 @@ public class LoanController extends CommonController{
   }
 
   @RequestMapping(value = "/recalculateFines", method = RequestMethod.GET)
-  public String recalculateFines(Model model) {
-    return list(model);
+  public String recalculateFines(Model model, UriComponentsBuilder uriComponentsBuilder) {
+    loanFacade.CalculateFinesForExpiredLoans();
+    return "redirect:" + uriComponentsBuilder.path("/loan/list").toUriString();
   }
 
-  @RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
+  @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) {
-    log.debug("view({})", id);
+    log.debug("details({})", id);
     model.addAttribute("loan", loanFacade.findById(id));
-    return "loan/view";
+    return "loan/details";
   }
 
   @RequestMapping(value = "/new", method = RequestMethod.GET)
@@ -77,12 +112,59 @@ public class LoanController extends CommonController{
     return "loan/new";
   }
 
-  @RequestMapping(value = "/create", method = RequestMethod.POST)
-  public String create(@Valid @ModelAttribute("loanCreate") LoanCreateDTO formBean,
+  @RequestMapping(value = "/new", method = RequestMethod.POST)
+  public String newBookInstancePost(@Valid @ModelAttribute("loanCreate") LoanCreateDTO formData,
                        BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes,
                        UriComponentsBuilder uriComponentsBuilder) {
-    log.debug("create(loanCreate={})", formBean);
+    log.debug("create(new={})", formData);
 
+    if (bindingResult.hasErrors()) {
+      for (ObjectError ge : bindingResult.getGlobalErrors()) {
+        log.trace("ObjectError: {}", ge);
+      }
+      for (FieldError fe : bindingResult.getFieldErrors()) {
+        model.addAttribute(fe.getField() + "_error", true);
+        log.trace("FieldError: {}", fe);
+      }
+    }
+
+    Calendar now = Calendar.getInstance();
+    formData.setDateFrom(now.getTime());
+    Long id = loanFacade.create(formData);
+
+    String userName = formData.getUser().getName();
+    String bookName = formData.getBookInstance().getBook().getName();
+    redirectAttributes.addFlashAttribute("alert_success", "New loan for \""+ userName + "\" of \"" + bookName +
+        "\" has been successfully created");
+
+    return "redirect:" + uriComponentsBuilder.path("/loan/list").toUriString();
+  }
+
+  @RequestMapping(value = {"/{id}/edit"}, method = RequestMethod.GET)
+  public String editGet(@PathVariable("id") long id, Model model) {
+    LoanDTO loan = loanFacade.findById(id);
+    LoanCreateDTO loanCreateDTO = new LoanCreateDTO();
+    loanCreateDTO.setDateFrom(loan.getDateFrom());
+    loanCreateDTO.setBookInstance(loan.getBookInstance());
+    loanCreateDTO.setLoanLength(loan.getLoanLength());
+    loanCreateDTO.setLoanState(loan.getLoanState());
+    loanCreateDTO.setReturnDate(loan.getReturnDate());
+    model.addAttribute("loan", loan);
+    return "loan/edit";
+  }
+
+
+  @RequestMapping(value = "/edit", method = RequestMethod.POST)
+  public String editPost(@Valid @ModelAttribute("loan") LoanDTO data,
+                         BindingResult bindingResult, Model model,
+                         RedirectAttributes redirectAttributes,
+                         UriComponentsBuilder uriComponentsBuilder) {
+    log.debug("Loan edit():POST");
+
+    /*if (bindingResult.hasErrors()) {
+      return "redirect:" + uriComponentsBuilder.path("/loan/{id}/edit")
+          .queryParam("id", data.getId()).toUriString();
+    }*/
     if(bindingResult.hasErrors()) {
       for(ObjectError ge : bindingResult.getGlobalErrors()) {
         log.trace("ObjectError: {}", ge);
@@ -91,17 +173,12 @@ public class LoanController extends CommonController{
         model.addAttribute(fe.getField() + "_error", true);
         log.trace("FieldError: {}", fe);
       }
-      return "loan/new";
+      return uriComponentsBuilder.path("/loan/{id}/edit")
+          .queryParam("id", data.getId()).toUriString();
     }
-    Date now = Calendar.getInstance().getTime();
-    formBean.setDateFrom(now);
-    Long id = loanFacade.create(formBean);
-    log.debug(formBean.toString());
-    LoanDTO loan = loanFacade.findById(id);
-    String userName = loan.getUser().getName();
-    String bookName = loan.getBookInstance().getBook().getName();
-    redirectAttributes.addFlashAttribute("alert_success", "New loan for \""+ userName + "\" of \"" + bookName +
-        "\" has been successfully created");
+    loanFacade.update(data);
+    redirectAttributes.addFlashAttribute("alert_success",
+        String.format("Loan has been successfully edited"));
     return "redirect:" + uriComponentsBuilder.path("/loan/list").toUriString();
   }
 

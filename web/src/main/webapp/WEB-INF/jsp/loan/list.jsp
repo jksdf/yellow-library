@@ -27,7 +27,6 @@
                 <th><fmt:message key="loan.user" /></th>
                 <th><fmt:message key="loan.from" /></th>
                 <th><fmt:message key="loan.fine" /></th>
-                    <%--<th>Details</th> --%>
             </tr>
             </thead>
             <tbody>
@@ -35,14 +34,22 @@
                 <tr>
                     <td>${loan.bookInstance.book.name}</td>
                     <td>${loan.user.name}</td>
-                    <td><fmt:formatDate value="${loan.dateFrom}" pattern="yyyy-MM-dd"/></td>
+                    <td><fmt:formatDate value="${loan.dateFrom}" pattern="dd. MM. yyyy" /></td>
                     <td><c:out value="${loan.fine}"/></td>
                     <td>
-                        <a href="/loan/view/${loan.id}" class="btn btn-primary">
+                        <a href="${pageContext.request.contextPath}/loan/${loan.id}">
                             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                            View
+                            Info
                         </a>
                     </td>
+                    <c:if test="${isEmployee}">
+                    <td>
+                        <a href="${pageContext.request.contextPath}/loan/${loan.id}/edit">
+                            <span class="glyphicon glyphicon-pencil text-warning" aria-hidden="true"></span>
+                            Edit
+                        </a>
+                    </td>
+                </c:if>
                 </tr>
             </c:forEach>
             </tbody>

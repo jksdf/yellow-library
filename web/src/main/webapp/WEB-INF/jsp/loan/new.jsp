@@ -7,35 +7,30 @@
 
 <my:mainpage title="New Loan">
 <jsp:attribute name="body">
-
-
-    <form:form method="post" action="${pageContext.request.contextPath}/loan/create"
-               modelAttribute="loanCreate" cssClass="form-horizontal">
-
+    <form:form method="post" action="" modelAttribute="loanCreate" cssClass="form-horizontal">
         <div class="form-group">
             <form:label path="bookInstance" cssClass="col-sm-2 control-label">Book instancies</form:label>
             <div class="col-sm-6">
                 <form:select path="bookInstance" cssClass="form-control">
-                    <c:forEach items="${bookInstancies}" var="bookInstance">
-                        <form:option value="${bookInstance}">${bookInstance.book.name}</form:option>
-                    </c:forEach>
+                    <form:option value="" label="" />
+                    <form:options items="${bookInstancies}" itemLabel="book.name" itemValue="id" />
                 </form:select>
                 <form:errors path="bookInstance" cssClass="error"/>
             </div>
         </div>
+
         <div class="form-group">
             <form:label path="user" cssClass="col-sm-2 control-label">Users</form:label>
             <div class="col-sm-6">
                 <form:select path="user" cssClass="form-control">
-                    <c:forEach items="${users}" var="user">
-                        <form:option value="${user}">${user.name}</form:option>
-                    </c:forEach>
+                    <form:option value="" label="" />
+                    <form:options items="${users}" itemLabel="name" itemValue="id" />
                 </form:select>
                 <form:errors path="user" cssClass="error"/>
             </div>
         </div>
 
-        <div class="form-group ${description_error?'has-error':''}">
+        <div class="form-group ${loanState_error?'has-error':''}">
             <form:label path="loanState" cssClass="col-sm-2 control-label">State of the Book</form:label>
             <div class="col-sm-6">
                 <form:input path="loanState" cssClass="form-control"/>
@@ -44,7 +39,7 @@
         </div>
 
         <div class="form-group">
-            <form:label path="loanLength" cssClass="col-sm-2 control-label">Users</form:label>
+            <form:label path="loanLength" cssClass="col-sm-2 control-label">Loan length</form:label>
             <div class="col-sm-6">
                 <form:select path="loanLength" cssClass="form-control">
                     <form:option value="15">15</form:option>
@@ -55,7 +50,12 @@
             </div>
         </div>
 
-        <button class="btn btn-primary" type="submit">Create loan</button>
+        <div class="form-group">
+            <div class="col-sm-6 col-sm-offset-2">
+                <button class="btn btn-primary" type="submit">Save</button>
+                <a href="${pageContext.request.contextPath}/loan/" class="btn btn-default" role="button">Cancel</a>
+            </div>
+        </div>
     </form:form>
     </div>
 </jsp:attribute>
