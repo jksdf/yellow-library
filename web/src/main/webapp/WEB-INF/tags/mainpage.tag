@@ -61,7 +61,7 @@
                 <li><a href="${pageContext.request.contextPath}/department"><fmt:message key="nav.departments"/></a>
                 </li>
                 <li><a href="${pageContext.request.contextPath}/user/"><fmt:message key="nav.info"/></a></li>
-                <li><a href="${pageContext.request.contextPath}/bookinstance/list"><fmt:message key="nav.bookinstance"/></a></li>
+                <li><a href="${pageContext.request.contextPath}/bookinstance"><fmt:message key="nav.bookinstance"/></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <c:if test="${isAuthenticated}">
