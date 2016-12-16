@@ -28,7 +28,7 @@ import cz.muni.fi.pa165.yellowlibrary.api.facade.BookInstanceFacade;
  */
 
 @Controller
-//@RequestMapping("/bookinstance")
+@RequestMapping("/bookinstance")
 public class BookInstanceController extends CommonController {
 
   final static Logger log = LoggerFactory.getLogger(BookInstanceController.class);
@@ -36,12 +36,12 @@ public class BookInstanceController extends CommonController {
   @Inject
   private BookInstanceFacade bookInstanceFacade;
 
-  @RequestMapping(value = {"/bookinstance", "/bookinstance/list"}, method = RequestMethod.GET)
+  @RequestMapping(value = {"", "/list"}, method = RequestMethod.GET)
   public String list(Model model) {
     return list("all", model);
   }
 
-  @RequestMapping(value = "/bookinstance/list/{filter}", method = RequestMethod.GET)
+  @RequestMapping(value = "/list/{filter}", method = RequestMethod.GET)
   public String list(@PathVariable String filter, Model model) {
     switch(filter) {
       case "all":
@@ -61,33 +61,18 @@ public class BookInstanceController extends CommonController {
         break;
 
     }
+    model.addAttribute("existsBook", false);
     return "bookinstance/list";
   }
 
-  @RequestMapping(value = "/book/{bid}/bookinstances", method = RequestMethod.GET)
-  public String bookList(@PathVariable Long bid, Model model) {
-    model.addAttribute("bookinstances", bookInstanceFacade.getAllCopies(bid));
-    model.addAttribute("bookId", bid);
-    return "bookinstance/list";
-  }
-
-  @RequestMapping(value = "/bookinstance/view/{id}", method = RequestMethod.GET)
+  @RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
   public String view(@PathVariable long id, Model model) {
     log.debug("view({})", id);
     model.addAttribute("bookinstance", bookInstanceFacade.findById(id));
-    return "bookinstance/view";
+    return "/bookinstance/view";
   }
 
-  @RequestMapping(value = "/book/{bid}/bookinstance/new", method = RequestMethod.GET)
-  public String newBookInstance(@PathVariable Long bid, Model model) {
-    // TODO: Retrieve to bookID from URL
-    model.addAttribute("bookId", bid);
-    log.debug("add()");
-    model.addAttribute("bookInstanceCreate", new BookInstanceDTO());
-    return "bookinstance/new";
-  }
-
-  @RequestMapping(value = "/bookinstance/{id}/newstate", method = RequestMethod.GET)
+  @RequestMapping(value = "/{id}/newstate", method = RequestMethod.GET)
   public String newBookState(@PathVariable Long id, Model model) {
     model.addAttribute("id", id);
     log.debug("newState({})", id);
@@ -95,7 +80,7 @@ public class BookInstanceController extends CommonController {
     return "/bookinstance/newState";
   }
 
-  @RequestMapping(value = "/bookinstance/delete/{id}", method = RequestMethod.POST)
+  @RequestMapping(value = "{id}/delete", method = RequestMethod.POST)
   public String delete(@PathVariable Long id, Model model,
                        UriComponentsBuilder uriComponentsBuilder,
                        RedirectAttributes redirectAttributes) {
@@ -110,10 +95,11 @@ public class BookInstanceController extends CommonController {
     bookInstanceFacade.deleteBookInstance(id);
     redirectAttributes.addFlashAttribute("alert_success", "Book instance of \"" +
         bookInstanceDTO.getBook().getName() + "\" has been successfully deleted.");
-    return "redirect:" + uriComponentsBuilder.path("/bookinstance/list").toUriString();
+    return "redirect:" + uriComponentsBuilder.path("/book/{bid}/bookinstances")
+        .buildAndExpand(bookInstanceDTO.getBook().getId()).encode().toUriString();
   }
 
-  @RequestMapping(value = "/bookinstance/{id}/changestate", method = RequestMethod.POST)
+  @RequestMapping(value = "/{id}/changestate", method = RequestMethod.POST)
   public String changeState(@PathVariable Long id, @Valid @ModelAttribute("bookInstanceNewState")BookInstanceNewStateDTO formBean,
                             BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes,
                             UriComponentsBuilder uriComponentsBuilder) {
@@ -136,29 +122,6 @@ public class BookInstanceController extends CommonController {
         "\" has been successfully changed.");
     return "redirect:" + uriComponentsBuilder.path("/book/{id}/bookinstances").buildAndExpand(bookInstanceDTO.getBook().getId())
         .encode().toUriString();
-  }
-
-  @RequestMapping(value = "/book/{bid}/bookinstance/create", method = RequestMethod.POST)
-  public String create(@PathVariable Long bid, @Valid @ModelAttribute("bookInstanceCreate") BookInstanceCreateDTO formBean,
-                       BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes,
-                       UriComponentsBuilder uriComponentsBuilder) {
-    log.debug("create(bookInstanceCreate={})", formBean);
-
-    if(bindingResult.hasErrors()) {
-      for(ObjectError ge : bindingResult.getGlobalErrors()) {
-        log.trace("ObjectError: {}", ge);
-      }
-      for(FieldError fe : bindingResult.getFieldErrors()) {
-        model.addAttribute(fe.getField() + "_error", true);
-        log.trace("FieldError: {}", fe);
-      }
-      return "bookinstance/new";
-    }
-    Long id = bookInstanceFacade.createBookInstance(formBean);
-    BookInstanceDTO bookInstance= bookInstanceFacade.findById(id);
-    redirectAttributes.addFlashAttribute("alert_success", "New book instance of \"" + bookInstance.getBook().getName() +
-        "\" has been successfully created");
-    return "redirect:" + uriComponentsBuilder.path("/book/{bid}/bookinstances").buildAndExpand(bid).encode().toUriString();
   }
 
   @ModelAttribute("bookAvailabilities")
