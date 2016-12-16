@@ -13,7 +13,7 @@
                modelAttribute="department" cssClass="form-horizontal">
 
         <div class="form-group ${name_error?'has-error':''}">
-            <form:label path="name" cssClass="col-sm-2 control-label">Name</form:label>
+            <form:label path="name" cssClass="col-sm-2 control-label"><fmt:message key="department.name"/></form:label>
             <div class="col-sm-10">
                 <form:input path="name" cssClass="form-control"/>
                 <form:errors path="name" cssClass="help-block"/>
@@ -21,14 +21,15 @@
         </div>
 
         <div class="form-group ${shortName_error?'has-error':''}">
-            <form:label path="shortName" cssClass="col-sm-2 control-label">Short name</form:label>
+            <form:label path="shortName" cssClass="col-sm-2 control-label"><fmt:message
+                    key="department.shortName"/></form:label>
             <div class="col-sm-10">
                 <form:input path="shortName" cssClass="form-control"/>
                 <form:errors path="shortName" cssClass="help-block"/>
             </div>
         </div>
 
-        <button class="btn btn-primary" type="submit">Create department</button>
+        <button class="btn btn-primary" type="submit"><fmt:message key="department.create"/></button>
     </form:form>
     </div>
 </jsp:attribute>

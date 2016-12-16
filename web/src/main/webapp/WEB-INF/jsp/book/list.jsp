@@ -18,14 +18,14 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Name</th>
-            <th>Author</th>
-            <th>ISBN</th>
-            <th>Department</th>
+            <th><fmt:message key="book.name"/></th>
+            <th><fmt:message key="book.author"/></th>
+            <th><fmt:message key="book.isbn"/></th>
+            <th><fmt:message key="book.department"/></th>
             <c:if test="${isEmployee}">
                 <!-- TODO: rename later -->
-                <th>Order</th>
-                <th>Edit</th>
+                <th><fmt:message key="book.instance"/></th>
+                <th><fmt:message key="book.editShort"/></th>
             </c:if>
         </tr>
         </thead>

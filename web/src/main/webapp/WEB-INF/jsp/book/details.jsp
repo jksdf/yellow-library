@@ -7,23 +7,27 @@
 <my:mainpage>
 <jsp:attribute name="body">
 
-    <h2><c:out value="${book.getName()}"/></h2>
+    <h2><c:out value="${book.name}"/></h2>
     <table class="bookDetail">
         <tr>
-            <td>Author:</td>
-            <td><c:out value="${book.getAuthor()}"/></td>
+            <td><fmt:message key="book.author"/>:</td>
+            <td><c:out value="${book.author}"/></td>
         </tr>
         <tr>
-            <td>ISBN:</td>
-            <td><c:out value="${book.getIsbn()}"/></td>
+            <td><fmt:message key="book.isbn"/>:</td>
+            <td><c:out value="${book.isbn}"/></td>
         </tr>
         <tr>
-            <td>Pages:</td>
-            <td><c:out value="${book.getPages()}"/></td>
+            <td><fmt:message key="book.pages"/>:</td>
+            <td><c:out value="${book.pages}"/></td>
         </tr>
         <tr>
-            <td>Description:</td>
-            <td><c:out value="${book.getDescription()}"/></td>
+            <td><fmt:message key="book.description"/>:</td>
+            <td><c:out value="${book.description}"/></td>
+        </tr>
+        <tr>
+            <td><fmt:message key="book.department"/>:</td>
+            <td><c:out value="${book.department.name}"/> (<c:out value="${book.department.shortName}"/>)</td>
         </tr>
     </table>
 
