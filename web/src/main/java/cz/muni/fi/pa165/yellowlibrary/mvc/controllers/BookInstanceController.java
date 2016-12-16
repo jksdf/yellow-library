@@ -36,9 +36,31 @@ public class BookInstanceController extends CommonController {
   @Inject
   private BookInstanceFacade bookInstanceFacade;
 
-  @RequestMapping(value = {"/bookinstance", "/bookinstance/", "/bookinstance/list"}, method = RequestMethod.GET)
+  @RequestMapping(value = {"/bookinstance", "/bookinstance/list"}, method = RequestMethod.GET)
   public String list(Model model) {
-    model.addAttribute("bookinstances", bookInstanceFacade.getAllBookInstances());
+    return list("all", model);
+  }
+
+  @RequestMapping(value = "/bookinstance/list/{filter}", method = RequestMethod.GET)
+  public String list(@PathVariable String filter, Model model) {
+    switch(filter) {
+      case "all":
+        model.addAttribute("bookinstances", bookInstanceFacade.getAllBookInstances());
+        break;
+      case "borrowed":
+        model.addAttribute("bookinstances", bookInstanceFacade.getAllBookInstancesByAvailability(
+            BookInstanceAvailability.BORROWED));
+        break;
+      case "removed":
+        model.addAttribute("bookinstances", bookInstanceFacade.getAllBookInstancesByAvailability(
+            BookInstanceAvailability.REMOVED));
+        break;
+      case "available":
+        model.addAttribute("bookinstances", bookInstanceFacade.getAllBookInstancesByAvailability(
+            BookInstanceAvailability.AVAILABLE));
+        break;
+
+    }
     return "bookinstance/list";
   }
 
@@ -79,7 +101,8 @@ public class BookInstanceController extends CommonController {
                        RedirectAttributes redirectAttributes) {
     log.debug("delete({})", id);
     BookInstanceDTO bookInstanceDTO = bookInstanceFacade.findById(id);
-    if(bookInstanceFacade.getAllBorrowedBookInstances().contains(bookInstanceDTO)) {
+    if(bookInstanceFacade.getAllBookInstancesByAvailability(BookInstanceAvailability.BORROWED)
+        .contains(bookInstanceDTO)) {
       redirectAttributes.addFlashAttribute("alert_danger", "Loan with this book currently exists.");
       log.trace("Attempt to delete loaned book instance.");
       return "redirect:" + uriComponentsBuilder.path("/bookinstance/list").toUriString();
@@ -104,7 +127,6 @@ public class BookInstanceController extends CommonController {
         model.addAttribute(fe.getField() + "_error", true);
         log.trace("FieldError: {}", fe);
       }
-      //return uriComponentsBuilder.path("/{id}/newstate").buildAndExpand(id).encode().toUriString();
       return "/bookinstance/newState";
     }
     bookInstanceFacade.changeBookState(formBean);

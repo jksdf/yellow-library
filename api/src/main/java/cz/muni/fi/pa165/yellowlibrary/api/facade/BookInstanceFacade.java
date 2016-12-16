@@ -21,6 +21,6 @@ public interface BookInstanceFacade {
   void setBook(Long bookInstanceId, Long bookId);
   void deleteBookInstance(Long bookInstanceId);
   List<BookInstanceDTO> getAllBookInstances();
-  List<BookInstanceDTO> getAllBorrowedBookInstances();
+  List<BookInstanceDTO> getAllBookInstancesByAvailability(BookInstanceAvailability bAvailability);
   List<BookInstanceDTO> getAllCopies(Long bookId);
 }

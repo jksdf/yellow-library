@@ -53,12 +53,47 @@ body {
     vertical-align: bottom;
 }
 
-.bookInstance tr td:first-of-type {
+.bookInstance {
+    width: 90%;
+}
+
+.bookInstance {
+    table-layout: fixed;
+}
+
+.bookInstance tr td.nounderline:first-of-type {
     border-top: 0;
 }
 
-.bookInstance tr th:first-of-type {
+.bookInstance tr th.nounderline:first-of-type {
     border-bottom: 0;
+    width: 10%;
+}
+
+.bookInstance tr th:nth-last-of-type(1){
+    width: 10%;
+}
+
+.bookInstance tr th:nth-last-of-type(2) {
+    width: 25%;
+}
+
+.bookInstance tr th:nth-last-of-type(3) {
+    width: 12%;
+}
+
+.bookInstance tr th:nth-last-of-type(4) {
+    width: 38%;
+}
+
+.bookInstance tr td {
+    white-space: nowrap;
+    overflow:hidden;
+    text-overflow: ellipsis;
+}
+
+.bookInstance tr th:nth-last-of-type(5) {
+    width: 5%;
 }
 
 .glyphic form {
