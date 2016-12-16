@@ -101,4 +101,11 @@ public class BookInstanceFacadeImpl implements BookInstanceFacade {
     bookInstanceService.deleteBookInstance(bookInstanceService.getBookInstanceById(bookInstanceId));
   }
 
+  @Override
+  public List<BookInstanceDTO> getAllCopiesByAvailability(Long bookId, BookInstanceAvailability bAvailability) {
+    List<BookInstanceDTO> result = getAllCopies(bookId);
+    result.retainAll(getAllBookInstancesByAvailability(bAvailability));
+    return result;
+  }
+
 }
