@@ -16,7 +16,7 @@
 <jsp:attribute name="body">
 
     <div class="col-md-7 center">
-    <form:form method="post" action="${pageContext.request.contextPath}/bookinstance/create"
+    <form:form method="post" action="${pageContext.request.contextPath}/book/${bookId}/bookinstance/create"
                modelAttribute="bookInstanceCreate" cssClass="form-horizontal">
 
         <div class="form-group ${name_error?'has-error':''}">
