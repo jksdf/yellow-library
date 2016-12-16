@@ -18,6 +18,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.LoanFacade;
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.BookInstanceDao;
@@ -68,7 +69,7 @@ public class LoanFacadeTest extends AbstractTestNGSpringContextTests {
 
   @Test
   public void createLoanTest() {
-    LoanDTO l = beanMappingService.mapTo(loan1, LoanDTO.class);
+    LoanCreateDTO l = beanMappingService.mapTo(loan1, LoanCreateDTO.class);
     loanFacade.create(l);
     verify(loanService).create(any(Loan.class));
   }

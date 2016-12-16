@@ -5,6 +5,7 @@ import java.util.List;
 
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
+import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 
 /**
  * DAO for entity Loan
@@ -78,4 +79,12 @@ public interface LoanDao {
    * @return list of loan created between specific date
    */
   List<Loan> findByDate(Date from, Date to);
+
+  /**
+   * Find loans for specific user
+   * @param user
+   * @return all loans which was made for specific user
+   */
+  List<Loan> findByUser(User user);
+
 }
