@@ -146,8 +146,6 @@ public class BookController extends CommonController {
             BookInstanceAvailability.REMOVED));
         break;
     }
-    model.addAttribute("bookId", bid);
-    model.addAttribute("existsBook", true);
     return "bookinstance/list";
   }
 
@@ -157,6 +155,8 @@ public class BookController extends CommonController {
     model.addAttribute("bookId", bid);
     logger.debug("add()");
     model.addAttribute("bookInstanceCreate", new BookInstanceDTO());
+    model.addAttribute("bookName", bookFacade.getBook(bid).getName());
+    model.addAttribute("bookAuthor", bookFacade.getBook(bid).getAuthor());
     return "bookinstance/new";
   }
 
