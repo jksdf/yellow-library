@@ -10,7 +10,7 @@ import cz.muni.fi.pa165.yellowlibrary.api.dto.annotations.IsIsbn;
 /**
  * @author Norbert Slivka
  */
-public class BookDTO {
+public class BookCreateDTO {
   private Long id;
   @NotNull
   private String name;
@@ -22,22 +22,9 @@ public class BookDTO {
   @Min(0)
   private Integer pages;
   @NotNull
-  private DepartmentDTO department;
+  private Long departmentId;
 
-  public BookDTO() {
-  }
-
-  public BookDTO(Long id) {
-    this();
-    this.id = id;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
+  public BookCreateDTO() {
   }
 
   public String getName() {
@@ -80,20 +67,28 @@ public class BookDTO {
     this.pages = pages;
   }
 
-  public DepartmentDTO getDepartment() {
-    return department;
+  public Long getDepartmentId() {
+    return departmentId;
   }
 
-  public void setDepartment(DepartmentDTO department) {
-    this.department = department;
+  public void setDepartmentId(Long departmentId) {
+    this.departmentId = departmentId;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof BookDTO)) {
+    if (!(o instanceof BookCreateDTO)) {
       return false;
     }
-    BookDTO other = (BookDTO) o;
+    BookCreateDTO other = (BookCreateDTO) o;
     if (getIsbn() == null && other.getIsbn() == null) {
       return Objects.equals(getName(), other.getName()) &&
           Objects.equals(getAuthor(), other.getAuthor());
@@ -112,13 +107,13 @@ public class BookDTO {
   @Override
   public String toString() {
     return "BookDTO{" +
-        "id=" + id +
+        ", id='" + getId() + '\'' +
         ", name='" + name + '\'' +
         ", isbn='" + isbn + '\'' +
         ", description='" + description + '\'' +
         ", author='" + author + '\'' +
         ", pages=" + pages +
-        ", department=" + department +
+        ", department=" + departmentId +
         '}';
   }
 }

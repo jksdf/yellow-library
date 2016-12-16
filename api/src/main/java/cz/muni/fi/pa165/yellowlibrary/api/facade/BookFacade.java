@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.yellowlibrary.api.facade;
 
 import java.util.List;
 
+import cz.muni.fi.pa165.yellowlibrary.api.dto.BookCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookSearchDTO;
 
@@ -22,10 +23,12 @@ public interface BookFacade {
   /**
    * Creates a book according to the parameter.
    */
-  long createBook(BookDTO book);
+  long createBook(BookCreateDTO book);
 
   /**
    * Updates the book specified by the ID to values in the book parameter.
    */
-  void updateBook(BookDTO book);
+  void updateBook(BookCreateDTO book);
+
+  List<BookDTO> getAll();
 }

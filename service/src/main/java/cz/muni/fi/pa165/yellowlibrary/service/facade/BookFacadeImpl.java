@@ -7,12 +7,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import cz.muni.fi.pa165.yellowlibrary.api.dto.BookCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookSearchDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookFacade;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 import cz.muni.fi.pa165.yellowlibrary.service.BeanMappingService;
 import cz.muni.fi.pa165.yellowlibrary.service.BookService;
+import cz.muni.fi.pa165.yellowlibrary.service.DepartmentService;
 
 /**
  * @author Norbert Slivka
@@ -23,6 +25,9 @@ public class BookFacadeImpl implements BookFacade {
 
   @Inject
   private BookService bookService;
+
+  @Inject
+  private DepartmentService departmentService;
 
   @Inject
   private BeanMappingService mappingService;
@@ -44,16 +49,23 @@ public class BookFacadeImpl implements BookFacade {
   }
 
   @Override
-  public long createBook(BookDTO book) {
+  public long createBook(BookCreateDTO book) {
     Book created = mappingService.mapTo(book, Book.class);
+    created.setDepartment(departmentService.findById(book.getDepartmentId()));
     bookService.addBook(created);
-    book.setId(created.getId());
     return created.getId();
   }
 
   @Override
-  public void updateBook(BookDTO book) {
+  public void updateBook(BookCreateDTO book) {
     Book updated = mappingService.mapTo(book, Book.class);
+    updated.setDepartment(departmentService.findById(book.getDepartmentId()));
     bookService.editBook(updated);
   }
+
+  @Override
+  public List<BookDTO> getAll() {
+    return mappingService.mapTo(bookService.getAllBooks(), BookDTO.class);
+  }
+
 }

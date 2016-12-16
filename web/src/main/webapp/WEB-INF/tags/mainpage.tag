@@ -25,10 +25,14 @@
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
     <!-- Latest compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 
+    <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
     <!-- Own css file -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/own.css"  crossorigin="anonymous">
     <jsp:invoke fragment="head"/>
@@ -51,7 +55,8 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="${pageContext.request.contextPath}/books"><fmt:message key="nav.books"/> <span class="sr-only">(current)</span></a></li>
+                <li><a href="${pageContext.request.contextPath}/book"><fmt:message key="nav.books"/> <span
+                        class="sr-only">(current)</span></a></li>
                 <li><a href="${pageContext.request.contextPath}/loan/list"><fmt:message key="nav.loans"/> </a></li>
                 <li><a href="${pageContext.request.contextPath}/department"><fmt:message key="nav.departments"/></a>
                 </li>
