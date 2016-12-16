@@ -40,11 +40,19 @@ public class UserFacadeImpl implements UserFacade {
   public boolean authenticateUser(UserAuthenticateDTO userAuthenticateDTO,
                                   String plainTextPassword) {
     if (userAuthenticateDTO == null)
-      throw new NullPointerException("userAuthenticateDTO must be null");
+      throw new NullPointerException("userAuthenticateDTO must not be null");
     User u = userService.findByLogin(userAuthenticateDTO.getLogin());
     if (u == null)
       throw new IllegalArgumentException("User with given login does not exist");
     return userService.authenticate(u, plainTextPassword);
+  }
+
+  @Override
+  public void updateUser(UserDTO user) {
+    if (user == null)
+      throw new NullPointerException("user cannot be null");
+    User u = mappingService.mapTo(user, User.class);
+    userService.update(u);
   }
 
   @Override

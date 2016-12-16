@@ -8,6 +8,20 @@
 <own:mainpage>
     <jsp:attribute name="body">
         <div class="container">
+        <c:if test="${not empty param.error}">
+            <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <c:if test="${param.error == 'empty'}">
+                    <fmt:message key="err.cannot_subtract_empty" />
+                </c:if>
+                <c:if test="${param.error == 'subtract'}">
+                    <fmt:message key="err.cannt_subtract_greater" />
+                </c:if>
+                &nbsp;:(
+            </div>
+        </c:if>
+        </div>
+        <div class="container">
         <div class="table-responsive">
         <table class="table">
             <thead>
@@ -36,16 +50,17 @@
         </table>
         </div>
         </div> <!-- container -->
-
-        <div class="container">
-            <form class="form-inline">
-                <div class="form-group">
-                    <div class="input-group">
-                        <input type="number" step="any" name="amount" class="form-control" id="amount" placeholder="<fmt:message key="user.paid_fines" />">
+        <c:if test="${isEmployee}">
+            <div class="container">
+                <form class="form-inline" method="post" action="${pageContext.request.contextPath}/user/${user.id}/update_fines">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="number" step="any" id="amount" name="amount" class="form-control" placeholder="<fmt:message key="user.paid_fines" />">
+                        </div>
                     </div>
-                </div>
-                <button type="submit" class="btn btn-primary"><fmt:message key="user.subtract" /></button>
-            </form>
-        </div>
+                    <button type="submit" class="btn btn-primary"><fmt:message key="user.subtract" /></button>
+                </form>
+            </div>
+        </c:if>
     </jsp:attribute>
 </own:mainpage>

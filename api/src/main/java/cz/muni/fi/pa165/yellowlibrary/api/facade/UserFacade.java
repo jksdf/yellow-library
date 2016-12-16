@@ -26,6 +26,12 @@ public interface UserFacade {
   boolean authenticateUser(UserAuthenticateDTO userAuthenticateDTO, String plainTextPassword);
 
   /**
+   * Updates user in the system.
+   * @param user User, which is updated
+   */
+  void updateUser(UserDTO user);
+
+  /**
    * Searches for user with id in system.
    * @param id User id.
    * @return If user with id exists in the system, then returns user, null otherwise.

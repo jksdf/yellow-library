@@ -2,12 +2,15 @@ package cz.muni.fi.pa165.yellowlibrary.mvc.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -52,5 +55,21 @@ public class UserController extends CommonController {
     List<UserDTO> users = userFacade.findAllUsers();
     model.addAttribute("users", users);
     return "user/userlist";
+  }
+
+  @RequestMapping(value = "/{id}/update_fines", method = RequestMethod.POST)
+  public String updateFines(@PathVariable("id") long id, @RequestParam("amount") String amount) {
+    log.info("UserController.updateFines()");
+    if (amount.isEmpty())
+      return "redirect:/user/" + String.valueOf(id) + "?error=empty";
+    BigDecimal number = new BigDecimal(amount);
+    UserDTO updatedUser = userFacade.findById(id);
+    BigDecimal newFines = updatedUser.getTotalFines();
+    if (number.compareTo(newFines) > 0)
+      return "redirect:/user/" + String.valueOf(id) + "?error=subtract";
+    newFines = newFines.subtract(number);
+    updatedUser.setTotalFines(newFines);
+    userFacade.updateUser(updatedUser);
+    return "redirect:/user/" + String.valueOf(id);
   }
 }

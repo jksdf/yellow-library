@@ -79,14 +79,14 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     log.debug("Loaded book instances.");
 
     User user1 = getNewUser("John Green", "admin", "admin", "4125 7th Ave, New York, NY 10022, "
-        + "USA", UserType.EMPLOYEE);
+        + "USA", UserType.EMPLOYEE, BigDecimal.ZERO);
     userService.create(user1, user1.getPasswordHash());
 
-    User user2 = getNewUser("Matt Yellow", "matt", "matt", "Orlando, USA", UserType.CUSTOMER);
+    User user2 = getNewUser("Matt Yellow", "matt", "matt", "Orlando, USA", UserType.CUSTOMER, BigDecimal.TEN);
     userService.create(user2, user2.getPasswordHash());
 
     User user3 = getNewUser("Simon White", "simon", "simon", "California, USA",
-        UserType.CUSTOMER);
+        UserType.CUSTOMER, BigDecimal.ZERO);
     userService.create(user3, user3.getPasswordHash());
 
     log.debug("Loaded users.");
@@ -136,14 +136,14 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
   }
 
   private User getNewUser(String name, String login, String password, String address,
-                             UserType userType) {
+                             UserType userType, BigDecimal totalFines) {
     User user = new User();
     user.setName(name);
     user.setLogin(login);
     user.setPasswordHash(password);
     user.setAddress(address);
     user.setUserType(userType);
-    user.setTotalFines(BigDecimal.ZERO);
+    user.setTotalFines(totalFines);
     return user;
   }
 
