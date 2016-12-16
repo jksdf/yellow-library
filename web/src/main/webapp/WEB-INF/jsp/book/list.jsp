@@ -22,6 +22,7 @@
             <th>Author</th>
             <th>ISBN</th>
             <th>Department</th>
+            <th>View</th>
             <c:if test="${isEmployee}">
                 <!-- TODO: rename later -->
                 <th>Order</th>
@@ -36,6 +37,11 @@
                 <td><c:out value="${book.getAuthor()}"/></td>
                 <td><c:out value="${book.getIsbn()}"/></td>
                 <td><c:out value="${book.getDepartment().getName()}"/></td>
+                <td class="right">
+                    <a href="${pageContext.request.contextPath}/book/${book.id}/bookinstances">
+                        <span class="glyphicon glyphicon-eye-open text-info" aria-hidden="true"></span>
+                    </a>
+                </td>
                 <c:if test="${isEmployee}">
                     <td class="right">
                         <a href="${pageContext.request.contextPath}/book/${book.id}/bookinstance/new">

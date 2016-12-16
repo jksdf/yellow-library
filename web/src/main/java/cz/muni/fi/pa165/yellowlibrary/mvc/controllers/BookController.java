@@ -4,6 +4,8 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,12 +13,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.validation.Valid;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceCreateDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.enums.BookInstanceAvailability;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookFacade;
+import cz.muni.fi.pa165.yellowlibrary.api.facade.BookInstanceFacade;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.DepartmentFacade;
 
 /**
@@ -30,6 +38,9 @@ public class BookController extends CommonController {
 
   @Inject
   private DepartmentFacade departmentFacade;
+
+  @Inject
+  private BookInstanceFacade bookInstanceFacade;
 
   private Logger logger = Logger.getLogger(BookController.class);
 
@@ -106,4 +117,76 @@ public class BookController extends CommonController {
         String.format("%s has been successfully edited", data.getName()));
     return "redirect:" + uriComponentsBuilder.path("/book/list").toUriString();
   }
+
+  /* HERE STARTS BOOK/{id}/BOOKINSTANCES CONTROLLERS */
+
+  @RequestMapping(value = "/{bid}/bookinstances", method = RequestMethod.GET)
+  public String bookList(@PathVariable Long bid, Model model) {
+    logger.debug("bookList()");
+    return bookList(bid, "all", model);
+  }
+
+  @RequestMapping(value = "/{bid}/bookinstances/{filter}", method = RequestMethod.GET)
+  public String bookList(@PathVariable Long bid, @PathVariable String filter, Model model) {
+    logger.debug("bookList({" + filter + "})");
+    switch(filter) {
+      case "all":
+        model.addAttribute("bookinstances", bookInstanceFacade.getAllCopies(bid));
+        break;
+      case "available":
+        model.addAttribute("bookinstances", bookInstanceFacade.getAllCopiesByAvailability(bid,
+            BookInstanceAvailability.AVAILABLE));
+        break;
+      case "borrowed":
+        model.addAttribute("bookinstances", bookInstanceFacade.getAllCopiesByAvailability(bid,
+            BookInstanceAvailability.BORROWED));
+        break;
+      case "removed":
+        model.addAttribute("bookinstances", bookInstanceFacade.getAllCopiesByAvailability(bid,
+            BookInstanceAvailability.REMOVED));
+        break;
+    }
+    model.addAttribute("bookId", bid);
+    model.addAttribute("existsBook", true);
+    return "bookinstance/list";
+  }
+
+
+  @RequestMapping(value = "/{bid}/bookinstance/new", method = RequestMethod.GET)
+  public String newBookInstance(@PathVariable Long bid, Model model) {
+    model.addAttribute("bookId", bid);
+    logger.debug("add()");
+    model.addAttribute("bookInstanceCreate", new BookInstanceDTO());
+    return "bookinstance/new";
+  }
+
+  @RequestMapping(value = "/{bid}/bookinstance/create", method = RequestMethod.POST)
+  public String create(@PathVariable Long bid, @Valid @ModelAttribute("bookInstanceCreate") BookInstanceCreateDTO formBean,
+                       BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes,
+                       UriComponentsBuilder uriComponentsBuilder) {
+    logger.debug("create(bookInstanceCreate={" + formBean + "})");
+    model.addAttribute("bookId", bid);
+    if(bindingResult.hasErrors()) {
+      for(ObjectError ge : bindingResult.getGlobalErrors()) {
+        logger.trace("ObjectError: {" + ge + "}");
+      }
+      for(FieldError fe : bindingResult.getFieldErrors()) {
+        model.addAttribute(fe.getField() + "_error", true);
+        logger.trace("FieldError: {" + fe + "}");
+      }
+      return "bookinstance/new";
+    }
+    Long id = bookInstanceFacade.createBookInstance(formBean);
+    BookInstanceDTO bookInstance= bookInstanceFacade.findById(id);
+    redirectAttributes.addFlashAttribute("alert_success", "New book instance of \"" + bookInstance.getBook().getName() +
+        "\" has been successfully created");
+    return "redirect:" + uriComponentsBuilder.path("/book/{bid}/bookinstances").buildAndExpand(bid).encode().toUriString();
+  }
+
+  @ModelAttribute("bookAvailabilities")
+  public BookInstanceAvailability[] bookAvailabilities() {
+    logger.debug("bookAvailabilities()");
+    return BookInstanceAvailability.values();
+  }
+
 }
