@@ -178,7 +178,8 @@ public class BookInstanceFacadeTest extends AbstractTestNGSpringContextTests {
     newBookInstance.setBookAvailability(BookAvailability.BORROWED);
     when(bookInstanceService.getAllBookInstances()).thenReturn(
         ImmutableList.of(bookInstanceOne, newBookInstance));
-    List<BookInstance> bookInstanceList = beanMappingService.mapTo(bookInstanceFacade.getAllBorrowedBookInstances(),
+    List<BookInstance> bookInstanceList = beanMappingService.mapTo(
+        bookInstanceFacade.getAllBookInstancesByAvailability(BookInstanceAvailability.BORROWED),
         BookInstance.class);
 
     Assert.assertEquals(bookInstanceList.size(), 1);

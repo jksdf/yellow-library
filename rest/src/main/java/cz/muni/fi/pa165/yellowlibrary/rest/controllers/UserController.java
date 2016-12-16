@@ -41,7 +41,7 @@ public class UserController {
 
   /**
    * Get list of all users in system by entering the following command:
-   * curl -i -X GET http://localhost:8080/rest/user.
+   * curl -i -X GET http://localhost:8080/pa165/rest/user.
    *
    * @return All users in the system.
    */
@@ -60,7 +60,7 @@ public class UserController {
 
   /**
    * Searches for user with identification given as the parameter. Sample call:
-   * curl -i -X GET http://localhost:8080/rest/user/<number> where <number> is the id of user.
+   * curl -i -X GET http://localhost:8080/pa165/rest/user/<number> where <number> is the id of user.
    *
    * @param id Identification of user.
    * @return Found user.
@@ -79,8 +79,7 @@ public class UserController {
 
   /**
    * Creates the new user in the system. Sample call can look like:
-   * curl -X POST -i -H "Content-Type: application/json" --data ''
-   * http://localhost:8080/rest/user/create.
+   * curl -X POST -i -H "Content-Type: application/json" --data '{"name" : "Peter Green", "login" : "xgreen", "passwordHash" : "admin", "address" : "Ulica 3 Mesto", "totalFines" : "12.14", "userType" : "EMPLOYEE"}' http://localhost:8080/pa165/rest/user/create
    * @param userDTO User which is created in the system.
    * @return Newly created user.
    */
@@ -88,7 +87,8 @@ public class UserController {
       consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public final HttpEntity<Resource<UserDTO>> createUser(@RequestBody UserDTO userDTO) {
     logger.debug("Called UserController#createUser");
-    userFacade.registerNewUser(userDTO, ""); // TODO: Implement registration + update JavaDoc.
+    System.out.println("HashPaswword= " + userDTO.getPasswordHash());
+    userFacade.registerNewUser(userDTO, userDTO.getPasswordHash());
     UserDTO ret = userFacade.findById(userDTO.getId());
     Resource<UserDTO> userDTOResource = userAssembler.toResource(ret);
     return new ResponseEntity<Resource<UserDTO>>(userDTOResource, HttpStatus.OK);
