@@ -32,10 +32,12 @@
         <tbody>
         <c:forEach items="${books}" var="book">
             <tr>
-                <td><c:out value="${book.getName()}"/></td>
-                <td><c:out value="${book.getAuthor()}"/></td>
-                <td><c:out value="${book.getIsbn()}"/></td>
-                <td><c:out value="${book.getDepartment().getName()}"/></td>
+                <td><a href="${pageContext.request.contextPath}/book/${book.id}">
+                    <c:out value="${book.name}"/>
+                </a></td>
+                <td><c:out value="${book.author}"/></td>
+                <td><c:out value="${book.isbn}"/></td>
+                <td><c:out value="${book.department.name}"/></td>
                 <c:if test="${isEmployee}">
                     <td class="right">
                         <a href="${pageContext.request.contextPath}/book/${book.id}/bookinstance/new">

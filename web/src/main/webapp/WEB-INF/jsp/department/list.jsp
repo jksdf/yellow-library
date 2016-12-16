@@ -8,17 +8,19 @@
 <my:mainpage>
 <jsp:attribute name="body">
 
-    <a href="${pageContext.request.contextPath}/department/new" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        New department
-    </a>
+    <c:if test="${isEmployee}">
+        <a href="${pageContext.request.contextPath}/department/create" class="btn btn-primary">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            New department
+        </a>
+    </c:if>
+
 
     <table class="table">
         <thead>
         <tr>
             <th>short name</th>
             <th>name</th>
-            <th>number of books</th>
         </tr>
         </thead>
         <tbody>

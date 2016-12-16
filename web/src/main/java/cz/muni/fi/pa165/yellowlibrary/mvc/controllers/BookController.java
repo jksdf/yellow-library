@@ -42,14 +42,14 @@ public class BookController extends CommonController {
   @RequestMapping(value = {"", "/", "/list"}, method = RequestMethod.GET)
   public String list(Model model) {
     model.addAttribute("books", bookFacade.getAll());
-    return "book/list";
+    return "/book/list";
   }
 
   @RequestMapping(value = {"/create"}, method = RequestMethod.GET)
   public String createGet(Model model) {
     model.addAttribute("book", new BookCreateDTO());
     model.addAttribute("departments", departmentFacade.getAll());
-    return "book/create";
+    return "/book/create";
   }
 
   @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -60,7 +60,7 @@ public class BookController extends CommonController {
     logger.debug("BookController#create():POST");
 
     if (bindingResult.hasErrors()) {
-      return "book/create";
+      return "redirect:/book/create";
     }
     bookFacade.createBook(data);
     redirectAttributes.addFlashAttribute("alert_success",
@@ -70,6 +70,7 @@ public class BookController extends CommonController {
 
   @RequestMapping(value = {"/{id}/edit"}, method = RequestMethod.GET)
   public String editGet(@PathVariable("id") long id, Model model) {
+    logger.debug("BookController#edit():GET");
     BookDTO book = bookFacade.getBook(id);
     BookCreateDTO createDTO = new BookCreateDTO();
     createDTO.setAuthor(book.getAuthor());
@@ -82,7 +83,7 @@ public class BookController extends CommonController {
     //TODO(slivka): bad id handling
     model.addAttribute("book", createDTO);
     model.addAttribute("departments", departmentFacade.getAll());
-    return "book/edit";
+    return "/book/edit";
   }
 
 
