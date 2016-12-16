@@ -17,7 +17,7 @@
             <thead>
             <tr>
                 <c:if test="${isEmployee}">
-                    <th class="center">
+                    <th class="center nounderline">
                         <a href="${pageContext.request.contextPath}/book/${bookId}/bookinstance//new"><span class="glyphicon glyphicon-plus text-success" aria-hidden="true"></span>Add</a>
                     </th>
                 </c:if>
@@ -32,7 +32,7 @@
             <c:forEach items="${bookinstances}" var="bookinstance">
                 <tr>
                     <c:if test="${isEmployee}">
-                        <td class="center">
+                        <td class="center nounderline">
                             <div class="glyphic">
                                 <form method="post" action="${pageContext.request.contextPath}/bookinstance/delete/${bookinstance.id}">
                                     <button type="submit" class="btn btn-xs btn-link">
