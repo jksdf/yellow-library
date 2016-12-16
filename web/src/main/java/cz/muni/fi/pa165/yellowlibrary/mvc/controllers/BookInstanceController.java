@@ -53,13 +53,10 @@ public class BookInstanceController extends CommonController {
    * @param bid optional: BookID of a book
    */
   @RequestMapping(value = {"", "/", "/list"}, method = RequestMethod.GET)
-  public String list(@RequestParam(required = false) String filter,
+  public String list(@RequestParam(required = false, defaultValue = "all") String filter,
                      @RequestParam(required = false) Long bid,
                      Model model) {
     log.debug("list{}", bid, filter);
-
-    if(filter == null)
-      filter = "all";
 
     switch(filter) {
       case "borrowed":
