@@ -32,8 +32,8 @@
             <tbody>
             <c:forEach items="${bookinstances}" var="bookinstance">
                 <tr>
-                    <c:if test="${isEmployee}">
-                        <td class="center nounderline">
+                    <td class="center nounderline">
+                            <c:if test="${isEmployee}">
                             <div class="glyphic">
                                 <form method="post"
                                       action="${pageContext.request.contextPath}/bookinstance/${bookinstance.id}/delete">
@@ -45,8 +45,8 @@
                                         class="glyphicon glyphicon-pencil text-warning" aria-hidden="true"></span>
                                 </a>
                             </div>
-                        </td>
-                    </c:if>
+                            </c:if>
+                    </td>
                     <td>${bookinstance.id}</td>
                     <td><c:out value="${bookinstance.book.name}"/></td>
                     <td><c:out value="${bookinstance.version}"/></td>
