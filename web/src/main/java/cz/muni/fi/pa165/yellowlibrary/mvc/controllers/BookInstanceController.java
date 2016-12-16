@@ -92,7 +92,8 @@ public class BookInstanceController extends CommonController {
         model.addAttribute(fe.getField() + "_error", true);
         log.trace("FieldError: {}", fe);
       }
-      return uriComponentsBuilder.path("/bookinstance/{id}/newstate").buildAndExpand(id).encode().toUriString();
+      //return uriComponentsBuilder.path("/{id}/newstate").buildAndExpand(id).encode().toUriString();
+      return "/bookinstance/newState";
     }
     bookInstanceFacade.changeBookState(formBean);
     String bookName = bookInstanceFacade.findById(id).getBook().getName();

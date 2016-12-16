@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.yellowlibrary.api.dto;
 import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created by Matej Gallo
@@ -12,6 +13,7 @@ public class BookInstanceNewStateDTO {
   private Long id;
 
   @NotNull
+  @Size(min=3, max=30)
   private String bookState;
 
   public Long getId() {
