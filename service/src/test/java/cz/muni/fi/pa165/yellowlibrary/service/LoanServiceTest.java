@@ -358,7 +358,7 @@ public class LoanServiceTest extends AbstractTestNGSpringContextTests {
     when(loanDao.findAll()).thenReturn(ImmutableList.of(closed, ok, bad));
 
     Calendar c = Calendar.getInstance();
-    c.setTime(new Date(123456));
+    c.setTime(new Date(10_000_000_000L));
 
     loanService.calculateFines(c);
     assertThat(loans).containsExactly(bad);
