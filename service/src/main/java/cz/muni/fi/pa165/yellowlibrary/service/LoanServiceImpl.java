@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.LoanDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
+import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 
 /**
  * @author cokinova
@@ -26,8 +27,9 @@ public class LoanServiceImpl implements LoanService{
   private LoanDao loanDao;
 
   @Override
-  public void create(Loan loan) {
+  public Long create(Loan loan) {
     loanDao.create(loan);
+    return loan.getId();
   }
 
   @Override
@@ -53,6 +55,16 @@ public class LoanServiceImpl implements LoanService{
   }
 
   @Override
+  public List<Loan> getAllLoans() {
+    return loanDao.findAll();
+  }
+
+  @Override
+  public List<Loan> getLoansByUser(User user) {
+    return loanDao.findByUser(user);
+  }
+
+  @Override
   public List<Loan> getAllLoansByBookInstance(BookInstance bookInstance) {
     return loanDao.findByBookInstance(bookInstance);
   }
@@ -75,7 +87,7 @@ public class LoanServiceImpl implements LoanService{
       Calendar loanDate = Calendar.getInstance();
       loanDate.setTime(l.getDateFrom());
       loanDate.add(Calendar.DAY_OF_YEAR, l.getLoanLength());
-      if (loanDate.after(now)) {
+      if (loanDate.before(now)) {
         l.setFine(BigDecimal.valueOf(100L));
         loanDao.update(l);
       }
