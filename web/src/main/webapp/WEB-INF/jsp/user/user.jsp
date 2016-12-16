@@ -36,5 +36,16 @@
         </table>
         </div>
         </div> <!-- container -->
+
+        <div class="container">
+            <form class="form-inline">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="number" step="any" name="amount" class="form-control" id="amount" placeholder="<fmt:message key="user.paid_fines" />">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary"><fmt:message key="user.subtract" /></button>
+            </form>
+        </div>
     </jsp:attribute>
 </own:mainpage>

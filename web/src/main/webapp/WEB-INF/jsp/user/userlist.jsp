@@ -17,10 +17,12 @@
                         <th><fmt:message key="user.address" /></th>
                         <th><fmt:message key="user.total_fines" /></th>
                         <th><fmt:message key="user.user_type" /></th>
+                        <th><fmt:message key="user.detail" /></th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${users}" var="userVar">
+
                         <tr>
                             <td><c:out value="${userVar.login}" /></td>
                             <td><c:out value="${userVar.name}" /></td>
@@ -32,6 +34,11 @@
                             <c:if test="${userVar.userType == 'CUSTOMER'}">
                                 <td><fmt:message key="user.customer" /></td>
                             </c:if>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/user/<c:out value="${userVar.id}" />">
+                                    <div class="glyphicon glyphicon-info-sign"></div>&nbsp;<fmt:message key="nav.info" />
+                                </a>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>
