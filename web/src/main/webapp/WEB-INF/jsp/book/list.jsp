@@ -22,6 +22,7 @@
             <th><fmt:message key="book.author"/></th>
             <th><fmt:message key="book.isbn"/></th>
             <th><fmt:message key="book.department"/></th>
+            <th>View</th>
             <c:if test="${isEmployee}">
                 <!-- TODO: rename later -->
                 <th><fmt:message key="book.instance"/></th>
@@ -38,6 +39,11 @@
                 <td><c:out value="${book.author}"/></td>
                 <td><c:out value="${book.isbn}"/></td>
                 <td><c:out value="${book.department.name}"/></td>
+                <td class="right">
+                    <a href="${pageContext.request.contextPath}/book/${book.id}/bookinstances">
+                        <span class="glyphicon glyphicon-eye-open text-info" aria-hidden="true"></span>
+                    </a>
+                </td>
                 <c:if test="${isEmployee}">
                     <td class="right">
                         <a href="${pageContext.request.contextPath}/book/${book.id}/bookinstance/new">
