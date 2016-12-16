@@ -30,11 +30,16 @@
             <c:forEach items="${bookinstances}" var="bookinstance">
                 <tr>
                     <td class="center">
-                        <form method="post" action="${pageContext.request.contextPath}/bookinstance/delete/${bookinstance.id}">
-                            <button type="submit" class="btn btn-xs btn-link">
-                                <span class="glyphicon glyphicon-minus text-danger" aria-hidden="true"></span>
-                            </button>
-                        </form>
+                        <div class="glyphic">
+                            <form method="post" action="${pageContext.request.contextPath}/bookinstance/delete/${bookinstance.id}">
+                                <button type="submit" class="btn btn-xs btn-link">
+                                    <span class="glyphicon glyphicon-minus text-danger" aria-hidden="true"></span>
+                                </button>
+                            </form>
+
+                            <a href="${pageContext.request.contextPath}/bookinstance/${bookinstance.id}/newstate"><span class="glyphicon glyphicon-pencil text-warning" aria-hidden="true"></span></a>
+
+                        </div>
                     </td>
                     <td>${bookinstance.id}</td>
                     <td><c:out value="${bookinstance.book.name}"/></td>

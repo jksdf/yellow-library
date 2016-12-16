@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
+import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 
 /**
  * @author Cokinova
@@ -93,6 +94,17 @@ public class LoanDaoImpl implements LoanDao {
         Loan.class)
         .setParameter("fromDate", fromDate, TemporalType.DATE)
         .setParameter("toDate", toDate, TemporalType.DATE)
+        .getResultList();
+  }
+
+  @Override
+  public List<Loan> findByUser(User user) {
+    if (user == null) {
+      throw new NullPointerException("user cannot be null");
+    }
+    return em.createQuery("select l from Loan l where l.user = :user",
+        Loan.class)
+        .setParameter("user", user)
         .getResultList();
   }
 }

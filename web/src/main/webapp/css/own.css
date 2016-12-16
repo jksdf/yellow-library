@@ -56,6 +56,32 @@ body {
 .bookInstance tr td:first-of-type {
     border-top: 0;
 }
+
 .bookInstance tr th:first-of-type {
     border-bottom: 0;
+}
+
+.glyphic form {
+    display: inline;
+}
+
+.glyphicon.glyphicon-user {
+    font-size: 10em;
+}
+
+.caption h4 {
+    text-align: center;
+}
+
+.thumbnail {
+    text-align: center;
+}
+
+.test {
+    border-style: dashed;
+    border-width: 2px;
+}
+
+.bookDetail td {
+    padding: 0.5em;
 }

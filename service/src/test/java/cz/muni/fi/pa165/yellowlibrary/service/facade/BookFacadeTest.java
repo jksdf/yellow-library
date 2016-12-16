@@ -14,23 +14,22 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
-import javax.validation.constraints.AssertFalse;
 
+import cz.muni.fi.pa165.yellowlibrary.api.dto.BookCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookSearchDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookFacade;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Department;
-import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 import cz.muni.fi.pa165.yellowlibrary.backend.enums.BookAvailability;
 import cz.muni.fi.pa165.yellowlibrary.service.BeanMappingService;
 import cz.muni.fi.pa165.yellowlibrary.service.BookService;
+import cz.muni.fi.pa165.yellowlibrary.service.DepartmentService;
 import cz.muni.fi.pa165.yellowlibrary.service.configuration.ServiceConfiguration;
 import cz.muni.fi.pa165.yellowlibrary.service.utils.BookUtils;
 
@@ -47,6 +46,9 @@ import static org.mockito.Mockito.when;
 public class BookFacadeTest extends AbstractTestNGSpringContextTests {
   @Mock
   private BookService bookService;
+
+  @Mock
+  private DepartmentService departmentService;
 
   @Spy
   @Inject
@@ -99,6 +101,7 @@ public class BookFacadeTest extends AbstractTestNGSpringContextTests {
     when(bookService.getBook(book1.getId())).thenReturn(book1);
     when(bookService.getBook(book2.getId())).thenReturn(book2);
     when(bookService.getAllBooks()).thenReturn(ImmutableList.of(book1, book2));
+    when(departmentService.findById(any(Long.class))).thenReturn(department);
     doAnswer(invocation -> {
       Object arg = invocation.getArguments()[0];
       if (arg == null) {
@@ -130,16 +133,17 @@ public class BookFacadeTest extends AbstractTestNGSpringContextTests {
 
   @Test
   public void testCreateBook(){
-    BookDTO bookDTO = mappingService.mapTo(book1, BookDTO.class);
+    BookCreateDTO bookDTO = mappingService.mapTo(book1, BookCreateDTO.class);
     bookDTO.setId(null);
+    bookDTO.setDepartmentId(book1.getDepartment().getId());
     Long b = bookFacade.createBook(bookDTO);
     assertThat(b).isNotNull();
   }
 
   @Test
   public void testUpdateBook(){
-    BookDTO bookDTO = mappingService.mapTo(book1, BookDTO.class);
-    bookDTO.setName("aaa");
+    BookCreateDTO bookDTO = mappingService.mapTo(book1, BookCreateDTO.class);
+    bookDTO.setDepartmentId(book1.getDepartment().getId());
     bookFacade.updateBook(bookDTO);
     BookDTO updated = bookFacade.getBook(bookDTO.getId());
     Book updateBook = mappingService.mapTo(updated, Book.class);

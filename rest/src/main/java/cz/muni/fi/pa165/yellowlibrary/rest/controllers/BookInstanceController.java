@@ -16,7 +16,7 @@ import javax.inject.Inject;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
-import cz.muni.fi.pa165.yellowlibrary.api.enums.BookInstanceAvailability;
+import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewStateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookInstanceFacade;
 import cz.muni.fi.pa165.yellowlibrary.rest.ApiUris;
 import cz.muni.fi.pa165.yellowlibrary.rest.exceptions.ResourceNotFoundException;
@@ -74,21 +74,22 @@ public class BookInstanceController {
       throw new ResourceNotFoundException();
     }
   }
-/*
+
   @RequestMapping(value = "/{id}", method = RequestMethod.PUT,
   consumes = MediaType.APPLICATION_JSON_VALUE,
   produces = MediaType.APPLICATION_JSON_VALUE)
-  public final BookInstanceDTO changeBookState(@PathVariable("id") Long id, @RequestBody String newState) throws Exception {
+  public final BookInstanceDTO changeBookState(@PathVariable("id") Long id, @RequestBody BookInstanceNewStateDTO newStateDTO) throws Exception {
     log.debug("REST changeBookState({})", id);
 
     try {
-      bookInstanceFacade.changeBookState(id, newState);
+      newStateDTO.setId(id);
+      bookInstanceFacade.changeBookState(newStateDTO);
       return bookInstanceFacade.findById(id);
     } catch (YellowServiceException ex) {
       throw new InvalidParameterException();
     }
   }
-
+/*
   @RequestMapping(value = "/{id}", method = RequestMethod.PUT,
   consumes = MediaType.APPLICATION_JSON_VALUE,
   produces = MediaType.APPLICATION_JSON_VALUE)
