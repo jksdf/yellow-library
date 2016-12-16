@@ -32,7 +32,7 @@ public class YellowSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
-        .antMatchers("/", "/home", "/css/own.css", "/favicon.ico").permitAll()
+        .antMatchers("/", "/home", "/css/own.css", "/favicon.ico", "/not_found").permitAll()
         .antMatchers("/bookinstance", "/bookinstance/", "/bookinstance/list").permitAll()
         .antMatchers("/bookinstance/**").hasAnyRole("EMPLOYEE")
         .antMatchers("/department", "/department/list").permitAll()
