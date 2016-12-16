@@ -108,10 +108,12 @@ public class BookInstanceController extends CommonController {
       return "/bookinstance/newState";
     }
     bookInstanceFacade.changeBookState(formBean);
-    String bookName = bookInstanceFacade.findById(id).getBook().getName();
+    BookInstanceDTO bookInstanceDTO = bookInstanceFacade.findById(id);
+    String bookName = bookInstanceDTO.getBook().getName();
     redirectAttributes.addFlashAttribute("alert_success", "State of book instance of \"" + bookName +
         "\" has been successfully changed.");
-    return "redirect:" + uriComponentsBuilder.path("/bookinstance/list").toUriString();
+    return "redirect:" + uriComponentsBuilder.path("/book/{id}/bookinstances").buildAndExpand(bookInstanceDTO.getBook().getId())
+        .encode().toUriString();
   }
 
   @RequestMapping(value = "/book/{bid}/bookinstance/create", method = RequestMethod.POST)
