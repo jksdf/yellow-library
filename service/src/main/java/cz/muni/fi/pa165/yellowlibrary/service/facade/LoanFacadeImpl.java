@@ -11,9 +11,11 @@ import javax.inject.Inject;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.LoanFacade;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
+import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 import cz.muni.fi.pa165.yellowlibrary.service.BeanMappingService;
 import cz.muni.fi.pa165.yellowlibrary.service.DateService;
 import cz.muni.fi.pa165.yellowlibrary.service.LoanService;
@@ -60,6 +62,22 @@ public class LoanFacadeImpl implements LoanFacade {
     }
     Loan loan = loanService.findById(id);
     return mappingService.mapTo(loan, LoanDTO.class);
+  }
+
+  @Override
+  public List<LoanDTO> getAllLoans() {
+    List<Loan> loans = loanService.getAllLoans();
+    return mappingService.mapTo(loans, LoanDTO.class);
+  }
+
+  @Override
+  public List<LoanDTO> getLoansByUser(UserDTO user) {
+    if (user == null) {
+      throw new NullPointerException("userDTO cannot be null");
+    }
+    User u = mappingService.mapTo(user, User.class);
+    List<Loan> loans = loanService.getLoansByUser(u);
+    return mappingService.mapTo(loans, LoanDTO.class);
   }
 
   @Override

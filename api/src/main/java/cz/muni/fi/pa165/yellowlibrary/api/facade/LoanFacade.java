@@ -6,6 +6,7 @@ import java.util.List;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
 
 /**
  * @author cokinova
@@ -17,6 +18,9 @@ public interface LoanFacade {
 
   LoanDTO findById(Long id);
 
+  List<LoanDTO> getAllLoans();
+
+  List<LoanDTO> getLoansByUser(UserDTO user);
   LoanDTO currentLoanOfBookInstance(BookInstanceDTO bookInstance);
 
   List<LoanDTO> getAllBookInstanceLoans(BookInstanceDTO bookInstance); //loan history

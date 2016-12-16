@@ -9,10 +9,12 @@
 <my:mainpage title="Loan">
     <jsp:attribute name="body">
 
-        <a href="${pageContext.request.contextPath}/loan/new" class="btn btn-primary">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            <fmt:message key="loan.newLoan" />
-        </a>
+        <c:if test="${isEmployee}">
+            <a href="${pageContext.request.contextPath}/loan/new" class="btn btn-primary">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                <fmt:message key="loan.newLoan" />
+            </a>
+        </c:if>
 
         <table class="table">
             <thead>
@@ -27,8 +29,8 @@
             <tbody>
             <c:forEach items="${loans}" var="loan">
                 <tr>
-                    <td>${loan.bookInstance}</td>
-                    <td>${loan.user}</td>
+                    <td>${loan.bookInstance.book.name}</td>
+                    <td>${loan.user.name}</td>
                     <td><fmt:formatDate value="${loan.returnDate}" pattern="yyyy-MM-dd"/></td>
                     <td><c:out value="${loan.loanState}"/></td>
                         <%-- <td>

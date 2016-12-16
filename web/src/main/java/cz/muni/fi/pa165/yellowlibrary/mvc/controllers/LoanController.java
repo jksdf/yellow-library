@@ -47,7 +47,11 @@ public class LoanController extends CommonController{
 
   @RequestMapping(value = "/list", method = RequestMethod.GET)
   public String list(Model model) {
-    model.addAttribute("loans", loanFacade.getNotReturnedLoans());
+    if (isEmployee()){
+      model.addAttribute("loans", loanFacade.getAllLoans());
+    } else {
+      model.addAttribute("loans", loanFacade.getLoansByUser(getUserDTO()));
+    }
     return "loan/list";
   }
 

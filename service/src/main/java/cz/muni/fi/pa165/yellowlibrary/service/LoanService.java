@@ -8,6 +8,7 @@ import java.util.List;
 
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
+import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 
 /**
  * @author cokinova
@@ -21,6 +22,10 @@ public interface LoanService {
   Loan findById(Long id);
 
   Loan currentLoanOfBookInstance(BookInstance bookInstance);
+
+  List<Loan> getAllLoans();
+
+  List<Loan> getLoansByUser(User user);
 
   List<Loan> getAllLoansByBookInstance(BookInstance bookInstance); //loan history
 

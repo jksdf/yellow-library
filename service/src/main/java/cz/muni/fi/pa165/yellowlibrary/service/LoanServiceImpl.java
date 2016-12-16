@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.LoanDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
+import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 
 /**
  * @author cokinova
@@ -51,6 +52,16 @@ public class LoanServiceImpl implements LoanService{
       }
     }
     return null;
+  }
+
+  @Override
+  public List<Loan> getAllLoans() {
+    return loanDao.findAll();
+  }
+
+  @Override
+  public List<Loan> getLoansByUser(User user) {
+    return loanDao.findByUser(user);
   }
 
   @Override
