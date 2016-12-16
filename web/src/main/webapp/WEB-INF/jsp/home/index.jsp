@@ -7,26 +7,14 @@
 
 <own:mainpage>
     <jsp:attribute name="body">
-    <div class="row">
-        <c:forEach items="${users}" var="user">
-                    <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2"><!-- bootstrap responsive grid -->
-                            <div class="thumbnail">
-                                <a href="${pageContext.request.contextPath}/user/${user.id}"><span class="glyphicon glyphicon-user " aria-hidden="true"></span></a><br>
-                                <div class="caption">
-                                    <h4><c:out value="${user.name}"/></h4>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-        </c:forEach>
-    </div>
-
-
-        <c:if test="${isAuthenticated}">
-            <p class="text-success">user is authenticated</p>
-        </c:if>
-        <c:if test="${not isAuthenticated}">
-            <p class="text-danger">user is NOT authenticated</p>
-        </c:if>
+    <c:if test="${not isAuthenticated}">
+        <div class="jumbotron">
+            <h1 class="display-3"><fmt:message key="yellow_library" /></h1>
+            <p class="lead"><fmt:message key="welcome_message" /></p>
+            <p><a class="btn btn-lg btn-success" href="${pageContext.request.contextPath}/login" role="button">
+                <fmt:message key="login.signin"/>
+            </a></p>
+        </div>
+    </c:if>
     </jsp:attribute>
 </own:mainpage>
