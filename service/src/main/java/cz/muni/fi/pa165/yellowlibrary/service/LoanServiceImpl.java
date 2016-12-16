@@ -26,8 +26,9 @@ public class LoanServiceImpl implements LoanService{
   private LoanDao loanDao;
 
   @Override
-  public void create(Loan loan) {
+  public Long create(Loan loan) {
     loanDao.create(loan);
+    return loan.getId();
   }
 
   @Override

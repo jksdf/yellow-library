@@ -9,6 +9,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.LoanFacade;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
@@ -33,13 +34,13 @@ public class LoanFacadeImpl implements LoanFacade {
   private DateService dateService;
 
   @Override
-  public void create(LoanDTO loanDTO) {
+  public Long create(LoanCreateDTO loanDTO) {
     if (loanDTO == null) {
       throw new NullPointerException("LoanDTO cannot be null");
     }
     Loan loan = mappingService.mapTo(loanDTO, Loan.class);
     loanService.create(loan);
-    loanDTO.setId(loan.getId());
+    return loan.getId();
   }
 
   @Override

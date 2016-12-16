@@ -4,13 +4,14 @@ import java.util.Date;
 import java.util.List;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanDTO;
 
 /**
  * @author cokinova
  */
 public interface LoanFacade {
-  void create(LoanDTO loan);
+  Long create(LoanCreateDTO loan);
 
   LoanDTO update(LoanDTO loan);
 

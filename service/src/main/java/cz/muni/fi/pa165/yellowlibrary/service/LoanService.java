@@ -14,7 +14,7 @@ import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
  */
 @Service
 public interface LoanService {
-  void create(Loan loan);
+  Long create(Loan loan);
 
   Loan update(Loan loan);
 
