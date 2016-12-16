@@ -23,4 +23,5 @@ public interface BookInstanceFacade {
   List<BookInstanceDTO> getAllBookInstances();
   List<BookInstanceDTO> getAllBookInstancesByAvailability(BookInstanceAvailability bAvailability);
   List<BookInstanceDTO> getAllCopies(Long bookId);
+  List<BookInstanceDTO> getAllCopiesByAvailability(Long bookId, BookInstanceAvailability bAvailability);
 }
