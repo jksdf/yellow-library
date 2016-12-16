@@ -12,7 +12,7 @@
             <h1 class="display-3"><fmt:message key="yellow_library" /></h1>
             <p class="lead"><fmt:message key="welcome_message" /></p>
             <p><a class="btn btn-lg btn-success" href="${pageContext.request.contextPath}/login" role="button">
-                <fmt:message key="login.signin"/>
+                <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;<fmt:message key="login.signin"/>
             </a></p>
         </div>
     </c:if>
