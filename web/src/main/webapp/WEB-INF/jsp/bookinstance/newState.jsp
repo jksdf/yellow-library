@@ -16,7 +16,7 @@
 <jsp:attribute name="body">
 
     <div class="col-md-7 center">
-    <form:form method="post" action="${pageContext.request.contextPath}/bookinstance/${id}/changestate"
+    <form:form method="post" action="${pageContext.request.contextPath}/bookinstance/${id}/change-state"
                modelAttribute="bookInstanceNewState" cssClass="form-horizontal">
 
         <div class="form-group ${name_error?'has-error':''}">
