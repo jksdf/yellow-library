@@ -25,6 +25,7 @@ import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewStateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.enums.BookInstanceAvailability;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookFacade;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookInstanceFacade;
+import cz.muni.fi.pa165.yellowlibrary.api.facade.LoanFacade;
 
 /**
  * Created by Matej Gallo
@@ -44,6 +45,8 @@ public class BookInstanceController extends CommonController {
   @Inject
   private BookFacade bookFacade;
 
+  @Inject
+  private LoanFacade loanFacade;
 
   /**
    * Returns a list of all book instances.
@@ -116,7 +119,8 @@ public class BookInstanceController extends CommonController {
     } else {
       model.addAttribute("alert_danger", "Unknown attribute " + attr);
       return "redirect:" + uriComponentsBuilder.path("/bookinstance/list?={bid}")
-          .buildAndExpand(bookInstanceFacade.findById(id).getBook().getId()).encode().toUriString();
+          .queryParam("bid", bookInstanceFacade.findById(id).getBook().getId())
+          .toUriString();
     }
   }
 
@@ -188,6 +192,13 @@ public class BookInstanceController extends CommonController {
                             UriComponentsBuilder uriComponentsBuilder) {
     log.debug("changeState(bookInstanceNewAvailability={id})", id, formBean);
 
+    if(loanFacade.currentLoanOfBookInstance(bookInstanceFacade.findById(formBean.getId())) != null) {
+      redirectAttributes.addFlashAttribute("alert_danger", "Loan with this book currently exists.");
+      return "redirect:" + uriComponentsBuilder.path("/bookinstance/list")
+          .queryParam("bid", bookInstanceFacade.findById(id).getBook().getId())
+          .toUriString();
+    }
+
     if(bindingResult.hasErrors()) {
       for(ObjectError ge : bindingResult.getGlobalErrors()) {
         log.trace("ObjectError: {}", ge);
@@ -201,7 +212,9 @@ public class BookInstanceController extends CommonController {
     bookInstanceFacade.changeBookAvailability(formBean);
     BookInstanceDTO bookInstanceDTO = bookInstanceFacade.findById(id);
     redirectAttributes.addFlashAttribute("alert_success", "Availability has been successfully changed.");
-    return "redirect:" + uriComponentsBuilder.path("/bookinstance/list").queryParam("bid", bookInstanceDTO.getBook().getId()).toUriString();
+    return "redirect:" + uriComponentsBuilder.path("/bookinstance/list")
+        .queryParam("bid", bookInstanceDTO.getBook().getId())
+        .toUriString();
   }
 
 
