@@ -81,12 +81,12 @@ public class BookInstanceFacadeImpl implements BookInstanceFacade {
   }
 
   @Override
-  public List<BookInstanceDTO> getAllBorrowedBookInstances() {
+  public List<BookInstanceDTO> getAllBookInstancesByAvailability(BookInstanceAvailability bAvailability) {
     List<BookInstanceDTO> allBookInstances =  beanMappingService.mapTo(
         bookInstanceService.getAllBookInstances(),
         BookInstanceDTO.class);
     return allBookInstances.stream()
-        .filter(bi -> bi.getBookAvailability() == BookInstanceAvailability.BORROWED)
+        .filter(bi -> bi.getBookAvailability() == bAvailability)
         .collect(Collectors.toList());
   }
 
