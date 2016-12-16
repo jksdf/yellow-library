@@ -17,7 +17,7 @@
             <div class="col-sm-6">
                 <form:select path="bookInstance" cssClass="form-control">
                     <c:forEach items="${bookInstancies}" var="bookInstance">
-                        <form:option value="${bookInstance}">${bookInstance}</form:option>
+                        <form:option value="${bookInstance}">${bookInstance.book.name}</form:option>
                     </c:forEach>
                 </form:select>
                 <form:errors path="bookInstance" cssClass="error"/>
@@ -28,7 +28,7 @@
             <div class="col-sm-6">
                 <form:select path="user" cssClass="form-control">
                     <c:forEach items="${users}" var="user">
-                        <form:option value="${user}">${user}</form:option>
+                        <form:option value="${user}">${user.name}</form:option>
                     </c:forEach>
                 </form:select>
                 <form:errors path="user" cssClass="error"/>
@@ -40,6 +40,18 @@
             <div class="col-sm-6">
                 <form:input path="loanState" cssClass="form-control"/>
                 <form:errors path="loanState" cssClass="help-block"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <form:label path="loanLength" cssClass="col-sm-2 control-label">Users</form:label>
+            <div class="col-sm-6">
+                <form:select path="loanLength" cssClass="form-control">
+                    <form:option value="15">15</form:option>
+                    <form:option value="30">30</form:option>
+                    <form:option value="60">60</form:option>
+                </form:select>
+                <form:errors path="loanLength" cssClass="error"/>
             </div>
         </div>
 

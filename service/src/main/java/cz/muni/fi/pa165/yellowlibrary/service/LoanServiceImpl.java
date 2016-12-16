@@ -87,7 +87,7 @@ public class LoanServiceImpl implements LoanService{
       Calendar loanDate = Calendar.getInstance();
       loanDate.setTime(l.getDateFrom());
       loanDate.add(Calendar.DAY_OF_YEAR, l.getLoanLength());
-      if (loanDate.after(now)) {
+      if (loanDate.before(now)) {
         l.setFine(BigDecimal.valueOf(100L));
         loanDao.update(l);
       }

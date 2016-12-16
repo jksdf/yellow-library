@@ -118,8 +118,9 @@ public class BookInstanceController extends CommonController {
       return "bookinstance/new";
     }
     Long id = bookInstanceFacade.createBookInstance(formBean);
-    String bookName = bookInstanceFacade.findById(id).getBook().getName();
-    redirectAttributes.addFlashAttribute("alert_success", "New book instance of \"" + bookName +
+    BookInstanceDTO bookInstance= bookInstanceFacade.findById(id);
+    bookInstanceFacade.changeBookAvailability(bookInstance.getId(), BookInstanceAvailability.BORROWED);
+    redirectAttributes.addFlashAttribute("alert_success", "New book instance of \"" + bookInstance.getBook().getName() +
         "\" has been successfully created");
     return "redirect:" + uriComponentsBuilder.path("/bookinstance/list").toUriString();
   }

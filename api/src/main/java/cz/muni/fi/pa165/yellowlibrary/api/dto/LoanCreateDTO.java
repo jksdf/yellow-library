@@ -2,8 +2,10 @@ package cz.muni.fi.pa165.yellowlibrary.api.dto;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.StringJoiner;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 /**
  * @author cokinova
@@ -93,4 +95,13 @@ public class LoanCreateDTO {
     result = 31 * result + getBookInstance().hashCode();
     return result;
   }
+
+  @Override
+  public String toString(){
+    return "id:"+ (user.getId() == null ? "null": user.getId()) +
+        "user: "+ user.getName() +
+        "book: "+ bookInstance.getBook().getName() +
+        "from:" + getDateFrom();
+  }
+
 }

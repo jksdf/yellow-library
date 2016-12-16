@@ -15,14 +15,18 @@
                 <fmt:message key="loan.newLoan" />
             </a>
         </c:if>
+        <a href="${pageContext.request.contextPath}/loan/recalculateFines" class="btn btn-info">
+            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+            Recalculate fines
+        </a>
 
         <table class="table">
             <thead>
             <tr>
                 <th><fmt:message key="loan.bookInstance" /></th>
                 <th><fmt:message key="loan.user" /></th>
-                <th><fmt:message key="loan.returnDate" /></th>
-                <th><fmt:message key="loan.state" /></th>
+                <th><fmt:message key="loan.from" /></th>
+                <th><fmt:message key="loan.fine" /></th>
                     <%--<th>Details</th> --%>
             </tr>
             </thead>
@@ -31,11 +35,14 @@
                 <tr>
                     <td>${loan.bookInstance.book.name}</td>
                     <td>${loan.user.name}</td>
-                    <td><fmt:formatDate value="${loan.returnDate}" pattern="yyyy-MM-dd"/></td>
-                    <td><c:out value="${loan.loanState}"/></td>
-                        <%-- <td>
-                            <my:a href="/order/detail/${loan.id}" class="btn btn-primary">View</my:a>
-                        </td> --%>
+                    <td><fmt:formatDate value="${loan.dateFrom}" pattern="yyyy-MM-dd"/></td>
+                    <td><c:out value="${loan.fine}"/></td>
+                    <td>
+                        <a href="/loan/view/${loan.id}" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                            View
+                        </a>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>
