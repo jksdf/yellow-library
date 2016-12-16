@@ -16,9 +16,11 @@
         <table class="table bookInstance">
             <thead>
             <tr>
-                <th class="center">
-                    <a href="${pageContext.request.contextPath}/bookinstance/new"><span class="glyphicon glyphicon-plus text-success" aria-hidden="true"></span>Add</a>
-                </th>
+                <c:if test="${isEmployee}">
+                    <th class="center">
+                        <a href="${pageContext.request.contextPath}/book/${bookId}/bookinstance//new"><span class="glyphicon glyphicon-plus text-success" aria-hidden="true"></span>Add</a>
+                    </th>
+                </c:if>
                 <th>ID</th>
                 <th>Book</th>
                 <th>Version</th>
@@ -29,18 +31,20 @@
             <tbody>
             <c:forEach items="${bookinstances}" var="bookinstance">
                 <tr>
-                    <td class="center">
-                        <div class="glyphic">
-                            <form method="post" action="${pageContext.request.contextPath}/bookinstance/delete/${bookinstance.id}">
-                                <button type="submit" class="btn btn-xs btn-link">
-                                    <span class="glyphicon glyphicon-minus text-danger" aria-hidden="true"></span>
-                                </button>
-                            </form>
+                    <c:if test="${isEmployee}">
+                        <td class="center">
+                            <div class="glyphic">
+                                <form method="post" action="${pageContext.request.contextPath}/bookinstance/delete/${bookinstance.id}">
+                                    <button type="submit" class="btn btn-xs btn-link">
+                                        <span class="glyphicon glyphicon-minus text-danger" aria-hidden="true"></span>
+                                    </button>
+                                </form>
 
-                            <a href="${pageContext.request.contextPath}/bookinstance/${bookinstance.id}/newstate"><span class="glyphicon glyphicon-pencil text-warning" aria-hidden="true"></span></a>
+                                <a href="${pageContext.request.contextPath}/bookinstance/${bookinstance.id}/newstate"><span class="glyphicon glyphicon-pencil text-warning" aria-hidden="true"></span></a>
 
-                        </div>
-                    </td>
+                            </div>
+                        </td>
+                    </c:if>
                     <td>${bookinstance.id}</td>
                     <td><c:out value="${bookinstance.book.name}"/></td>
                     <td><c:out value="${bookinstance.version}"/> </td>
