@@ -30,7 +30,7 @@ public class LoanController {
   private LoanFacade loanFacade;
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public final LoanDTO deleteBookInstance(@PathVariable("id") Long id) throws Exception {
+  public final LoanDTO findById(@PathVariable("id") Long id) throws Exception {
     log.debug("REST getLoan({})", id);
     try {
       return loanFacade.findById(id);
@@ -42,7 +42,7 @@ public class LoanController {
   @RequestMapping(value = "/create", method = RequestMethod.POST,
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public final LoanDTO loanDTO(@RequestBody LoanCreateDTO loanCreateDTO) throws Exception {
+  public final LoanDTO createLoan(@RequestBody LoanCreateDTO loanCreateDTO) throws Exception {
     log.debug("REST createBookInstance()");
 
     try {
@@ -54,7 +54,7 @@ public class LoanController {
   }
 
   @RequestMapping(value = "/recalculateFines", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public final void deleteBookInstance() throws Exception {
+  public final void recalculateFines() throws Exception {
     log.debug("REST recalculateFines()");
     try {
       loanFacade.CalculateFinesForExpiredLoans();
