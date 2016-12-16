@@ -89,6 +89,13 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
   }
 
   @Test
+  public void updateUserTest() {
+    UserDTO userDTO = mappingService.mapTo(user2, UserDTO.class);
+    userFacade.updateUser(userDTO);
+    verify(userService).update(user2);
+  }
+
+  @Test
   public void findByIdTest() {
     UserDTO retDTO = userFacade.findById(user2Id);
     verify(userService).findById(user2Id);
