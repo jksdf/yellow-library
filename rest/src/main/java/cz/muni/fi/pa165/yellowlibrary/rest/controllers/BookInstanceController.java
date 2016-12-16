@@ -16,6 +16,7 @@ import javax.inject.Inject;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewAvailabilityDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewStateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookInstanceFacade;
 import cz.muni.fi.pa165.yellowlibrary.rest.ApiUris;
@@ -75,7 +76,7 @@ public class BookInstanceController {
     }
   }
 
-  @RequestMapping(value = "/{id}", method = RequestMethod.PUT,
+  @RequestMapping(value = "/{id}/newstate", method = RequestMethod.PUT,
   consumes = MediaType.APPLICATION_JSON_VALUE,
   produces = MediaType.APPLICATION_JSON_VALUE)
   public final BookInstanceDTO changeBookState(@PathVariable("id") Long id, @RequestBody BookInstanceNewStateDTO newStateDTO) throws Exception {
@@ -89,20 +90,19 @@ public class BookInstanceController {
       throw new InvalidParameterException();
     }
   }
-/*
-  @RequestMapping(value = "/{id}", method = RequestMethod.PUT,
+
+  @RequestMapping(value = "/{id}/newavailability", method = RequestMethod.PUT,
   consumes = MediaType.APPLICATION_JSON_VALUE,
   produces = MediaType.APPLICATION_JSON_VALUE)
-  public final BookInstanceDTO changeBookAvailability(@PathVariable("id") Long id,
-                                                      @RequestBody BookInstanceAvailability bookAvailability) throws Exception {
+  public final BookInstanceDTO changeBookAvailability(@PathVariable("id") Long id, @RequestBody BookInstanceNewAvailabilityDTO newAvailabilityDTO) throws Exception {
     log.debug("REST changeBookAvailability({id})", id);
 
     try {
-      bookInstanceFacade.changeBookAvailability(id, bookAvailability);
+      newAvailabilityDTO.setId(id);
+      bookInstanceFacade.changeBookAvailability(newAvailabilityDTO);
       return bookInstanceFacade.findById(id);
-    } catch(YellowServiceException ex) {
+    } catch (YellowServiceException ex) {
       throw new InvalidParameterException();
     }
-  }*/
-
+  }
 }

@@ -19,6 +19,7 @@ import javax.inject.Inject;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewAvailabilityDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewStateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.enums.BookInstanceAvailability;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookInstanceFacade;
@@ -136,12 +137,12 @@ public class BookInstanceFacadeTest extends AbstractTestNGSpringContextTests {
   public void testChangeBookAvailability() {
     when(bookInstanceService.getBookInstanceById(bookInstanceOne.getId()))
         .thenReturn(bookInstanceOne);
-    bookInstanceFacade.changeBookAvailability(bookInstanceOne.getId(), BookInstanceAvailability.REMOVED);
-
-    BookInstanceDTO bookInstanceDTO = bookInstanceFacade.findById(bookInstanceOne.getId());
-    BookInstance bookInstance = beanMappingService.mapTo(bookInstanceDTO, BookInstance.class);
-
-    verify(bookInstanceService).changeAvailability(bookInstance, BookAvailability.REMOVED);
+    BookInstanceNewAvailabilityDTO newAvailabilityDTO = new BookInstanceNewAvailabilityDTO();
+    BookInstanceAvailability bAvailability = BookInstanceAvailability.REMOVED;
+    newAvailabilityDTO.setId(bookInstanceOne.getId());
+    newAvailabilityDTO.setBookAvailability(bAvailability);
+    bookInstanceFacade.changeBookAvailability(newAvailabilityDTO);
+    verify(bookInstanceService).changeAvailability(bookInstanceOne, BookAvailability.REMOVED);
   }
 
   @Test

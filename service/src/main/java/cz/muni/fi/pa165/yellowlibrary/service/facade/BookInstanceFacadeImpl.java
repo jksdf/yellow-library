@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewAvailabilityDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewStateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.enums.BookInstanceAvailability;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookInstanceFacade;
@@ -63,10 +64,9 @@ public class BookInstanceFacadeImpl implements BookInstanceFacade {
   }
 
   @Override
-  public void changeBookAvailability(Long bookInstanceId, BookInstanceAvailability newAvailability) {
-    BookAvailability bookAvailability = beanMappingService.mapTo(newAvailability, BookAvailability.class);
-    bookInstanceService.changeAvailability(bookInstanceService.getBookInstanceById(bookInstanceId),
-        bookAvailability);
+  public void changeBookAvailability(BookInstanceNewAvailabilityDTO newAvailabilityDTO) {
+    bookInstanceService.changeAvailability(bookInstanceService.getBookInstanceById(newAvailabilityDTO.getId()),
+        beanMappingService.mapTo(newAvailabilityDTO.getBookAvailability(), BookAvailability.class));
   }
 
   @Override

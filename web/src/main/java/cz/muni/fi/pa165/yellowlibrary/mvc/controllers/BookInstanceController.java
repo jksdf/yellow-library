@@ -70,9 +70,14 @@ public class BookInstanceController extends CommonController {
   public String delete(@PathVariable Long id, Model model,
                        UriComponentsBuilder uriComponentsBuilder,
                        RedirectAttributes redirectAttributes) {
-    BookInstanceDTO bookInstanceDTO = bookInstanceFacade.findById(id);
-    bookInstanceFacade.deleteBookInstance(id);
     log.debug("delete({})", id);
+    BookInstanceDTO bookInstanceDTO = bookInstanceFacade.findById(id);
+    if(bookInstanceFacade.getAllBorrowedBookInstances().contains(bookInstanceDTO)) {
+      redirectAttributes.addFlashAttribute("alert_danger", "Loan with this book currently exists.");
+      log.trace("Attempt to delete loaned book instance.");
+      return "redirect:" + uriComponentsBuilder.path("/bookinstance/list").toUriString();
+    }
+    bookInstanceFacade.deleteBookInstance(id);
     redirectAttributes.addFlashAttribute("alert_success", "Book instance of \"" +
         bookInstanceDTO.getBook().getName() + "\" has been successfully deleted.");
     return "redirect:" + uriComponentsBuilder.path("/bookinstance/list").toUriString();
@@ -120,7 +125,6 @@ public class BookInstanceController extends CommonController {
     }
     Long id = bookInstanceFacade.createBookInstance(formBean);
     BookInstanceDTO bookInstance= bookInstanceFacade.findById(id);
-    bookInstanceFacade.changeBookAvailability(bookInstance.getId(), BookInstanceAvailability.BORROWED);
     redirectAttributes.addFlashAttribute("alert_success", "New book instance of \"" + bookInstance.getBook().getName() +
         "\" has been successfully created");
     return "redirect:" + uriComponentsBuilder.path("/bookinstance/list").toUriString();
