@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.yellowlibrary.mvc.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +16,6 @@ import javax.inject.Inject;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.UserFacade;
-import cz.muni.fi.pa165.yellowlibrary.mvc.exceptions.ResourceNotFoundException;
 
 /**
  * @author Jozef Zivcic
@@ -36,7 +34,7 @@ public class UserController extends CommonController {
     log.info("UserController.userInfo()");
     UserDTO userDTO = userFacade.findById(id);
     if (userDTO == null)
-      throw new ResourceNotFoundException();
+      return "redirect:/not_found";
     model.addAttribute("user", userDTO);
     return "user/user";
   }
