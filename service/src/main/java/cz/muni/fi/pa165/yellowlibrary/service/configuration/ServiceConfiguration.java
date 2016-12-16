@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import cz.muni.fi.pa165.yellowlibrary.api.dto.BookCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.DepartmentDTO;
@@ -42,6 +43,7 @@ public class ServiceConfiguration {
     protected void configure() {
       mapping(User.class, UserDTO.class);
       mapping(Book.class, BookDTO.class);
+      mapping(Book.class, BookCreateDTO.class);
       mapping(BookInstance.class, BookInstanceDTO.class);
       mapping(Department.class, DepartmentDTO.class);
       mapping(Loan.class, LoanDTO.class);
