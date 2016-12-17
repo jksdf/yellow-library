@@ -8,11 +8,12 @@
 <my:mainpage title="Edit Loan">
 <jsp:attribute name="body">
     <form:form method="post" action="" modelAttribute="loan" cssClass="form-horizontal">
-        <input type="hidden" name="id" value="${loan.getId()}" disabled>
+        <input type="hidden" name="id" value="${loan.id}" />
 
         <div class="form-group ${bookInstance_error?'has-error':''}">
             <form:label path="bookInstance" cssClass="col-sm-2 control-label">Book instance</form:label>
             <div class="col-sm-10">
+                <input type="hidden" name="bookInstance" value="${loan.bookInstance.id}" />
                 <form:input path="bookInstance.book.name" disabled="true" cssClass="form-control"/>
                 <form:errors path="bookInstance" cssClass="help-block"/>
             </div>
@@ -21,6 +22,7 @@
         <div class="form-group ${name_error?'has-error':''}">
             <form:label path="user" cssClass="col-sm-2 control-label">User</form:label>
             <div class="col-sm-10">
+                <input type="hidden" name="user" value="${loan.user.id}" />
                 <form:input path="user.name" disabled="true" cssClass="form-control"/>
                 <form:errors path="user" cssClass="help-block"/>
             </div>
@@ -49,7 +51,7 @@
         <div class="form-group ${dateFrom_error?'has-error':''}">
             <form:label path="dateFrom" cssClass="col-sm-2 control-label">Date from</form:label>
             <div class="col-sm-6">
-                <form:input path="dateFrom" type="datetime"  disabled="true" cssClass="form-control"/>
+                <form:input path="dateFrom" type="datetime"  readonly="true" cssClass="form-control"/>
                 <form:errors path="dateFrom" cssClass="help-block"/>
             </div>
         </div>
@@ -65,7 +67,7 @@
         <div class="form-group ${fine_error?'has-error':''}">
             <form:label path="fine" cssClass="col-sm-2 control-label">Fine</form:label>
             <div class="col-sm-6">
-                <form:input path="fine" disabled="true" cssClass="form-control"/>
+                <form:input path="fine" readonly="true" cssClass="form-control"/>
                 <form:errors path="fine" cssClass="help-block"/>
             </div>
         </div>

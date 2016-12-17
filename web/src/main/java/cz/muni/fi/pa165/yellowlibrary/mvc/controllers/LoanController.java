@@ -39,7 +39,7 @@ import cz.muni.fi.pa165.yellowlibrary.api.facade.UserFacade;
  */
 @Controller
 @RequestMapping("/loan")
-public class LoanController extends CommonController{
+public class LoanController extends CommonController {
 
   final static Logger log = LoggerFactory.getLogger(LoanController.class);
 
@@ -92,9 +92,9 @@ public class LoanController extends CommonController{
   }
 
   @RequestMapping(value = "/recalculateFines", method = RequestMethod.GET)
-  public String recalculateFines(Model model, UriComponentsBuilder uriComponentsBuilder) {
+  public String recalculateFines(Model model, RedirectAttributes ra) {
     loanFacade.CalculateFinesForExpiredLoans();
-    return "redirect:" + uriComponentsBuilder.path("/loan/list").toUriString();
+    return "redirect:/loan/list";
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -108,7 +108,7 @@ public class LoanController extends CommonController{
   public String newBookInstance(Model model) {
     log.debug("new()");
     model.addAttribute("loanCreate", new LoanCreateDTO());
-    //model.addAttribute("bookInstancies", bookInstanceFacade.getAllBookInstances());
+
     return "loan/new";
   }
 
@@ -143,18 +143,11 @@ public class LoanController extends CommonController{
   @RequestMapping(value = {"/{id}/edit"}, method = RequestMethod.GET)
   public String editGet(@PathVariable("id") long id, Model model) {
     LoanDTO loan = loanFacade.findById(id);
-    LoanCreateDTO loanCreateDTO = new LoanCreateDTO();
-    loanCreateDTO.setDateFrom(loan.getDateFrom());
-    loanCreateDTO.setBookInstance(loan.getBookInstance());
-    loanCreateDTO.setLoanLength(loan.getLoanLength());
-    loanCreateDTO.setLoanState(loan.getLoanState());
-    loanCreateDTO.setReturnDate(loan.getReturnDate());
     model.addAttribute("loan", loan);
     return "loan/edit";
   }
 
-
-  @RequestMapping(value = "/edit", method = RequestMethod.POST)
+  @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
   public String editPost(@Valid @ModelAttribute("loan") LoanDTO data,
                          BindingResult bindingResult, Model model,
                          RedirectAttributes redirectAttributes,
@@ -173,9 +166,9 @@ public class LoanController extends CommonController{
         model.addAttribute(fe.getField() + "_error", true);
         log.trace("FieldError: {}", fe);
       }
-      return uriComponentsBuilder.path("/loan/{id}/edit")
-          .queryParam("id", data.getId()).toUriString();
+      return uriComponentsBuilder.path("/loan/{id}/edit").queryParam("id", data.getId()).toUriString();
     }
+
     loanFacade.update(data);
     redirectAttributes.addFlashAttribute("alert_success",
         String.format("Loan has been successfully edited"));
@@ -193,6 +186,5 @@ public class LoanController extends CommonController{
     log.debug("users()");
     return userFacade.findAllUsers();
   }
-
 
 }

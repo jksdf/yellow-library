@@ -87,18 +87,18 @@
 
 <!-- alerts -->
 <c:if test="${not empty alert_danger}">
-    <div class="alert alert-danger" role="alert">
+    <div class="container alert alert-danger" role="alert">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
         <c:out value="${alert_danger}"/></div>
 </c:if>
 <c:if test="${not empty alert_info}">
-    <div class="alert alert-info" role="alert"><c:out value="${alert_info}"/></div>
+    <div class="container alert alert-info" role="alert"><c:out value="${alert_info}"/></div>
 </c:if>
 <c:if test="${not empty alert_success}">
-    <div class="alert alert-success" role="alert"><c:out value="${alert_success}"/></div>
+    <div class="container alert alert-success" role="alert"><c:out value="${alert_success}"/></div>
 </c:if>
 <c:if test="${not empty alert_warning}">
-    <div class="alert alert-warning" role="alert"><c:out value="${alert_warning}"/></div>
+    <div class="container alert alert-warning" role="alert"><c:out value="${alert_warning}"/></div>
 </c:if>
 
 <!-- page body -->

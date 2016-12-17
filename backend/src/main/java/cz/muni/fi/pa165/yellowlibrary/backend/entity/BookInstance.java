@@ -119,7 +119,7 @@ public class BookInstance {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append(this.getBook().getName() + ":");
+    sb.append((null != this.getBook() ? this.getBook().getName() : null) + ":");
     sb.append("\n\tID: " + this.getId());
     sb.append("\n\tVersion: " + this.getVersion());
     sb.append("\n\tState: " + this.getBookState());
