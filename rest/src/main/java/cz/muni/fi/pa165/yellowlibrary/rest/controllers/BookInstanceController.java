@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.InvalidParameterException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -18,12 +17,12 @@ import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewAvailabilityDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewStateDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.exceptions.YellowServiceException;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookInstanceFacade;
 import cz.muni.fi.pa165.yellowlibrary.rest.ApiUris;
 import cz.muni.fi.pa165.yellowlibrary.rest.exceptions.ResourceAlreadyExists;
 import cz.muni.fi.pa165.yellowlibrary.rest.exceptions.ResourceNotFoundException;
-import cz.muni.fi.pa165.yellowlibrary.rest.exceptions.YellowServiceException;
-
+import cz.muni.fi.pa165.yellowlibrary.rest.exceptions.InvalidParameterException;
 /**
  * For testing methods on this controller see file /rest/readme.txt
  *
@@ -83,6 +82,8 @@ public class BookInstanceController {
     log.debug("REST deleteBookInstance({})", id);
     try {
       bookInstanceFacade.deleteBookInstance(id);
+    } catch(YellowServiceException yes) {
+      throw new InvalidParameterException();
     } catch(Exception ex) {
       throw new ResourceNotFoundException();
     }
@@ -128,14 +129,9 @@ public class BookInstanceController {
   produces = MediaType.APPLICATION_JSON_VALUE)
   public final BookInstanceDTO changeBookState(@PathVariable("id") Long id, @RequestBody BookInstanceNewStateDTO newStateDTO) throws Exception {
     log.debug("REST changeBookState({})", id);
-
-    try {
-      newStateDTO.setId(id);
-      bookInstanceFacade.changeBookState(newStateDTO);
-      return bookInstanceFacade.findById(id);
-    } catch (YellowServiceException ex) {
-      throw new InvalidParameterException();
-    }
+    newStateDTO.setId(id);
+    bookInstanceFacade.changeBookState(newStateDTO);
+    return bookInstanceFacade.findById(id);
   }
 
   /**
@@ -154,13 +150,8 @@ public class BookInstanceController {
   produces = MediaType.APPLICATION_JSON_VALUE)
   public final BookInstanceDTO changeBookAvailability(@PathVariable("id") Long id, @RequestBody BookInstanceNewAvailabilityDTO newAvailabilityDTO) throws Exception {
     log.debug("REST changeBookAvailability({id})", id);
-
-    try {
-      newAvailabilityDTO.setId(id);
-      bookInstanceFacade.changeBookAvailability(newAvailabilityDTO);
-      return bookInstanceFacade.findById(id);
-    } catch (YellowServiceException ex) {
-      throw new InvalidParameterException();
-    }
+    newAvailabilityDTO.setId(id);
+    bookInstanceFacade.changeBookAvailability(newAvailabilityDTO);
+    return bookInstanceFacade.findById(id);
   }
 }
