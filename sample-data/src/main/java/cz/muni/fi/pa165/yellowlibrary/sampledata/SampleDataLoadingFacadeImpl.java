@@ -69,13 +69,13 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
     log.debug("Loaded books.");
 
-    BookInstance bookInstance1 = bookInstance(book1, BookAvailability.BORROWED, "Page 4 torn out",
+    BookInstance bookInstance1 = bookInstance(book1, BookAvailability.AVAILABLE, "Page 4 torn out",
         "2nd Edition");
-    BookInstance bookInstance2 = bookInstance(book1, BookAvailability.BORROWED, "Cover damaged",
+    BookInstance bookInstance2 = bookInstance(book1, BookAvailability.AVAILABLE, "Cover damaged",
         "2nd Edition");
-    BookInstance bookInstance3 = bookInstance(book2, BookAvailability.BORROWED, "Mustaches drawn"
+    BookInstance bookInstance3 = bookInstance(book2, BookAvailability.AVAILABLE, "Mustaches drawn"
         + " on portraits", "1st Edition");
-    BookInstance bookInstance4 = bookInstance(book1, BookAvailability.AVAILABLE, "New",
+    BookInstance bookInstance4 = bookInstance(book1, BookAvailability.REMOVED, "New",
         "1st Edition");
 
     log.debug("Loaded book instances.");
