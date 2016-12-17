@@ -53,6 +53,8 @@ public class UserController extends CommonController {
     List<UserDTO> users = null;
     if (userName == null)
       users = userFacade.findAllUsers();
+    else
+      users = userFacade.findAllUsersWithName(userName);
     model.addAttribute("users", users);
     return "user/userlist";
   }

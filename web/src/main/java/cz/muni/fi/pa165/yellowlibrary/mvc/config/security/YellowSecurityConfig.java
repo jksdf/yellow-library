@@ -16,10 +16,6 @@ import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.UserFacade;
 
 /**
- * https://spring.io/guides/gs/securing-web/
- * Multiple roles:
- * http://www.concretepage.com/spring/spring-security/spring-mvc-security-in-memory-authentication-example-with-authenticationmanagerbuilder-using-java-configuration
- *
  * @author Jozef Zivcic
  */
 @Configuration

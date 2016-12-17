@@ -341,5 +341,8 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     assertEquals(userDao.findAllUsersWithName("joh").size(), 2);
     assertEquals(userDao.findAllUsersWithName("john").size(), 1);
     assertEquals(userDao.findAllUsersWithName("john").get(0), john);
+    assertEquals(userDao.findAllUsersWithName("").size(), 2);
+    assertEquals(userDao.findAllUsersWithName("n ").size(), 2);
+    assertEquals(userDao.findAllUsersWithName("N gR").size(), 1);
   }
 }
