@@ -20,6 +20,7 @@ import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewAvailabilityDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewStateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookInstanceFacade;
 import cz.muni.fi.pa165.yellowlibrary.rest.ApiUris;
+import cz.muni.fi.pa165.yellowlibrary.rest.exceptions.ResourceAlreadyExists;
 import cz.muni.fi.pa165.yellowlibrary.rest.exceptions.ResourceNotFoundException;
 import cz.muni.fi.pa165.yellowlibrary.rest.exceptions.YellowServiceException;
 
@@ -37,12 +38,28 @@ public class BookInstanceController {
   @Inject
   private BookInstanceFacade bookInstanceFacade;
 
+
+  /**
+   * Returns all book instances
+   * curl -i -X GET http://localhost:8080/pa165/rest/bookinstance
+   *
+   * @return List<BookInstanceDTO>
+   */
   @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public final List<BookInstanceDTO> getBookInstances() {
     log.debug("REST getBookInstances()");
     return bookInstanceFacade.getAllBookInstances();
   }
 
+
+  /**
+   * Returns a book instance with particular ID
+   * curl -i -X GET http://localhost:8080/pa165/rest/bookinstance/1
+   *
+   * @param id id of a book instance
+   * @throws ResourceNotFoundException
+   * @return BookInstanceDTO
+   */
   @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public final BookInstanceDTO getBookInstance(@PathVariable("id") Long id) throws Exception {
     log.debug("REST getBookInstance({})", id);
@@ -54,6 +71,13 @@ public class BookInstanceController {
     }
   }
 
+  /**
+   * Deletes a book instance with a particular id
+   * curl -i -X DELETE http://localhost:8080/pa165/rest/bookinstance/1
+   *
+   * @param id id of a book instance
+   * @throws ResourceNotFoundException
+   */
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
   public final void deleteBookInstance(@PathVariable("id") Long id) throws Exception {
     log.debug("REST deleteBookInstance({})", id);
@@ -64,6 +88,16 @@ public class BookInstanceController {
     }
   }
 
+  /**
+   * Creates new book instance
+   * curl -X POST -i -H "Content-Type: application/json" --data
+   * '{"bookState":"New Book", "bookAvailability":"AVAILABLE", "version":"1st Edition"}'
+   * http://localhost:8080/pa165/rest/bookinstance/create
+   *
+   * @param bookInstance book instance to be created
+   * @throws ResourceAlreadyExists
+   * @return BookInstanceDTO
+   */
   @RequestMapping(value = "/create", method = RequestMethod.POST,
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
@@ -74,10 +108,21 @@ public class BookInstanceController {
       Long id = bookInstanceFacade.createBookInstance(bookInstance);
       return bookInstanceFacade.findById(id);
     } catch (Exception ex) {
-      throw new ResourceNotFoundException();
+      throw new ResourceAlreadyExists();
     }
   }
 
+  /**
+   * Modifies the state of a book instance
+   * curl -X PUT -i -H "Content-Type: application/json" --data
+   * '{"bookState":"New State"}'
+   * http://localhost:8080/pa165/rest/bookinstance/1
+   *
+   * @param id id of a book instance to be modified
+   * @param newStateDTO {@link BookInstanceNewStateDTO} new state
+   * @return modified BookInstanceDTO
+   * @throws InvalidParameterException
+   */
   @RequestMapping(value = "/{id}/newstate", method = RequestMethod.PUT,
   consumes = MediaType.APPLICATION_JSON_VALUE,
   produces = MediaType.APPLICATION_JSON_VALUE)
@@ -93,6 +138,17 @@ public class BookInstanceController {
     }
   }
 
+  /**
+   * Modifies the availability of a book instance
+   * curl -X PUT -i -H "Content-Type: application/json" --data
+   * '{"bookAvailability":"REMOVED"}'
+   * http://localhost:8080/pa165/rest/bookinstance/1
+   *
+   * @param id id of a book instance to be modified
+   * @param newAvailabilityDTO {@link BookInstanceNewAvailabilityDTO} new availability
+   * @return updated BookInstanceDTO
+   * @throws InvalidParameterException
+   */
   @RequestMapping(value = "/{id}/newavailability", method = RequestMethod.PUT,
   consumes = MediaType.APPLICATION_JSON_VALUE,
   produces = MediaType.APPLICATION_JSON_VALUE)
