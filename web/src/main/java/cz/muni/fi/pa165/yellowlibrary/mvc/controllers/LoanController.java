@@ -126,6 +126,7 @@ public class LoanController extends CommonController {
         model.addAttribute(fe.getField() + "_error", true);
         log.trace("FieldError: {}", fe);
       }
+      return "loan/new";
     }
 
     Calendar now = Calendar.getInstance();
