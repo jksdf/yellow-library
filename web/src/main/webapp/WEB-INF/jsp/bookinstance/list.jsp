@@ -50,7 +50,7 @@
                     <td><c:out value="${bookinstance.book.name}"/></td>
                     <td><c:out value="${bookinstance.version}"/></td>
                     <td><c:out value="${bookinstance.bookState}"/></td>
-                    <td><c:out value="${bookinstance.bookAvailability}"/></td>
+                    <td class="${bookinstance.bookAvailability}"><c:out value="${bookinstance.bookAvailability}"/></td>
                 </tr>
             </c:forEach>
             </tbody>
