@@ -23,6 +23,7 @@ import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewAvailabilityDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewStateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.enums.BookInstanceAvailability;
+import cz.muni.fi.pa165.yellowlibrary.api.exceptions.YellowServiceException;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookFacade;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookInstanceFacade;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.LoanFacade;
@@ -132,19 +133,17 @@ public class BookInstanceController extends CommonController {
   public String delete(@PathVariable Long id,
                        Model model,
                        UriComponentsBuilder uriComponentsBuilder,
-                       RedirectAttributes redirectAttributes) {
+                       RedirectAttributes redirectAttributes) throws Exception {
     log.debug("delete({})", id);
     BookInstanceDTO bookInstanceDTO = bookInstanceFacade.findById(id);
-    if(bookInstanceFacade.getAllBookInstancesByAvailability(BookInstanceAvailability.BORROWED)
-        .contains(bookInstanceDTO)) {
-      redirectAttributes.addFlashAttribute("alert_danger", "Loan with this book currently exists.");
-      log.trace("Attempt to delete loaned book instance.");
-      return "redirect:" + uriComponentsBuilder.path("/bookinstance")
-          .queryParam("bid", bookInstanceDTO.getBook().getId())
-          .toUriString();
+    try {
+      bookInstanceFacade.deleteBookInstance(id);
+      redirectAttributes
+          .addFlashAttribute("alert_success", "Book instance has been successfully deleted.");
+    } catch (YellowServiceException yse) {
+        redirectAttributes.addFlashAttribute("alert_danger", "Loan with this book currently exists.");
+        log.trace("Attempt to delete loaned book instance.");
     }
-    bookInstanceFacade.deleteBookInstance(id);
-    redirectAttributes.addFlashAttribute("alert_success", "Book instance has been successfully deleted.");
     return "redirect:" + uriComponentsBuilder.path("/bookinstance")
         .queryParam("bid", bookInstanceDTO.getBook().getId())
         .toUriString();

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import cz.muni.fi.pa165.yellowlibrary.api.exceptions.YellowServiceException;
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.BookInstanceDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
@@ -21,6 +22,9 @@ public class BookInstanceServiceImpl implements BookInstanceService {
   @Inject
   private BookInstanceDao bookInstanceDao;
 
+  @Inject
+  private LoanService loanService;
+
   @Override
   public BookInstance addBookInstance(BookInstance bookInstance) {
     bookInstanceDao.createBookInstance(bookInstance);
@@ -29,6 +33,9 @@ public class BookInstanceServiceImpl implements BookInstanceService {
 
   @Override
   public void deleteBookInstance(BookInstance bookInstance) {
+    if ( loanService.currentLoanOfBookInstance(bookInstance) != null ) {
+      throw new YellowServiceException("Loan with this book instance currently exists.");
+    }
     bookInstanceDao.deleteBookInstance(bookInstance);
   }
 
