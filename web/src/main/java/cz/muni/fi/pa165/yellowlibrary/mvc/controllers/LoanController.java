@@ -119,13 +119,6 @@ public class LoanController extends CommonController {
     log.debug("create(new={})", formData);
 
     if (bindingResult.hasErrors()) {
-      for (ObjectError ge : bindingResult.getGlobalErrors()) {
-        log.trace("ObjectError: {}", ge);
-      }
-      for (FieldError fe : bindingResult.getFieldErrors()) {
-        model.addAttribute(fe.getField() + "_error", true);
-        log.trace("FieldError: {}", fe);
-      }
       return "loan/new";
     }
 
@@ -155,19 +148,8 @@ public class LoanController extends CommonController {
                          UriComponentsBuilder uriComponentsBuilder) {
     log.debug("Loan edit():POST");
 
-    /*if (bindingResult.hasErrors()) {
-      return "redirect:" + uriComponentsBuilder.path("/loan/{id}/edit")
-          .queryParam("id", data.getId()).toUriString();
-    }*/
     if(bindingResult.hasErrors()) {
-      for(ObjectError ge : bindingResult.getGlobalErrors()) {
-        log.trace("ObjectError: {}", ge);
-      }
-      for(FieldError fe : bindingResult.getFieldErrors()) {
-        model.addAttribute(fe.getField() + "_error", true);
-        log.trace("FieldError: {}", fe);
-      }
-      return uriComponentsBuilder.path("/loan/{id}/edit").queryParam("id", data.getId()).toUriString();
+      return "/loan/edit";
     }
 
     loanFacade.update(data);

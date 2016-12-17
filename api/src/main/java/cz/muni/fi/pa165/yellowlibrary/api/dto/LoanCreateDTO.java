@@ -1,11 +1,9 @@
 package cz.muni.fi.pa165.yellowlibrary.api.dto;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.StringJoiner;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import java.util.Date;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 
 /**
  * @author cokinova
@@ -19,7 +17,7 @@ public class LoanCreateDTO {
   @NotNull
   private int loanLength;
 
-  @NotNull
+  @NotEmpty
   private String loanState;
 
   @NotNull

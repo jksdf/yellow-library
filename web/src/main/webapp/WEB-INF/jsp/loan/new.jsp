@@ -8,7 +8,8 @@
 <my:mainpage title="New Loan">
 <jsp:attribute name="body">
     <form:form method="post" action="" modelAttribute="loanCreate" cssClass="form-horizontal">
-        <div class="form-group">
+        <s:bind path="bookInstance">
+        <div class="form-group ${status.error ? 'has-error' : ''}">
             <form:label path="bookInstance" cssClass="col-sm-2 control-label">Book instancies</form:label>
             <div class="col-sm-6">
                 <form:select path="bookInstance" cssClass="form-control">
@@ -18,8 +19,10 @@
                 <form:errors path="bookInstance" cssClass="error"/>
             </div>
         </div>
+        </s:bind>
 
-        <div class="form-group">
+        <s:bind path="user">
+        <div class="form-group ${status.error ? 'has-error' : ''}">
             <form:label path="user" cssClass="col-sm-2 control-label">Users</form:label>
             <div class="col-sm-6">
                 <form:select path="user" cssClass="form-control">
@@ -29,16 +32,20 @@
                 <form:errors path="user" cssClass="error"/>
             </div>
         </div>
+        </s:bind>
 
-        <div class="form-group ${loanState_error?'has-error':''}">
-            <form:label path="loanState" cssClass="col-sm-2 control-label">State of the Book</form:label>
+        <s:bind path="loanState">
+        <div class="form-group ${status.error ? 'has-error' : ''}">
+            <form:label path="loanState" cssClass="col-sm-2 control-label">State of loan</form:label>
             <div class="col-sm-6">
                 <form:input path="loanState" cssClass="form-control"/>
                 <form:errors path="loanState" cssClass="help-block"/>
             </div>
         </div>
+        </s:bind>
 
-        <div class="form-group">
+        <s:bind path="loanLength">
+        <div class="form-group ${status.error ? 'has-error' : ''}">
             <form:label path="loanLength" cssClass="col-sm-2 control-label">Loan length</form:label>
             <div class="col-sm-6">
                 <form:select path="loanLength" cssClass="form-control">
@@ -49,6 +56,7 @@
                 <form:errors path="loanLength" cssClass="error"/>
             </div>
         </div>
+        </s:bind>
 
         <div class="form-group">
             <div class="col-sm-6 col-sm-offset-2">

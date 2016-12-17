@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.yellowlibrary.api.dto;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -19,7 +21,7 @@ public class LoanDTO {
   @NotNull
   private int loanLength;
 
-  @NotNull
+  @NotEmpty
   private String loanState;
 
   @NotNull
