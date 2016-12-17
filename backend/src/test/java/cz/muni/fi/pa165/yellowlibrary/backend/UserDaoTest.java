@@ -312,4 +312,34 @@ public class UserDaoTest  extends AbstractTestNGSpringContextTests {
     assertFalse(users.isEmpty());
     assertEquals(users.size(), 2);
   }
+
+  @Test(expectedExceptions = NullPointerException.class)
+  public void findAllUsersWithNullNameTest() {
+    userDao.findAllUsersWithName(null);
+  }
+
+  @Test
+  public void findAllUsersWithNameTest() {
+    User johan = new User();
+    johan.setName("Johan Good");
+    johan.setAddress("London");
+    johan.setLogin("james");
+    johan.setPasswordHash("jamesHash");
+    johan.setUserType(UserType.CUSTOMER);
+    johan.setTotalFines(BigDecimal.ZERO);
+
+    User john = new User();
+    john.setName("John Green");
+    john.setAddress("London");
+    john.setLogin("johnny");
+    john.setPasswordHash("johnHash");
+    john.setUserType(UserType.EMPLOYEE);
+    john.setTotalFines(BigDecimal.ZERO);
+
+    em.persist(johan);
+    em.persist(john);
+    assertEquals(userDao.findAllUsersWithName("joh").size(), 2);
+    assertEquals(userDao.findAllUsersWithName("john").size(), 1);
+    assertEquals(userDao.findAllUsersWithName("john").get(0), john);
+  }
 }

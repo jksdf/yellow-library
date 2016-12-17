@@ -55,4 +55,12 @@ public interface UserDao {
    * @return List of all users, that are present in system.
    */
   List<User> findAllUsers();
+
+  /**
+   * Searches for all users, whose substrings of names match parameter name. This method searches
+   * case insensitive.
+   * @param name Substring to be searched.
+   * @return List of users, whose name matches with substring given as parameter.
+   */
+  List<User> findAllUsersWithName(String name);
 }

@@ -65,4 +65,12 @@ public interface UserFacade {
    * @return True, if the user is a customer, false otherwise.
    */
   boolean isCustomer(UserDTO userDTO);
+
+  /**
+   * Searches for all users, whose substrings of names match parameter name. This method searches
+   * case insensitive.
+   * @param name Substring to be searched.
+   * @return List of users, whose name matches with substring given as parameter.
+   */
+  List<UserDTO> findAllUsersWithName(String name);
 }
