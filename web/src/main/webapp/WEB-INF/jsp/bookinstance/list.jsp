@@ -35,11 +35,13 @@
                     <td class="center nounderline">
                             <c:if test="${isEmployee}">
                             <div class="glyphic">
-                                <form method="post" action="${pageContext.request.contextPath}/bookinstance/${bookinstance.id}/delete">
+                                <c:if test="${bookinstance.bookAvailability == 'AVAILABLE'}">
+                                <form method="post" action="${pageContext.request.contextPath}/bookinstance/${bookinstance.id}/discard">
                                     <button type="submit" class="btn btn-xs btn-link">
                                         <span class="glyphicon glyphicon-minus text-danger" aria-hidden="true"></span>
                                     </button>
                                 </form>
+                                </c:if>
                                 <a href="${pageContext.request.contextPath}/bookinstance/${bookinstance.id}/edit?attr=state">
                                     <span class="glyphicon glyphicon-pencil text-warning" aria-hidden="true"></span>
                                 </a>
