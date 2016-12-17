@@ -51,17 +51,7 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <form:label path="bookAvailability" cssClass="col-sm-2 control-label">Availability</form:label>
-            <div class="col-sm-10">
-                <form:select path="bookAvailability" cssClass="form-control">
-                    <c:forEach items="${bookAvailabilities}" var="availableOption">
-                        <form:option value="${availableOption}">${availableOption}</form:option>
-                    </c:forEach>
-                </form:select>
-                <form:errors path="bookAvailability" cssClass="error"/>
-            </div>
-        </div>
+        <input type="hidden" name="bookAvailability" value="${bookAvailabilities[0]}">
 
         <input type="hidden" name="bookId" value=${bookId}>
 
