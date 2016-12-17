@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.yellowlibrary.service;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.matchers.Null;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeMethod;
@@ -236,6 +237,21 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
   public void isCustomerTest() {
     assertTrue(userService.isCustomer(user3));
     assertFalse(userService.isEmployee(user3));
+  }
+
+  @Test(expectedExceptions = NullPointerException.class)
+  public void findAllUsersWithNullNameTest() {
+    when(userDao.findAllUsersWithName(null)).thenThrow(NullPointerException.class);
+    userService.findAllUsersWithName(null);
+  }
+
+  @Test
+  public void findAllUsersWithNameTest() {
+    when(userDao.findAllUsersWithName("jo")).thenReturn(Arrays.asList(user1, user2));
+    List<User> users = userService.findAllUsersWithName("jo");
+    assertEquals(users.size(), 2);
+    assertTrue(users.contains(user1));
+    assertTrue(users.contains(user2));
   }
 
   private void setUpUsers() {

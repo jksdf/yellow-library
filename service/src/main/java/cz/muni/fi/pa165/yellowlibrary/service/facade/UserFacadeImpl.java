@@ -92,4 +92,10 @@ public class UserFacadeImpl implements UserFacade {
     User user = mappingService.mapTo(userDTO, User.class);
     return userService.isCustomer(user);
   }
+
+  @Override
+  public List<UserDTO> findAllUsersWithName(String name) {
+    List<User> users = userService.findAllUsersWithName(name);
+    return mappingService.mapTo(users, UserDTO.class);
+  }
 }

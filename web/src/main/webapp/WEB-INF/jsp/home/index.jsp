@@ -16,5 +16,16 @@
             </a></p>
         </div>
     </c:if>
+    <c:if test="${isAuthenticated}">
+        <div class="jumbotron">
+            <c:if test="${isEmployee}">
+                <h2 class="display-3"><fmt:message key="login.logged_in_employee" /></h2>
+            </c:if>
+            <c:if test="${isCustomer}">
+                <h2 class="display-3"><fmt:message key="login.logged_in" /></h2>
+            </c:if>
+            <p class="lead"><fmt:message key="login.use_all" /></p>
+        </div>
+    </c:if>
     </jsp:attribute>
 </own:mainpage>

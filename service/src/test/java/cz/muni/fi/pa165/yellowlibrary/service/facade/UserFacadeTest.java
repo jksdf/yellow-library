@@ -135,6 +135,14 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
     assertFalse(userFacade.isEmployee(userDTO));
   }
 
+  @Test
+  public void findAllUsersWithNameTest() {
+    when(userService.findAllUsersWithName("jo")).thenReturn(Arrays.asList(user1, user2));
+    List<UserDTO> users = userFacade.findAllUsersWithName("jo");
+    assertEquals(users.size(), 2);
+    verify(userService).findAllUsersWithName("jo");
+  }
+
   private void setUpUsers() {
     user1 = new User();
     user1.setName("Joshua Bloch");
