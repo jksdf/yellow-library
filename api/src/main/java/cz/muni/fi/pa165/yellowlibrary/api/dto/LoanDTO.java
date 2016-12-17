@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.yellowlibrary.api.dto;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -19,7 +21,7 @@ public class LoanDTO {
   @NotNull
   private int loanLength;
 
-  @NotNull
+  @NotEmpty
   private String loanState;
 
   @NotNull
@@ -99,36 +101,30 @@ public class LoanDTO {
     if (this == o) {
       return true;
     }
-    if (o == null || !(o instanceof LoanDTO)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
 
     LoanDTO loanDTO = (LoanDTO) o;
 
-    if (getId() != null ? !getId().equals(loanDTO.getId()) : loanDTO.getId() != null) {
+    if (getDateFrom() != null ? !getDateFrom().equals(loanDTO.getDateFrom())
+        : loanDTO.getDateFrom() != null) {
       return false;
     }
-    if (!getDateFrom().equals(loanDTO.getDateFrom())) {
+    if (getUser() != null ? !getUser().equals(loanDTO.getUser()) : loanDTO.getUser() != null) {
       return false;
     }
-    if (getReturnDate() != null ? !getReturnDate().equals(loanDTO.getReturnDate())
-        : loanDTO.getReturnDate() != null) {
-      return false;
-    }
-    if (!getUser().equals(loanDTO.getUser())) {
-      return false;
-    }
-    return getBookInstance().equals(loanDTO.getBookInstance());
+    return getBookInstance() != null ? getBookInstance().equals(loanDTO.getBookInstance())
+        : loanDTO.getBookInstance() == null;
 
   }
 
   @Override
   public int hashCode() {
-    int result = getId() != null ? getId().hashCode() : 0;
-    result = 31 * result + getDateFrom().hashCode();
-    result = 31 * result + (getReturnDate() != null ? getReturnDate().hashCode() : 0);
-    result = 31 * result + getUser().hashCode();
-    result = 31 * result + getBookInstance().hashCode();
+    int result = getDateFrom() != null ? getDateFrom().hashCode() : 0;
+    result = 31 * result + (getUser() != null ? getUser().hashCode() : 0);
+    result = 31 * result + (getBookInstance() != null ? getBookInstance().hashCode() : 0);
     return result;
   }
+
 }

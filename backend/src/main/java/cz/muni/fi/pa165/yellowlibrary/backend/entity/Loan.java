@@ -128,10 +128,6 @@ public class Loan {
     if (!getDateFrom().equals(loan.getDateFrom())) {
       return false;
     }
-    if (getReturnDate() != null ? !getReturnDate().equals(loan.getReturnDate())
-        : loan.getReturnDate() != null) {
-      return false;
-    }
     if (!getUser().equals(loan.getUser())) {
       return false;
     }
@@ -141,6 +137,6 @@ public class Loan {
 
   @Override
   public int hashCode() {
-      return Objects.hash(getReturnDate(), getUser(), getBookInstance());
+      return Objects.hash(getDateFrom(), getUser(), getBookInstance());
   }
 }

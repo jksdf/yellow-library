@@ -40,13 +40,13 @@
                 <td><c:out value="${book.isbn}"/></td>
                 <td><c:out value="${book.department.name}"/></td>
                 <td class="right">
-                    <a href="${pageContext.request.contextPath}/book/${book.id}/bookinstances">
+                    <a href="${pageContext.request.contextPath}/bookinstance?bid=${book.id}">
                         <span class="glyphicon glyphicon-eye-open text-info" aria-hidden="true"></span>
                     </a>
                 </td>
                 <c:if test="${isEmployee}">
                     <td class="right">
-                        <a href="${pageContext.request.contextPath}/book/${book.id}/bookinstance/new">
+                        <a href="${pageContext.request.contextPath}/bookinstance/new?bid=${book.id}">
                             <span class="glyphicon glyphicon-plus text-success" aria-hidden="true"></span>
                         </a>
                     </td>

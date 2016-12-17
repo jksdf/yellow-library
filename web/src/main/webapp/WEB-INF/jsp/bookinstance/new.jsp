@@ -16,13 +16,29 @@
 <jsp:attribute name="body">
 
     <div class="col-md-7 center">
-    <form:form method="post" action="${pageContext.request.contextPath}/book/${bookId}/bookinstance/create"
+    <form:form method="post" action="${pageContext.request.contextPath}/bookinstance/create?bid=${bookId}"
                modelAttribute="bookInstanceCreate" cssClass="form-horizontal">
+
+        <div class="form-group ${name_error?'has-error':''}">
+            <form:label path="" cssClass="col-sm-2 control-label">Book</form:label>
+            <div class="col-sm-10">
+                <form:input path="" placeholder="${bookName}" readonly="true" cssClass="form-control" />
+                <form:errors path="" cssClass="help-block"/>
+            </div>
+        </div>
+
+        <div class="form-group ${name_error?'has-error':''}">
+            <form:label path="" cssClass="col-sm-2 control-label">Author</form:label>
+            <div class="col-sm-10">
+                <form:input path="" placeholder="${bookAuthor}" readonly="true" cssClass="form-control" />
+                <form:errors path="" cssClass="help-block"/>
+            </div>
+        </div>
 
         <div class="form-group ${name_error?'has-error':''}">
             <form:label path="bookState" cssClass="col-sm-2 control-label">State</form:label>
             <div class="col-sm-10">
-                <form:input path="bookState" cssClass="form-control"/>
+                <form:input path="bookState" cssClass="form-control" placeholder="New"/>
                 <form:errors path="bookState" cssClass="help-block"/>
             </div>
         </div>

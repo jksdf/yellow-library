@@ -120,3 +120,15 @@ body {
 .bookDetail td {
     padding: 0.5em;
 }
+
+td.BORROWED {
+    color: red;
+}
+
+td.AVAILABLE {
+    color: green;
+}
+
+td.REMOVED {
+    color: grey;
+}

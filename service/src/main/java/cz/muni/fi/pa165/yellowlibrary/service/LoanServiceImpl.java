@@ -4,6 +4,9 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +17,8 @@ import cz.muni.fi.pa165.yellowlibrary.backend.dao.LoanDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 /**
  * @author cokinova
@@ -83,11 +88,16 @@ public class LoanServiceImpl implements LoanService{
   @Override
   public void calculateFines(Calendar now) {
     List<Loan> notReturned = loanDao.findNotReturned();
+
+    LocalDate nowLocalDate = new java.sql.Date(now.getTimeInMillis()).toLocalDate();
     for (Loan l : notReturned) {
-      Calendar loanDate = Calendar.getInstance();
-      loanDate.setTime(l.getDateFrom());
-      loanDate.add(Calendar.DAY_OF_YEAR, l.getLoanLength());
-      if (loanDate.before(now)) {
+      LocalDate lDate = Instant
+          .ofEpochMilli(l.getDateFrom().getTime())
+          .atZone(now.getTimeZone().toZoneId())
+          .toLocalDate();
+
+      long days = ChronoUnit.DAYS.between(lDate, nowLocalDate);
+      if (days > l.getLoanLength()) {
         l.setFine(BigDecimal.valueOf(100L));
         loanDao.update(l);
       }

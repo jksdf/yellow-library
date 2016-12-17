@@ -18,7 +18,7 @@
             <tr>
                 <th class="center nounderline">
                         <c:if test="${isEmployee && not empty bookId}">
-                            <a href="${pageContext.request.contextPath}/book/${bookId}/bookinstance/new"><span
+                            <a href="${pageContext.request.contextPath}/bookinstance/new?bid=${bookId}"><span
                                     class="glyphicon glyphicon-plus text-success" aria-hidden="true"></span>Add</a>
                         </c:if>
                 </th>
@@ -32,26 +32,25 @@
             <tbody>
             <c:forEach items="${bookinstances}" var="bookinstance">
                 <tr>
-                    <c:if test="${isEmployee}">
-                        <td class="center nounderline">
+                    <td class="center nounderline">
+                            <c:if test="${isEmployee}">
                             <div class="glyphic">
-                                <form method="post"
-                                      action="${pageContext.request.contextPath}/bookinstance/${bookinstance.id}/delete">
+                                <form method="post" action="${pageContext.request.contextPath}/bookinstance/${bookinstance.id}/delete">
                                     <button type="submit" class="btn btn-xs btn-link">
                                         <span class="glyphicon glyphicon-minus text-danger" aria-hidden="true"></span>
                                     </button>
                                 </form>
-                                <a href="${pageContext.request.contextPath}/bookinstance/${bookinstance.id}/newstate"><span
-                                        class="glyphicon glyphicon-pencil text-warning" aria-hidden="true"></span>
+                                <a href="${pageContext.request.contextPath}/bookinstance/${bookinstance.id}/edit?attr=state">
+                                    <span class="glyphicon glyphicon-pencil text-warning" aria-hidden="true"></span>
                                 </a>
                             </div>
-                        </td>
-                    </c:if>
+                            </c:if>
+                    </td>
                     <td>${bookinstance.id}</td>
                     <td><c:out value="${bookinstance.book.name}"/></td>
                     <td><c:out value="${bookinstance.version}"/></td>
                     <td><c:out value="${bookinstance.bookState}"/></td>
-                    <td><c:out value="${bookinstance.bookAvailability}"/></td>
+                    <td class="${bookinstance.bookAvailability}"><c:out value="${bookinstance.bookAvailability}"/></td>
                 </tr>
             </c:forEach>
             </tbody>
