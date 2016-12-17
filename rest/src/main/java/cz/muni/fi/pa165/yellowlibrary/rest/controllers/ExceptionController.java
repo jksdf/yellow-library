@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cz.muni.fi.pa165.yellowlibrary.rest.RestError;
+import cz.muni.fi.pa165.yellowlibrary.rest.exceptions.ResourceAlreadyExists;
 import cz.muni.fi.pa165.yellowlibrary.rest.exceptions.ResourceNotFoundException;
 
 /**
@@ -22,6 +23,15 @@ public class ExceptionController {
   RestError handleException(ResourceNotFoundException ex) {
     RestError error = new RestError();
     error.setErrors(ImmutableList.of("Unable to find the requested resource."));
+    return error;
+  }
+
+  @ExceptionHandler
+  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+  @ResponseBody
+  RestError handleException(ResourceAlreadyExists ex) {
+    RestError error = new RestError();
+    error.setErrors(ImmutableList.of("Resource already exists."));
     return error;
   }
 
