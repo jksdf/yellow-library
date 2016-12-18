@@ -11,7 +11,7 @@
     <c:if test="${isEmployee}">
         <a href="${pageContext.request.contextPath}/book/create" class="btn btn-primary">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            New book
+            <fmt:message key="book.new"/>
         </a>
     </c:if>
     <table class="table">
