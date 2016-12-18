@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
  * @author cokinova
  */
 public class LoanCreateDTO {
-  @NotNull
   private Date dateFrom;
 
   private Date returnDate;

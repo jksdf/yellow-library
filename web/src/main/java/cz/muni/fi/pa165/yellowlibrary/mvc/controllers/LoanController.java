@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.beans.PropertyEditorSupport;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -104,25 +105,23 @@ public class LoanController extends CommonController {
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) {
-    log.debug("view({})", id);
+    log.trace("view({})", id);
     model.addAttribute("loan", loanFacade.findById(id));
     return "loan/view";
   }
 
   @RequestMapping(value = "/new", method = RequestMethod.GET)
   public String newBookInstance(Model model) {
-    log.debug("new()");
+    log.trace("newBookInstance()[GET]");
     model.addAttribute("loan", new LoanCreateDTO());
-
     return "loan/new";
   }
 
   @RequestMapping(value = "/new", method = RequestMethod.POST)
   public String newBookInstancePost(@Valid @ModelAttribute("loan") LoanCreateDTO formData,
                        BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes,
-                       UriComponentsBuilder uriComponentsBuilder) {
-    log.debug("create(new={})", formData);
-
+                       UriComponentsBuilder uriComponentsBuilder, Locale locale) {
+    log.trace("newBookInstancePost()[POST]: {}", formData);
     if (bindingResult.hasErrors()) {
       return "loan/new";
     }
@@ -133,14 +132,15 @@ public class LoanController extends CommonController {
 
     String userName = formData.getUser().getName();
     String bookName = formData.getBookInstance().getBook().getName();
-    redirectAttributes.addFlashAttribute("alert_success", "New loan for \""+ userName + "\" of \"" + bookName +
-        "\" has been successfully created");
+    redirectAttributes.addFlashAttribute("alert_success",
+            MessageFormat.format(context.getMessage("loan.new.success", null, locale), userName, bookName));
 
     return "redirect:" + uriComponentsBuilder.path("/loan/list").toUriString();
   }
 
   @RequestMapping(value = {"/{id}/edit"}, method = RequestMethod.GET)
   public String editGet(@PathVariable("id") long id, Model model) {
+    log.trace("editGet()[GET]");
     LoanDTO loan = loanFacade.findById(id);
     model.addAttribute("loan", loan);
     return "loan/edit";
@@ -150,28 +150,27 @@ public class LoanController extends CommonController {
   public String editPost(@Valid @ModelAttribute("loan") LoanDTO data,
                          BindingResult bindingResult, Model model,
                          RedirectAttributes redirectAttributes,
-                         UriComponentsBuilder uriComponentsBuilder) {
-    log.debug("Loan edit():POST");
-
+                         UriComponentsBuilder uriComponentsBuilder, Locale locale) {
+    log.trace("editPost()[POST]");
     if(bindingResult.hasErrors()) {
       return "/loan/edit";
     }
 
     loanFacade.update(data);
     redirectAttributes.addFlashAttribute("alert_success",
-        String.format("Loan has been successfully edited"));
+            context.getMessage("loan.edit.success", null, locale));
     return "redirect:" + uriComponentsBuilder.path("/loan/list").toUriString();
   }
 
   @ModelAttribute("bookInstancies")
   public List<BookInstanceDTO> bookInstancies() {
-    log.debug("bookInstancies()");
+    log.trace("bookInstancies()");
     return bookInstanceFacade.getAllBookInstances();
   }
 
   @ModelAttribute("users")
   public List<UserDTO> users() {
-    log.debug("users()");
+    log.trace("users()");
     return userFacade.findAllUsers();
   }
 
