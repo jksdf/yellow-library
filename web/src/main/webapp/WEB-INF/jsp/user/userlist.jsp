@@ -52,9 +52,6 @@
                     </tbody>
                 </table>
             </div>
-        </div> <!-- container -->
-        <c:if test="${empty users}">
-            asdf
-        </c:if>
+        </div>
     </jsp:attribute>
 </own:mainpage>
