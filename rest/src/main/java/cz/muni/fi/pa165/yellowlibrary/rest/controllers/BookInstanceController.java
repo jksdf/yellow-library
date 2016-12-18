@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.yellowlibrary.rest.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +15,9 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.print.attribute.standard.Media;
 
+import cz.muni.fi.pa165.yellowlibrary.api.dto.BookDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewStateDTO;
@@ -168,11 +171,15 @@ public class BookInstanceController {
   @RequestMapping(value = "/{id}/newstate", method = RequestMethod.PUT,
   consumes = MediaType.APPLICATION_JSON_VALUE,
   produces = MediaType.APPLICATION_JSON_VALUE)
-  public final BookInstanceDTO changeBookState(@PathVariable("id") Long id, @RequestBody BookInstanceNewStateDTO newStateDTO) throws Exception {
-    log.debug("REST changeBookState({})", id);
-    newStateDTO.setId(id);
-    bookInstanceFacade.changeBookState(newStateDTO);
-    return bookInstanceFacade.findById(id);
+  public final BookInstanceDTO changeBookState(@PathVariable("id") Long id, @Validated @RequestBody BookInstanceNewStateDTO newStateDTO) throws Exception {
+    try {
+      log.debug("REST changeBookState({})", id);
+      newStateDTO.setId(id);
+      bookInstanceFacade.changeBookState(newStateDTO);
+      return bookInstanceFacade.findById(id);
+    } catch (Exception ex) {
+      throw new InvalidParameterException();
+    }
   }
 
   /**
@@ -188,9 +195,39 @@ public class BookInstanceController {
   @RequestMapping(value = "/{id}/newavailability", method = RequestMethod.PUT,
   consumes = MediaType.APPLICATION_JSON_VALUE,
   produces = MediaType.APPLICATION_JSON_VALUE)
-  public final BookInstanceDTO changeBookAvailability(@PathVariable("id") Long id, @RequestBody BookInstanceAvailability newAvailability) {
-    log.debug("REST changeBookAvailability({id})", id);
-    bookInstanceFacade.changeBookAvailability(id, newAvailability);
-    return bookInstanceFacade.findById(id);
+  public final BookInstanceDTO changeBookAvailability(@PathVariable("id") Long id,
+                                                      @Validated @RequestBody BookInstanceAvailability newAvailability) {
+    try {
+      log.debug("REST changeBookAvailability({id})", id);
+      bookInstanceFacade.changeBookAvailability(id, newAvailability);
+      return bookInstanceFacade.findById(id);
+    } catch (Exception ex) {
+      throw new InvalidParameterException();
+    }
+  }
+
+  /**
+   * Modifies the book of a book instance
+   *
+   * curl -X PUT -i -H "COntent-Type: application/json" --data
+   * '{"id":"3"}'
+   * http:""localhost:8080/pa165/rest/bookinstance/1/newbook
+   *
+   * @param id id of a book instance to be modified
+   * @param book {@link BookDTO} new book
+   * @return updated BookInstanceDTO
+   */
+  @RequestMapping(value = "/{id}/newbook", method = RequestMethod.PUT,
+  consumes = MediaType.APPLICATION_JSON_VALUE,
+  produces = MediaType.APPLICATION_JSON_VALUE)
+  public final BookInstanceDTO changeBook(@PathVariable("id") Long id,
+                                          @Validated @RequestBody BookDTO book) {
+    try {
+      log.debug("REST changeBook({id}", id);
+      bookInstanceFacade.setBook(id, book.getId());
+      return bookInstanceFacade.findById(id);
+    } catch (Exception ex) {
+      throw new ResourceNotFoundException();
+    }
   }
 }
