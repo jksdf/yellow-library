@@ -133,8 +133,8 @@ public class LoanController extends CommonController {
     try {
       loanFacade.create(formData);
     } catch (BookInstanceNotAvailableException ex) {
-      bindingResult.addError(new ObjectError("bookInstance",
-          context.getMessage("loan.new.bookInstanceNotAvailable", null, locale)));
+        bindingResult.rejectValue("bookInstance", "error.user",
+                context.getMessage("loan.new.bookInstanceNotAvailable", null, locale));
       return "loan/new";
     }
 
