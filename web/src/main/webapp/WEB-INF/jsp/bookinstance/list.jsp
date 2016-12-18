@@ -66,7 +66,11 @@
                             </c:if>
                     </td>
                     <td>${bookinstance.id}</td>
-                    <td><c:out value="${bookinstance.book.name}"/></td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/book/${bookinstance.book.id}">
+                            <c:out value="${bookinstance.book.name}"/>
+                        </a>
+                    </td>
                     <td><c:out value="${bookinstance.version}"/></td>
                     <td><c:out value="${bookinstance.bookState}"/></td>
                     <td>
