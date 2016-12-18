@@ -20,7 +20,6 @@ import javax.validation.Valid;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
-import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewAvailabilityDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewStateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.enums.BookInstanceAvailability;
 import cz.muni.fi.pa165.yellowlibrary.api.exceptions.YellowServiceException;
@@ -100,7 +99,7 @@ public class BookInstanceController extends CommonController {
   }
 
   /**
-   * Provides form to change state of a book instance
+   * Provides way to modify a book instance state
    * @param id id of a book instance
    */
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
@@ -114,9 +113,6 @@ public class BookInstanceController extends CommonController {
     if(attr.equals("state")) {
       model.addAttribute("bookInstanceNewState", new BookInstanceNewStateDTO());
       return "/bookinstance/newState";
-    } else if (attr.equals("availability")) {
-      model.addAttribute("bookInstanceNewAvailability", new BookInstanceNewAvailabilityDTO());
-      return "/bookinstance/newAvailability";
     } else {
       model.addAttribute("alert_danger", "Unknown attribute " + attr);
       return "redirect:" + uriComponentsBuilder.path("/bookinstance/list?={bid}")
@@ -141,7 +137,7 @@ public class BookInstanceController extends CommonController {
       redirectAttributes
           .addFlashAttribute("alert_success", "Book instance has been successfully deleted.");
     } catch (YellowServiceException yse) {
-        redirectAttributes.addFlashAttribute("alert_danger", "Loan with this book currently exists.");
+        redirectAttributes.addFlashAttribute("alert_danger", yse.getMessage());
         log.trace("Attempt to delete loaned book instance.");
     }
     return "redirect:" + uriComponentsBuilder.path("/bookinstance")
@@ -182,35 +178,24 @@ public class BookInstanceController extends CommonController {
    * Validates form and changes the availability of a book instance
    * @param id id of a book instance to change
    */
-  @RequestMapping(value = "/{id}/change-availability", method = RequestMethod.POST)
+  @RequestMapping(value = "/{id}/discard", method = RequestMethod.POST)
   public String changeAvailability(@PathVariable Long id,
-                            @Valid @ModelAttribute("bookInstanceNewAvailability")BookInstanceNewAvailabilityDTO formBean,
-                            BindingResult bindingResult,
-                            Model model,
-                            RedirectAttributes redirectAttributes,
-                            UriComponentsBuilder uriComponentsBuilder) {
-    log.debug("changeState(bookInstanceNewAvailability={id})", id, formBean);
+                                   Model model,
+                                   RedirectAttributes redirectAttributes,
+                                   UriComponentsBuilder uriComponentsBuilder) {
+    log.debug("changeState({id})", id);
 
-    if(loanFacade.currentLoanOfBookInstance(bookInstanceFacade.findById(formBean.getId())) != null) {
-      redirectAttributes.addFlashAttribute("alert_danger", "Loan with this book currently exists.");
-      return "redirect:" + uriComponentsBuilder.path("/bookinstance/list")
-          .queryParam("bid", bookInstanceFacade.findById(id).getBook().getId())
-          .toUriString();
-    }
-
-    if(bindingResult.hasErrors()) {
-      for(ObjectError ge : bindingResult.getGlobalErrors()) {
-        log.trace("ObjectError: {}", ge);
-      }
-      for(FieldError fe : bindingResult.getFieldErrors()) {
-        model.addAttribute(fe.getField() + "_error", true);
-        log.trace("FieldError: {}", fe);
-      }
-      return "/bookinstance/newAvailability";
-    }
-    bookInstanceFacade.changeBookAvailability(formBean);
     BookInstanceDTO bookInstanceDTO = bookInstanceFacade.findById(id);
-    redirectAttributes.addFlashAttribute("alert_success", "Availability has been successfully changed.");
+
+    if (bookInstanceDTO.getBookAvailability() == BookInstanceAvailability.REMOVED) {
+      redirectAttributes.addFlashAttribute("alert_danger", "Book is already discarded.");
+    } else if (loanFacade.currentLoanOfBookInstance(bookInstanceDTO) != null) {
+      redirectAttributes.addFlashAttribute("alert_danger", "Loan with this book currently exists.");
+    } else {
+      bookInstanceFacade.changeBookAvailability(id, BookInstanceAvailability.REMOVED);
+      bookInstanceDTO = bookInstanceFacade.findById(id);
+      redirectAttributes.addFlashAttribute("alert_success", "Book successfully discarded.");
+    }
     return "redirect:" + uriComponentsBuilder.path("/bookinstance/list")
         .queryParam("bid", bookInstanceDTO.getBook().getId())
         .toUriString();
@@ -254,10 +239,11 @@ public class BookInstanceController extends CommonController {
       }
       return "bookinstance/new";
     }
-    Long id = bookInstanceFacade.createBookInstance(formBean);
-    BookInstanceDTO bookInstance= bookInstanceFacade.findById(id);
+    bookInstanceFacade.createBookInstance(formBean);
     redirectAttributes.addFlashAttribute("alert_success", "New book has been successfully created");
-    return "redirect:" + uriComponentsBuilder.path("/bookinstance").queryParam("bid", bid).toUriString();
+    return "redirect:" + uriComponentsBuilder.path("/bookinstance")
+        .queryParam("bid", bid)
+        .toUriString();
   }
 
   /**
