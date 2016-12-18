@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import cz.muni.fi.pa165.yellowlibrary.backend.dao.BookInstanceDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.LoanDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
@@ -43,6 +44,9 @@ import static org.mockito.Mockito.when;
 public class LoanServiceTest extends AbstractTestNGSpringContextTests {
   @Mock
   private LoanDao loanDao;
+
+  @Mock
+  private BookInstanceDao bookInstanceDao;
 
   @Inject
   @InjectMocks
@@ -228,6 +232,8 @@ public class LoanServiceTest extends AbstractTestNGSpringContextTests {
 
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void testCreateSetId() {
+    bookInstance1.setBookAvailability(BookAvailability.AVAILABLE);
+    bookInstanceDao.updateBookInstance(bookInstance1);
     Loan loan = new Loan();
     loan.setId(9L);
     loan.setUser(user1);
