@@ -1,9 +1,5 @@
 <%--
-  Created by IntelliJ IDEA.
-  User: reyvateil
-  Date: 15.12.2016
-  Time: 9:45
-  To change this template use File | Settings | File Templates.
+  User: Matej Gallo
 --%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" trimDirectiveWhitespaces="false" session="false" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
@@ -27,7 +23,7 @@
             </div>
         </div>
 
-        <button class="btn btn-primary" type="submit">Change book state</button>
+        <button class="btn btn-primary" type="submit"><fmt:message key="binstance.newstate"/></button>
     </form:form>
     </div>
 </jsp:attribute>

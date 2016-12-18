@@ -1,9 +1,5 @@
 <%--
-  Created by IntelliJ IDEA.
-  User: reyvateil
-  Date: 15.12.2016
-  Time: 9:45
-  To change this template use File | Settings | File Templates.
+  User: Matej Gallo
 --%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" trimDirectiveWhitespaces="false" session="false" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
@@ -20,7 +16,7 @@
                modelAttribute="bookInstanceCreate" cssClass="form-horizontal">
 
         <div class="form-group ${name_error?'has-error':''}">
-            <form:label path="" cssClass="col-sm-2 control-label">Book</form:label>
+            <form:label path="" cssClass="col-sm-2 control-label"><fmt:message key="binstance.book"/></form:label>
             <div class="col-sm-10">
                 <form:input path="" placeholder="${bookName}" readonly="true" cssClass="form-control" />
                 <form:errors path="" cssClass="help-block"/>
@@ -28,7 +24,7 @@
         </div>
 
         <div class="form-group ${name_error?'has-error':''}">
-            <form:label path="" cssClass="col-sm-2 control-label">Author</form:label>
+            <form:label path="" cssClass="col-sm-2 control-label"><fmt:message key="binstance.author"/></form:label>
             <div class="col-sm-10">
                 <form:input path="" placeholder="${bookAuthor}" readonly="true" cssClass="form-control" />
                 <form:errors path="" cssClass="help-block"/>
@@ -36,15 +32,16 @@
         </div>
 
         <div class="form-group ${name_error?'has-error':''}">
-            <form:label path="bookState" cssClass="col-sm-2 control-label">State</form:label>
+            <form:label path="bookState" cssClass="col-sm-2 control-label"><fmt:message key="binstance.state"/></form:label>
             <div class="col-sm-10">
-                <form:input path="bookState" cssClass="form-control" placeholder="New"/>
+                <fmt:message key="binstance.new" var="placeholder" />
+                <form:input path="bookState" cssClass="form-control" placeholder="${placeholder}"/>
                 <form:errors path="bookState" cssClass="help-block"/>
             </div>
         </div>
 
         <div class="form-group ${description_error?'has-error':''}">
-            <form:label path="version" cssClass="col-sm-2 control-label">Version</form:label>
+            <form:label path="version" cssClass="col-sm-2 control-label"><fmt:message key="binstance.version"/></form:label>
             <div class="col-sm-10">
                 <form:input path="version" cssClass="form-control"/>
                 <form:errors path="version" cssClass="help-block"/>
@@ -55,7 +52,7 @@
 
         <input type="hidden" name="bookId" value=${bookId}>
 
-        <button class="btn btn-primary" type="submit">Create book instance</button>
+        <button class="btn btn-primary" type="submit"><fmt:message key="binstance.create"/></button>
     </form:form>
     </div>
 </jsp:attribute>

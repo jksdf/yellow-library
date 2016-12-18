@@ -1,8 +1,5 @@
 <%--
-  Created by IntelliJ IDEA.
   User: Matej Gallo
-  Date: 15.12.2016
-  Time: 9:45
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8" trimDirectiveWhitespaces="false" session="false" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
@@ -23,10 +20,10 @@
                         </c:if>
                 </th>
                 <th>ID</th>
-                <th>Book</th>
-                <th>Version</th>
-                <th>State</th>
-                <th>Availability</th>
+                <th><fmt:message key="binstance.book"/></th>
+                <th><fmt:message key="binstance.version"/></th>
+                <th><fmt:message key="binstance.state"/></th>
+                <th><fmt:message key="binstance.availability"/></th>
             </tr>
             </thead>
             <tbody>
@@ -52,7 +49,17 @@
                     <td><c:out value="${bookinstance.book.name}"/></td>
                     <td><c:out value="${bookinstance.version}"/></td>
                     <td><c:out value="${bookinstance.bookState}"/></td>
-                    <td class="${bookinstance.bookAvailability}"><c:out value="${bookinstance.bookAvailability}"/></td>
+                    <td class="${bookinstance.bookAvailability}">
+                        <c:if test="${bookinstance.bookAvailability == 'AVAILABLE'}">
+                            <fmt:message key="binstance.available"/>
+                        </c:if>
+                        <c:if test="${bookinstance.bookAvailability == 'BORROWED'}">
+                            <fmt:message key="binstance.borrowed"/>
+                        </c:if>
+                        <c:if test="${bookinstance.bookAvailability == 'REMOVED'}">
+                            <fmt:message key="binstance.removed"/>
+                        </c:if>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>
