@@ -5,6 +5,16 @@
 curl -i -X GET http://localhost:8080/pa165/rest/bookinstance
 ```
 
+###### Retrieve all removed book instances
+```
+curl -i -X GET http://localhost:8080/pa165/rest/bookinstance?filter=removed
+```
+
+###### Retrieve all available book instances of book with ID:1
+```
+curl -i -X GET http://localhost:8080/pa165/rest/bookinstance?filter=available&bid=1
+```
+
 ###### Retrieve a book instance with ID 1
 ```
 curl -i -X GET http://localhost:8080/pa165/rest/bookinstance/1
