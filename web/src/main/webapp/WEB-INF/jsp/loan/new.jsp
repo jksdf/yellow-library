@@ -8,7 +8,7 @@
 <fmt:message key="loan.new.title" var="title" />
 <my:mainpage title="${title}">
 <jsp:attribute name="body">
-    <form:form method="post" action="" modelAttribute="loanCreate" cssClass="form-horizontal">
+    <form:form method="post" action="" modelAttribute="loan" cssClass="form-horizontal">
         <s:bind path="bookInstance">
         <div class="form-group ${status.error ? 'has-error' : ''}">
             <form:label path="bookInstance" cssClass="col-sm-2 control-label"><fmt:message key="loan.bookInstance" /></form:label>
@@ -17,7 +17,7 @@
                     <form:option value="" label="" />
                     <form:options items="${bookInstancies}" itemLabel="book.name" itemValue="id" />
                 </form:select>
-                <form:errors path="bookInstance" cssClass="error"/>
+                <form:errors path="bookInstance" cssClass="help-block"/>
             </div>
         </div>
         </s:bind>
@@ -30,7 +30,7 @@
                     <form:option value="" label="" />
                     <form:options items="${users}" itemLabel="name" itemValue="id" />
                 </form:select>
-                <form:errors path="user" cssClass="error"/>
+                <form:errors path="user" cssClass="help-block"/>
             </div>
         </div>
         </s:bind>
@@ -54,7 +54,7 @@
                     <form:option value="30">30</form:option>
                     <form:option value="60">60</form:option>
                 </form:select>
-                <form:errors path="loanLength" cssClass="error"/>
+                <form:errors path="loanLength" cssClass="help-block"/>
             </div>
         </div>
         </s:bind>

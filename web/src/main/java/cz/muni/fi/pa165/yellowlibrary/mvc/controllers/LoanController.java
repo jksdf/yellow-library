@@ -8,8 +8,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -114,13 +112,13 @@ public class LoanController extends CommonController {
   @RequestMapping(value = "/new", method = RequestMethod.GET)
   public String newBookInstance(Model model) {
     log.debug("new()");
-    model.addAttribute("loanCreate", new LoanCreateDTO());
+    model.addAttribute("loan", new LoanCreateDTO());
 
     return "loan/new";
   }
 
   @RequestMapping(value = "/new", method = RequestMethod.POST)
-  public String newBookInstancePost(@Valid @ModelAttribute("loanCreate") LoanCreateDTO formData,
+  public String newBookInstancePost(@Valid @ModelAttribute("loan") LoanCreateDTO formData,
                        BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes,
                        UriComponentsBuilder uriComponentsBuilder) {
     log.debug("create(new={})", formData);

@@ -57,7 +57,7 @@
                     <form:option value="30">30</form:option>
                     <form:option value="60">60</form:option>
                 </form:select>
-                <form:errors path="loanLength" cssClass="error"/>
+                <form:errors path="loanLength" cssClass="help-block"/>
             </div>
         </div>
         </s:bind>
