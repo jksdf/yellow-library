@@ -16,8 +16,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import cz.muni.fi.pa165.yellowlibrary.api.dto.BookDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewStateDTO;
@@ -129,7 +131,7 @@ public class BookInstanceController extends CommonController {
   public String delete(@PathVariable Long id,
                        Model model,
                        UriComponentsBuilder uriComponentsBuilder,
-                       RedirectAttributes redirectAttributes) throws Exception {
+                       RedirectAttributes redirectAttributes) {
     log.debug("delete({})", id);
     BookInstanceDTO bookInstanceDTO = bookInstanceFacade.findById(id);
     try {
@@ -142,6 +144,33 @@ public class BookInstanceController extends CommonController {
     }
     return "redirect:" + uriComponentsBuilder.path("/bookinstance")
         .queryParam("bid", bookInstanceDTO.getBook().getId())
+        .toUriString();
+  }
+
+  /**
+   * Deletes a particular book instance that is NOT currently loaned.
+   *
+   * @param id ID of a book instance to delete
+   */
+  @RequestMapping(value = "{id}/setState/{availability}", method = RequestMethod.POST)
+  public String setState(@PathVariable Long id,
+                         @PathVariable String availability,
+                         UriComponentsBuilder uriComponentsBuilder,
+                         RedirectAttributes redirectAttributes,
+                         HttpServletRequest request) {
+    Long bookId = bookInstanceFacade.findById(id).getBook().getId();
+    try {
+      BookInstanceAvailability availabilityEnum = BookInstanceAvailability.valueOf(availability);
+      bookInstanceFacade.changeBookAvailability(id, availabilityEnum);
+      redirectAttributes.addFlashAttribute("alert_success",
+          String
+              .format("Book instance availability has been successfully set to %s.", availability));
+    } catch (IllegalArgumentException ex) {
+      redirectAttributes.addFlashAttribute("alert_warning", "Bad state name");
+    }
+    return "redirect:" + uriComponentsBuilder
+        .path("/book/")
+        .pathSegment(bookId.toString())
         .toUriString();
   }
 
@@ -206,13 +235,14 @@ public class BookInstanceController extends CommonController {
    * Provides form to add new book instance
    * @param bid ID of a book
    */
-  @RequestMapping(value = "/new", method = RequestMethod.GET)
-  public String newBookInstance(@RequestParam Long bid, Model model) {
+  @RequestMapping(value = "/new/{bid}", method = RequestMethod.GET)
+  public String newBookInstance(@PathVariable long bid, Model model) {
     model.addAttribute("bookId", bid);
+    BookDTO bookDTO = bookFacade.getBook(bid);
     log.debug("add()");
     model.addAttribute("bookInstanceCreate", new BookInstanceDTO());
-    model.addAttribute("bookName", bookFacade.getBook(bid).getName());
-    model.addAttribute("bookAuthor", bookFacade.getBook(bid).getAuthor());
+    model.addAttribute("bookName", bookDTO.getName());
+    model.addAttribute("bookAuthor", bookDTO.getAuthor());
     return "bookinstance/new";
   }
 

@@ -4,12 +4,11 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -20,7 +19,6 @@ import javax.validation.Valid;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookDTO;
-import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.enums.BookInstanceAvailability;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookFacade;
@@ -45,8 +43,20 @@ public class BookController extends CommonController {
   private Logger logger = Logger.getLogger(BookController.class);
 
   @RequestMapping(value = {"/{id}"}, method = RequestMethod.GET)
-  public String details(@PathVariable long id, Model model) {
+  public String details(@PathVariable long id,
+                        @RequestParam(required = false, defaultValue = "ALL",
+                            value = "availability") String type,
+                        Model model) {
     model.addAttribute("book", bookFacade.getBook(id));
+    List<BookInstanceDTO> books;
+    if (type.equals("ALL")) {
+      books = bookInstanceFacade.getAllCopies(id);
+    } else {
+      books =
+          bookInstanceFacade.getAllCopiesByAvailability(id, BookInstanceAvailability.valueOf(type));
+    }
+    model.addAttribute("instances", books);
+    model.addAttribute("instanceRemoved", BookInstanceAvailability.REMOVED);
     return "book/details";
   }
 

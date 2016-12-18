@@ -14,7 +14,6 @@
             New book
         </a>
     </c:if>
-
     <table class="table">
         <thead>
         <tr>
@@ -22,10 +21,7 @@
             <th><fmt:message key="book.author"/></th>
             <th><fmt:message key="book.isbn"/></th>
             <th><fmt:message key="book.department"/></th>
-            <th>View</th>
             <c:if test="${isEmployee}">
-                <!-- TODO: rename later -->
-                <th><fmt:message key="book.instance"/></th>
                 <th><fmt:message key="book.editShort"/></th>
             </c:if>
         </tr>
@@ -39,17 +35,7 @@
                 <td><c:out value="${book.author}"/></td>
                 <td><c:out value="${book.isbn}"/></td>
                 <td><c:out value="${book.department.name}"/></td>
-                <td class="right">
-                    <a href="${pageContext.request.contextPath}/bookinstance?bid=${book.id}">
-                        <span class="glyphicon glyphicon-eye-open text-info" aria-hidden="true"></span>
-                    </a>
-                </td>
                 <c:if test="${isEmployee}">
-                    <td class="right">
-                        <a href="${pageContext.request.contextPath}/bookinstance/new?bid=${book.id}">
-                            <span class="glyphicon glyphicon-plus text-success" aria-hidden="true"></span>
-                        </a>
-                    </td>
                     <td>
                         <a href="${pageContext.request.contextPath}/book/${book.id}/edit">
                             <span class="glyphicon glyphicon-pencil text-warning" aria-hidden="true"></span>

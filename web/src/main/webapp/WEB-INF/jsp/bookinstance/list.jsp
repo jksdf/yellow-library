@@ -32,13 +32,20 @@
                     <td class="center nounderline">
                             <c:if test="${isEmployee}">
                             <div class="glyphic">
-                                <c:if test="${bookinstance.bookAvailability == 'AVAILABLE'}">
                                 <form method="post" action="${pageContext.request.contextPath}/bookinstance/${bookinstance.id}/discard">
-                                    <button type="submit" class="btn btn-xs btn-link">
-                                        <span class="glyphicon glyphicon-minus text-danger" aria-hidden="true"></span>
-                                    </button>
+                                    <c:if test="${bookinstance.bookAvailability == 'AVAILABLE'}">
+                                        <button type="submit" class="btn btn-xs btn-link">
+                                            <span class="glyphicon glyphicon-minus text-danger"
+                                                  aria-hidden="true"></span>
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${bookinstance.bookAvailability != 'AVAILABLE'}">
+                                        <button type="submit" class="btn btn-xs btn-link" disabled>
+                                            <span class="glyphicon glyphicon-minus text-muted"
+                                                  aria-hidden="true"></span>
+                                        </button>
+                                    </c:if>
                                 </form>
-                                </c:if>
                                 <a href="${pageContext.request.contextPath}/bookinstance/${bookinstance.id}/edit?attr=state">
                                     <span class="glyphicon glyphicon-pencil text-warning" aria-hidden="true"></span>
                                 </a>
@@ -49,15 +56,15 @@
                     <td><c:out value="${bookinstance.book.name}"/></td>
                     <td><c:out value="${bookinstance.version}"/></td>
                     <td><c:out value="${bookinstance.bookState}"/></td>
-                    <td class="${bookinstance.bookAvailability}">
+                    <td>
                         <c:if test="${bookinstance.bookAvailability == 'AVAILABLE'}">
-                            <fmt:message key="binstance.available"/>
+                            <span class="text-success"><fmt:message key="binstance.available"/></span>
                         </c:if>
                         <c:if test="${bookinstance.bookAvailability == 'BORROWED'}">
-                            <fmt:message key="binstance.borrowed"/>
+                            <span class="text-muted"><fmt:message key="binstance.borrowed"/></span>
                         </c:if>
                         <c:if test="${bookinstance.bookAvailability == 'REMOVED'}">
-                            <fmt:message key="binstance.removed"/>
+                            <span class="text-danger"><fmt:message key="binstance.removed"/></span>
                         </c:if>
                     </td>
                 </tr>
