@@ -14,6 +14,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import cz.muni.fi.pa165.yellowlibrary.api.exceptions.BookInstanceNotAvailableException;
+import cz.muni.fi.pa165.yellowlibrary.backend.dao.BookInstanceDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.LoanDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
@@ -33,6 +34,9 @@ public class LoanServiceImpl implements LoanService{
   @Inject
   private LoanDao loanDao;
 
+  @Inject
+  private BookInstanceDao bookInstanceDao;
+
   @Override
   public Long create(Loan loan){
     BookInstance bookInstance = (loan == null) ? null : loan.getBookInstance();
@@ -49,6 +53,7 @@ public class LoanServiceImpl implements LoanService{
   public Loan update(Loan loan) {
     if (loan.getReturnDate() != null ){
       loan.getBookInstance().setBookAvailability(BookAvailability.AVAILABLE);
+      bookInstanceDao.updateBookInstance(loan.getBookInstance());
     }
     return loanDao.update(loan);
   }
