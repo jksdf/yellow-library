@@ -1,4 +1,4 @@
-## cURL commands to test REST
+## cURL commands to test BookInstance REST Controller
 
 ###### Retrieve all book instances
 ```
