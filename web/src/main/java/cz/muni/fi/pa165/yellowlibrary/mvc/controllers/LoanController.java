@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.beans.PropertyEditorSupport;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -119,7 +120,7 @@ public class LoanController extends CommonController {
   @RequestMapping(value = "/new", method = RequestMethod.POST)
   public String newBookInstancePost(@Valid @ModelAttribute("loan") LoanCreateDTO formData,
                        BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes,
-                       UriComponentsBuilder uriComponentsBuilder) {
+                       UriComponentsBuilder uriComponentsBuilder, Locale locale) {
     log.trace("newBookInstancePost()[POST]: {}", formData);
     if (bindingResult.hasErrors()) {
       return "loan/new";
@@ -131,8 +132,8 @@ public class LoanController extends CommonController {
 
     String userName = formData.getUser().getName();
     String bookName = formData.getBookInstance().getBook().getName();
-    redirectAttributes.addFlashAttribute("alert_success", "New loan for \""+ userName + "\" of \"" + bookName +
-        "\" has been successfully created");
+    redirectAttributes.addFlashAttribute("alert_success",
+            MessageFormat.format(context.getMessage("loan.new.success", null, locale), userName, bookName));
 
     return "redirect:" + uriComponentsBuilder.path("/loan/list").toUriString();
   }
@@ -149,7 +150,7 @@ public class LoanController extends CommonController {
   public String editPost(@Valid @ModelAttribute("loan") LoanDTO data,
                          BindingResult bindingResult, Model model,
                          RedirectAttributes redirectAttributes,
-                         UriComponentsBuilder uriComponentsBuilder) {
+                         UriComponentsBuilder uriComponentsBuilder, Locale locale) {
     log.trace("editPost()[POST]");
     if(bindingResult.hasErrors()) {
       return "/loan/edit";
@@ -157,7 +158,7 @@ public class LoanController extends CommonController {
 
     loanFacade.update(data);
     redirectAttributes.addFlashAttribute("alert_success",
-        String.format("Loan has been successfully edited"));
+            context.getMessage("loan.edit.success", null, locale));
     return "redirect:" + uriComponentsBuilder.path("/loan/list").toUriString();
   }
 
