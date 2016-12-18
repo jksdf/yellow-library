@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Comparator;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -63,40 +66,45 @@ public class BookInstanceController extends CommonController {
                      Model model) {
     log.debug("list{}", bid, filter);
 
+    List<BookInstanceDTO> result;
+
     switch(filter) {
       case "borrowed":
-        if (bid == null)
-          model.addAttribute("bookinstances", bookInstanceFacade.getAllBookInstancesByAvailability(
-            BookInstanceAvailability.BORROWED));
-        else
-          model.addAttribute("bookinstances", bookInstanceFacade.getAllCopiesByAvailability(bid,
-              BookInstanceAvailability.BORROWED));
+        if (bid == null) {
+          result = bookInstanceFacade.getAllBookInstancesByAvailability(BookInstanceAvailability.BORROWED);
+        }
+        else {
+          result = bookInstanceFacade.getAllCopiesByAvailability(bid, BookInstanceAvailability.BORROWED);
+        }
         break;
       case "removed":
-        if (bid == null)
-          model.addAttribute("bookinstances", bookInstanceFacade.getAllBookInstancesByAvailability(
-            BookInstanceAvailability.REMOVED));
-        else
-          model.addAttribute("bookinstances", bookInstanceFacade.getAllCopiesByAvailability(bid,
-              BookInstanceAvailability.REMOVED));
+        if (bid == null) {
+          result = bookInstanceFacade.getAllBookInstancesByAvailability(BookInstanceAvailability.REMOVED);
+        }
+        else {
+          result = bookInstanceFacade.getAllCopiesByAvailability(bid,BookInstanceAvailability.REMOVED);
+        }
         break;
       case "available":
-        if (bid == null)
-          model.addAttribute("bookinstances", bookInstanceFacade.getAllBookInstancesByAvailability(
-            BookInstanceAvailability.AVAILABLE));
-        else
-          model.addAttribute("bookinstances", bookInstanceFacade.getAllCopiesByAvailability(bid,
-              BookInstanceAvailability.AVAILABLE));
+        if (bid == null) {
+          result = bookInstanceFacade.getAllBookInstancesByAvailability(BookInstanceAvailability.AVAILABLE);
+        } else {
+          result = bookInstanceFacade.getAllCopiesByAvailability(bid, BookInstanceAvailability.AVAILABLE);
+        }
         break;
       case "all":
-        if (bid == null)
-          model.addAttribute("bookinstances", bookInstanceFacade.getAllBookInstances());
-        else
-          model.addAttribute("bookinstances", bookInstanceFacade.getAllCopies(bid));
+      default:
+        if (bid == null) {
+          result = bookInstanceFacade.getAllBookInstances();
+        }
+        else {
+          result = bookInstanceFacade.getAllCopies(bid);
+        }
         break;
-
     }
-    model.addAttribute("existsBook", false);
+    result.sort(Comparator.comparing(BookInstanceDTO::getId));
+    model.addAttribute("bookinstances", result);
+    model.addAttribute("bookId", bid);
     return "bookinstance/list";
   }
 
@@ -114,6 +122,7 @@ public class BookInstanceController extends CommonController {
 
     if(attr.equals("state")) {
       model.addAttribute("bookInstanceNewState", new BookInstanceNewStateDTO());
+      model.addAttribute("oldState", bookInstanceFacade.findById(id).getBookState());
       return "/bookinstance/newState";
     } else {
       model.addAttribute("alert_danger", "Unknown attribute " + attr);
@@ -195,6 +204,7 @@ public class BookInstanceController extends CommonController {
         model.addAttribute(fe.getField() + "_error", true);
         log.trace("FieldError: {}", fe);
       }
+      model.addAttribute("oldState", bookInstanceFacade.findById(id).getBookState());
       return "/bookinstance/newState";
     }
     bookInstanceFacade.changeBookState(formBean);
