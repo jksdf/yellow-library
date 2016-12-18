@@ -3,8 +3,12 @@ package cz.muni.fi.pa165.yellowlibrary.mvc.config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -12,8 +16,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-
-import javax.validation.Validator;
 
 import cz.muni.fi.pa165.yellowlibrary.mvc.config.security.YellowSecurityConfig;
 import cz.muni.fi.pa165.yellowlibrary.sampledata.SampleDataConfiguration;
@@ -79,6 +81,13 @@ public class YellowSpringMvcConfig extends WebMvcConfigurerAdapter {
   @Bean
   public Validator validator() {
     log.debug("registering JSR-303 validator");
-    return new LocalValidatorFactoryBean();
+    LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+    validator.setValidationMessageSource(messageSource());
+    return validator;
+  }
+
+  @Override
+  public Validator getValidator() {
+    return validator();
   }
 }

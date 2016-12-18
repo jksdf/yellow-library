@@ -81,7 +81,8 @@ public class BookController extends CommonController {
     logger.debug("BookController#create():POST");
 
     if (bindingResult.hasErrors()) {
-      return "redirect:/book/create";
+      model.addAttribute("departments", departmentFacade.getAll());
+      return "/book/create";
     }
     bookFacade.createBook(data);
     redirectAttributes.addFlashAttribute("alert_success",
@@ -116,7 +117,7 @@ public class BookController extends CommonController {
     logger.debug("BookController#edit():POST");
 
     if (bindingResult.hasErrors()) {
-      return "redirect:" + uriComponentsBuilder.path("/book/{id}/edit")
+      return uriComponentsBuilder.path("/book/{id}/edit")
           .queryParam("id", data.getId()).toUriString();
     }
     BookDTO original = bookFacade.getBook(data.getId());

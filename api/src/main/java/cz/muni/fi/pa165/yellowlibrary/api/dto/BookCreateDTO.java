@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.annotations.IsIsbn;
 
@@ -13,13 +14,14 @@ import cz.muni.fi.pa165.yellowlibrary.api.dto.annotations.IsIsbn;
 public class BookCreateDTO {
   private Long id;
   @NotNull
+  @Size(min = 1, message = "{Size.book.name}")
   private String name;
   @IsIsbn
   private String isbn;
   private String description;
   private String author;
-  @NotNull
-  @Min(0)
+  @NotNull(message = "{NotNull.book.pages}")
+  @Min(value = 0, message = "{Min.book.pages}")
   private Integer pages;
   @NotNull
   private Long departmentId;

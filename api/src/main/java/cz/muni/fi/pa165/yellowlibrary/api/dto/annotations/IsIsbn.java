@@ -23,7 +23,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = {IsIsbnValidator.class})
 public @interface IsIsbn {
   String message() default
-      "Bad ISBN format.";
+      "{cz.muni.fi.pa165.yellowlibrary.api.dto.annotations.IsIsbn.message}";
 
   Class<?>[] groups() default {};
 
