@@ -6,7 +6,8 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:mainpage title="Loan">
+<fmt:message key="loan.name" var="title" />
+<my:mainpage title="${title}">
     <jsp:attribute name="body">
         <table>
             <tbody>

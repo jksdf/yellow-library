@@ -2,7 +2,9 @@ package cz.muni.fi.pa165.yellowlibrary.mvc.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -43,6 +46,9 @@ public class LoanController extends CommonController {
 
   final static Logger log = LoggerFactory.getLogger(LoanController.class);
 
+  @Autowired
+  private ApplicationContext context;
+
   @Inject
   private LoanFacade loanFacade;
 
@@ -53,8 +59,9 @@ public class LoanController extends CommonController {
   private UserFacade userFacade;
 
   @InitBinder
-  protected void initBinder(WebDataBinder binder) {
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd. MM. yyyy");
+  protected void initBinder(WebDataBinder binder, Locale locale) {
+    String dateFormatString = this.context.getMessage("date_format", null, locale);
+    SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormatString);
     dateFormat.setLenient(false);
     binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
 
@@ -99,9 +106,9 @@ public class LoanController extends CommonController {
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) {
-    log.debug("details({})", id);
+    log.debug("view({})", id);
     model.addAttribute("loan", loanFacade.findById(id));
-    return "loan/details";
+    return "loan/view";
   }
 
   @RequestMapping(value = "/new", method = RequestMethod.GET)

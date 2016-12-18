@@ -6,7 +6,9 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:mainpage title="Loan">
+<fmt:message key="date_format" var="date_format" />
+<fmt:message key="loan.list.title" var="title" />
+<my:mainpage title="${title}">
     <jsp:attribute name="body">
 
         <c:if test="${isEmployee}">
@@ -17,7 +19,7 @@
         </c:if>
         <a href="${pageContext.request.contextPath}/loan/recalculateFines" class="btn btn-info">
             <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-            Recalculate fines
+            <fmt:message key="loan.recalculateFines" />
         </a>
 
         <table class="table">
@@ -34,19 +36,19 @@
                 <tr>
                     <td>${loan.bookInstance.book.name}</td>
                     <td>${loan.user.name}</td>
-                    <td><fmt:formatDate value="${loan.dateFrom}" pattern="dd. MM. yyyy" /></td>
+                    <td><fmt:formatDate value="${loan.dateFrom}" pattern="${date_format}" /></td>
                     <td><c:out value="${loan.fine}"/></td>
                     <td>
                         <a href="${pageContext.request.contextPath}/loan/${loan.id}">
                             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                            Info
+                            <fmt:message key="loan.info" />
                         </a>
                     </td>
                     <c:if test="${isEmployee}">
                     <td>
                         <a href="${pageContext.request.contextPath}/loan/${loan.id}/edit">
                             <span class="glyphicon glyphicon-pencil text-warning" aria-hidden="true"></span>
-                            Edit
+                            <fmt:message key="loan.edit" />
                         </a>
                     </td>
                 </c:if>
