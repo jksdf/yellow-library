@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -45,11 +47,48 @@ public class BookInstanceController {
    * @return List<BookInstanceDTO>
    */
   @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public final List<BookInstanceDTO> getBookInstances() {
-    log.debug("REST getBookInstances()");
-    return bookInstanceFacade.getAllBookInstances();
-  }
+  public final List<BookInstanceDTO> getBookInstances(@RequestParam(required = false) Long bid,
+                                                      @RequestParam(required = false, defaultValue = "all") String filter) {
+    log.debug("REST getBookInstances()", bid, filter);
+    List<BookInstanceDTO> result;
 
+    switch(filter) {
+      case "borrowed":
+        if (bid == null) {
+          result = bookInstanceFacade.getAllBookInstancesByAvailability(BookInstanceAvailability.BORROWED);
+        }
+        else {
+          result = bookInstanceFacade.getAllCopiesByAvailability(bid, BookInstanceAvailability.BORROWED);
+        }
+        break;
+      case "removed":
+        if (bid == null) {
+          result = bookInstanceFacade.getAllBookInstancesByAvailability(BookInstanceAvailability.REMOVED);
+        }
+        else {
+          result = bookInstanceFacade.getAllCopiesByAvailability(bid,BookInstanceAvailability.REMOVED);
+        }
+        break;
+      case "available":
+        if (bid == null) {
+          result = bookInstanceFacade.getAllBookInstancesByAvailability(BookInstanceAvailability.AVAILABLE);
+        } else {
+          result = bookInstanceFacade.getAllCopiesByAvailability(bid, BookInstanceAvailability.AVAILABLE);
+        }
+        break;
+      case "all":
+      default:
+        if (bid == null) {
+          result = bookInstanceFacade.getAllBookInstances();
+        }
+        else {
+          result = bookInstanceFacade.getAllCopies(bid);
+        }
+        break;
+    }
+    result.sort(Comparator.comparing(BookInstanceDTO::getId));
+    return result;
+  }
 
   /**
    * Returns a book instance with particular ID
@@ -88,6 +127,8 @@ public class BookInstanceController {
       throw new ResourceNotFoundException();
     }
   }
+
+
 
   /**
    * Creates new book instance
