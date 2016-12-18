@@ -104,16 +104,15 @@ public class LoanController extends CommonController {
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) {
-    log.debug("view({})", id);
+    log.trace("view({})", id);
     model.addAttribute("loan", loanFacade.findById(id));
     return "loan/view";
   }
 
   @RequestMapping(value = "/new", method = RequestMethod.GET)
   public String newBookInstance(Model model) {
-    log.debug("new()");
+    log.trace("newBookInstance()[GET]");
     model.addAttribute("loan", new LoanCreateDTO());
-
     return "loan/new";
   }
 
@@ -121,8 +120,7 @@ public class LoanController extends CommonController {
   public String newBookInstancePost(@Valid @ModelAttribute("loan") LoanCreateDTO formData,
                        BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes,
                        UriComponentsBuilder uriComponentsBuilder) {
-    log.debug("create(new={})", formData);
-
+    log.trace("newBookInstancePost()[POST]: {}", formData);
     if (bindingResult.hasErrors()) {
       return "loan/new";
     }
@@ -141,6 +139,7 @@ public class LoanController extends CommonController {
 
   @RequestMapping(value = {"/{id}/edit"}, method = RequestMethod.GET)
   public String editGet(@PathVariable("id") long id, Model model) {
+    log.trace("editGet()[GET]");
     LoanDTO loan = loanFacade.findById(id);
     model.addAttribute("loan", loan);
     return "loan/edit";
@@ -151,8 +150,7 @@ public class LoanController extends CommonController {
                          BindingResult bindingResult, Model model,
                          RedirectAttributes redirectAttributes,
                          UriComponentsBuilder uriComponentsBuilder) {
-    log.debug("Loan edit():POST");
-
+    log.trace("editPost()[POST]");
     if(bindingResult.hasErrors()) {
       return "/loan/edit";
     }
@@ -165,13 +163,13 @@ public class LoanController extends CommonController {
 
   @ModelAttribute("bookInstancies")
   public List<BookInstanceDTO> bookInstancies() {
-    log.debug("bookInstancies()");
+    log.trace("bookInstancies()");
     return bookInstanceFacade.getAllBookInstances();
   }
 
   @ModelAttribute("users")
   public List<UserDTO> users() {
-    log.debug("users()");
+    log.trace("users()");
     return userFacade.findAllUsers();
   }
 
