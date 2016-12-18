@@ -29,7 +29,6 @@
                 <th><fmt:message key="login.login" /></th>
                 <th><fmt:message key="user.name" /></th>
                 <th><fmt:message key="user.address" /></th>
-                <th><fmt:message key="user.total_fines" /></th>
                 <c:if test="${isEmployee}">
                     <th><fmt:message key="user.user_type" /></th>
                 </c:if>
@@ -40,7 +39,6 @@
                     <td><c:out value="${user.login}" /></td>
                     <td><c:out value="${user.name}" /></td>
                     <td><c:out value="${user.address}" /></td>
-                    <td><c:out value="${user.totalFines}" /></td>
                     <c:if test="${isEmployee}">
                         <c:if test="${user.userType == 'EMPLOYEE'}"><td><fmt:message key="user.employee" /></td></c:if>
                         <c:if test="${user.userType == 'CUSTOMER'}"><td><fmt:message key="user.customer" /></td></c:if>
@@ -49,18 +47,6 @@
             </tbody>
         </table>
         </div>
-        </div> <!-- container -->
-        <c:if test="${isEmployee}">
-            <div class="container">
-                <form class="form-inline" method="post" action="${pageContext.request.contextPath}/user/${user.id}/update_fines">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <input type="number" step="any" id="amount" name="amount" class="form-control" placeholder="<fmt:message key="user.paid_fines" />">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary"><fmt:message key="user.subtract" /></button>
-                </form>
-            </div>
-        </c:if>
+        </div>
     </jsp:attribute>
 </own:mainpage>

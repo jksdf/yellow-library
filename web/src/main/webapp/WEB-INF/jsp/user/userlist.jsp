@@ -25,7 +25,6 @@
                         <th><fmt:message key="login.login" /></th>
                         <th><fmt:message key="user.name" /></th>
                         <th><fmt:message key="user.address" /></th>
-                        <th><fmt:message key="user.total_fines" /></th>
                         <th><fmt:message key="user.user_type" /></th>
                         <th><fmt:message key="user.detail" /></th>
                     </tr>
@@ -37,7 +36,6 @@
                             <td><c:out value="${userVar.login}" /></td>
                             <td><c:out value="${userVar.name}" /></td>
                             <td><c:out value="${userVar.address}" /></td>
-                            <td><c:out value="${userVar.totalFines}" /></td>
                             <c:if test="${userVar.userType == 'EMPLOYEE'}">
                                 <td><fmt:message key="user.employee" /></td>
                             </c:if>
