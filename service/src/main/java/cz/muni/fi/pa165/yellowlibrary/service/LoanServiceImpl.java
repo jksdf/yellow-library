@@ -13,10 +13,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import cz.muni.fi.pa165.yellowlibrary.api.exceptions.BookInstanceNotAvailableException;
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.LoanDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
+import cz.muni.fi.pa165.yellowlibrary.backend.enums.BookAvailability;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -32,13 +34,22 @@ public class LoanServiceImpl implements LoanService{
   private LoanDao loanDao;
 
   @Override
-  public Long create(Loan loan) {
+  public Long create(Loan loan){
+    BookInstance bookInstance = (loan == null) ? null : loan.getBookInstance();
+    if (bookInstance != null && bookInstance.getBookAvailability() != BookAvailability.AVAILABLE) {
+      throw new BookInstanceNotAvailableException(bookInstance.getBookAvailability().toString());
+    }
+
+    loan.getBookInstance().setBookAvailability(BookAvailability.BORROWED);
     loanDao.create(loan);
     return loan.getId();
   }
 
   @Override
   public Loan update(Loan loan) {
+    if (loan.getReturnDate() != null ){
+      loan.getBookInstance().setBookAvailability(BookAvailability.AVAILABLE);
+    }
     return loanDao.update(loan);
   }
 

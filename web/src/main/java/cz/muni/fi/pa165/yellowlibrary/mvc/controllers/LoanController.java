@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,6 +33,7 @@ import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.exceptions.BookInstanceNotAvailableException;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookInstanceFacade;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.LoanFacade;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.UserFacade;
@@ -128,7 +130,12 @@ public class LoanController extends CommonController {
 
     Calendar now = Calendar.getInstance();
     formData.setDateFrom(now.getTime());
-    Long id = loanFacade.create(formData);
+    try {
+      loanFacade.create(formData);
+    } catch (BookInstanceNotAvailableException ex) {
+      bindingResult.addError(new ObjectError("bookInstance","An account already exists for this email."));
+      return "loan/new";
+    }
 
     String userName = formData.getUser().getName();
     String bookName = formData.getBookInstance().getBook().getName();
