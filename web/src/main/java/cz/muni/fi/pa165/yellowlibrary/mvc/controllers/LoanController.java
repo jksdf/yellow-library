@@ -133,7 +133,8 @@ public class LoanController extends CommonController {
     try {
       loanFacade.create(formData);
     } catch (BookInstanceNotAvailableException ex) {
-      bindingResult.addError(new ObjectError("bookInstance","An account already exists for this email."));
+      bindingResult.addError(new ObjectError("bookInstance",
+          context.getMessage("loan.new.bookInstanceNotAvailable", null, locale)));
       return "loan/new";
     }
 
