@@ -76,6 +76,11 @@ public class UserServiceImpl implements UserService {
     return userDao.findAllUsers();
   }
 
+  @Override
+  public List<User> findAllUsersWithName(String name) {
+    return userDao.findAllUsersWithName(name);
+  }
+
   //see  https://crackstation.net/hashing-security.htm#javasourcecode
   private static String createHash(String password) {
     final int SALT_BYTE_SIZE = 24;

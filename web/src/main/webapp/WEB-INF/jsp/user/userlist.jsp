@@ -8,6 +8,16 @@
 <own:mainpage>
     <jsp:attribute name="body">
         <div class="container">
+            <form class="form-inline" method="get" action="${pageContext.request.contextPath}/user/list">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input value="${param.user_name}" type="text" id="user_name" name="user_name" class="form-control" placeholder="<fmt:message key="user.search_by_name" />">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary"><fmt:message key="user.search" /></button>
+            </form>
+        </div>
+        <div class="container">
             <div class="table-responsive">
                 <table class="table">
                     <thead>

@@ -48,9 +48,13 @@ public class UserController extends CommonController {
   }
 
   @RequestMapping(value = "/list", method = RequestMethod.GET)
-  public String listUsers(Model model) {
+  public String listUsers(Model model, @RequestParam(value = "user_name",required = false) String userName) {
     log.info("UserController.listUsers()");
-    List<UserDTO> users = userFacade.findAllUsers();
+    List<UserDTO> users = null;
+    if (userName == null)
+      users = userFacade.findAllUsers();
+    else
+      users = userFacade.findAllUsersWithName(userName);
     model.addAttribute("users", users);
     return "user/userlist";
   }

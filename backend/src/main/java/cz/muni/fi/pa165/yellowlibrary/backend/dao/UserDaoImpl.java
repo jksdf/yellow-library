@@ -70,6 +70,18 @@ public class UserDaoImpl implements UserDao {
     return em.createQuery("SELECT u FROM User u", User.class).getResultList();
   }
 
+  @Override
+  public List<User> findAllUsersWithName(String name) {
+    if (name == null)
+      throw new NullPointerException("Name cannot be null");
+    try {
+      return em.createQuery("SELECT u FROM User u WHERE upper(u.name) LIKE :mySubstr", User.class)
+          .setParameter("mySubstr", "%" + name.toUpperCase() + "%").getResultList();
+    }catch (NoResultException ex) {
+      return null;
+    }
+  }
+
   /**
    * This method controls user, if it's attributes are valid. In case any attribute is null,
    * throws NullPointerException. In case that login, name or address are empty strings, throws

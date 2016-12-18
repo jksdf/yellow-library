@@ -4,7 +4,6 @@ import org.springframework.security.web.context.AbstractSecurityWebApplicationIn
 
 /**
  * Registers springSecurityFilter (YellowSecurityConfig) to the war.
- * http://websystique.com/spring-security/spring-security-4-role-based-login-example/
  *
  * @author Jozef Zivcic
  */
