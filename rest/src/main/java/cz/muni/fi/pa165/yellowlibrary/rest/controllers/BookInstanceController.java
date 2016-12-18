@@ -15,8 +15,8 @@ import javax.inject.Inject;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
-import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewAvailabilityDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceNewStateDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.enums.BookInstanceAvailability;
 import cz.muni.fi.pa165.yellowlibrary.api.exceptions.YellowServiceException;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookInstanceFacade;
 import cz.muni.fi.pa165.yellowlibrary.rest.ApiUris;
@@ -137,21 +137,19 @@ public class BookInstanceController {
   /**
    * Modifies the availability of a book instance
    * curl -X PUT -i -H "Content-Type: application/json" --data
-   * '{"bookAvailability":"REMOVED"}'
+   * '"REMOVED"'
    * http://localhost:8080/pa165/rest/bookinstance/1
    *
    * @param id id of a book instance to be modified
-   * @param newAvailabilityDTO {@link BookInstanceNewAvailabilityDTO} new availability
+   * @param newAvailability {@link BookInstanceAvailability} new availability
    * @return updated BookInstanceDTO
-   * @throws InvalidParameterException
    */
   @RequestMapping(value = "/{id}/newavailability", method = RequestMethod.PUT,
   consumes = MediaType.APPLICATION_JSON_VALUE,
   produces = MediaType.APPLICATION_JSON_VALUE)
-  public final BookInstanceDTO changeBookAvailability(@PathVariable("id") Long id, @RequestBody BookInstanceNewAvailabilityDTO newAvailabilityDTO) throws Exception {
+  public final BookInstanceDTO changeBookAvailability(@PathVariable("id") Long id, @RequestBody BookInstanceAvailability newAvailability) {
     log.debug("REST changeBookAvailability({id})", id);
-    newAvailabilityDTO.setId(id);
-    bookInstanceFacade.changeBookAvailability(newAvailabilityDTO);
+    bookInstanceFacade.changeBookAvailability(id, newAvailability);
     return bookInstanceFacade.findById(id);
   }
 }
