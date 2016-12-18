@@ -12,7 +12,7 @@
 <jsp:attribute name="body">
 
     <div class="col-md-7 center">
-    <form:form method="post" action="${pageContext.request.contextPath}/bookinstance/create?bid=${bookId}"
+    <form:form method="post" action="${pageContext.request.contextPath}/bookinstance/new/${bookId}"
                modelAttribute="bookInstanceCreate" cssClass="form-horizontal">
 
         <div class="form-group ${name_error?'has-error':''}">

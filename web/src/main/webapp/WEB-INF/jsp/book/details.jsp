@@ -70,7 +70,7 @@
                     <td class="right">
                         <c:if test="${instance.bookAvailability != instanceRemoved}">
                             <form method="post"
-                                  action="${pageContext.request.contextPath}/bookinstance/${instance.id}/setState/REMOVED">
+                                  action="${pageContext.request.contextPath}/bookinstance/${instance.id}/edit/availability/REMOVED">
                                 <button type="submit" class="btn btn-xs btn-link">
                                     <span class="glyphicon glyphicon-minus text-warning" aria-hidden="true"></span>
                                 </button>
@@ -78,7 +78,7 @@
                         </c:if>
                         <c:if test="${instance.bookAvailability == instanceRemoved}">
                             <form method="post"
-                                  action="${pageContext.request.contextPath}/bookinstance/${instance.id}/setState/AVAILABLE">
+                                  action="${pageContext.request.contextPath}/bookinstance/${instance.id}/edit/availability/AVAILABLE">
                                 <button type="submit" class="btn btn-xs btn-link">
                                     <span class="glyphicon glyphicon-plus text" aria-hidden="true"></span>
                                 </button>
@@ -87,9 +87,12 @@
                     </td>
                     <td class="right">
                         <c:if test="${instance.bookAvailability == 'AVAILABLE'}">
-                            <button type="submit" class="btn btn-xs btn-link">
-                                <span class="glyphicon glyphicon-pencil text-danger" aria-hidden="true"></span>
-                            </button>
+                            <form method="get"
+                                  action="${pageContext.request.contextPath}/bookinstance/${instance.id}/edit/state">
+                                <button type="submit" class="btn btn-xs btn-link">
+                                    <span class="glyphicon glyphicon-pencil text-warning" aria-hidden="true"></span>
+                                </button>
+                            </form>
                         </c:if>
                         <c:if test="${instance.bookAvailability != 'AVAILABLE'}">
                             <button type="submit" class="btn btn-xs btn-link" disabled>

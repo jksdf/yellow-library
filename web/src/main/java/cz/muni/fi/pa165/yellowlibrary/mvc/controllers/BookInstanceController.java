@@ -112,24 +112,16 @@ public class BookInstanceController extends CommonController {
    * Provides way to modify a book instance state
    * @param id id of a book instance
    */
-  @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
+  @RequestMapping(value = "/{id}/edit/state", method = RequestMethod.GET)
   public String newBookState(@PathVariable Long id,
-                             @RequestParam String attr,
                              Model model,
                              UriComponentsBuilder uriComponentsBuilder) {
     model.addAttribute("id", id);
-    log.debug("edit({})", id, attr);
+    log.debug("edit_state({id})", id);
 
-    if(attr.equals("state")) {
-      model.addAttribute("bookInstanceNewState", new BookInstanceNewStateDTO());
-      model.addAttribute("oldState", bookInstanceFacade.findById(id).getBookState());
-      return "/bookinstance/newState";
-    } else {
-      model.addAttribute("alert_danger", "Unknown attribute " + attr);
-      return "redirect:" + uriComponentsBuilder.path("/bookinstance/list?={bid}")
-          .queryParam("bid", bookInstanceFacade.findById(id).getBook().getId())
-          .toUriString();
-    }
+    model.addAttribute("bookInstanceNewState", new BookInstanceNewStateDTO());
+    model.addAttribute("oldState", bookInstanceFacade.findById(id).getBookState());
+    return "/bookinstance/newState";
   }
 
   /**
@@ -149,7 +141,7 @@ public class BookInstanceController extends CommonController {
           .addFlashAttribute("alert_success", "Book instance has been successfully deleted.");
     } catch (YellowServiceException yse) {
         redirectAttributes.addFlashAttribute("alert_danger", yse.getMessage());
-        log.trace("Attempt to delete loaned book instance.");
+        log.trace("Attempt to delete lent book instance.");
     }
     return "redirect:" + uriComponentsBuilder.path("/bookinstance")
         .queryParam("bid", bookInstanceDTO.getBook().getId())
@@ -157,16 +149,15 @@ public class BookInstanceController extends CommonController {
   }
 
   /**
-   * Deletes a particular book instance that is NOT currently loaned.
-   *
+   * Changes the availability of the book instance
    * @param id ID of a book instance to delete
+   * @param availability {@link BookInstanceAvailability} desired availability
    */
-  @RequestMapping(value = "{id}/setState/{availability}", method = RequestMethod.POST)
+  @RequestMapping(value = "{id}/edit/availability/{availability}", method = RequestMethod.POST)
   public String setState(@PathVariable Long id,
                          @PathVariable String availability,
                          UriComponentsBuilder uriComponentsBuilder,
-                         RedirectAttributes redirectAttributes,
-                         HttpServletRequest request) {
+                         RedirectAttributes redirectAttributes) {
     Long bookId = bookInstanceFacade.findById(id).getBook().getId();
     try {
       BookInstanceAvailability availabilityEnum = BookInstanceAvailability.valueOf(availability);
@@ -187,7 +178,7 @@ public class BookInstanceController extends CommonController {
    * Validates form and changes the state of a book instance
    * @param id id of a book instance to change
    */
-  @RequestMapping(value = "/{id}/change-state", method = RequestMethod.POST)
+  @RequestMapping(value = "/{id}/edit/state", method = RequestMethod.POST)
   public String changeState(@PathVariable Long id,
                             @Valid @ModelAttribute("bookInstanceNewState")BookInstanceNewStateDTO formBean,
                             BindingResult bindingResult,
@@ -210,7 +201,9 @@ public class BookInstanceController extends CommonController {
     bookInstanceFacade.changeBookState(formBean);
     BookInstanceDTO bookInstanceDTO = bookInstanceFacade.findById(id);
     redirectAttributes.addFlashAttribute("alert_success", "State has been successfully changed.");
-    return "redirect:" + uriComponentsBuilder.path("/bookinstance/list").queryParam("bid", bookInstanceDTO.getBook().getId()).toUriString();
+    return "redirect:" + uriComponentsBuilder.path("/bookinstance/list")
+        .queryParam("bid", bookInstanceDTO.getBook().getId())
+        .toUriString();
   }
 
   /**
@@ -222,8 +215,8 @@ public class BookInstanceController extends CommonController {
                                    Model model,
                                    RedirectAttributes redirectAttributes,
                                    UriComponentsBuilder uriComponentsBuilder) {
-    log.debug("changeState({id})", id);
 
+    log.debug("changeState({id})", id);
     BookInstanceDTO bookInstanceDTO = bookInstanceFacade.findById(id);
 
     if (bookInstanceDTO.getBookAvailability() == BookInstanceAvailability.REMOVED) {
@@ -260,15 +253,15 @@ public class BookInstanceController extends CommonController {
    * Validates bean and creates new book instance
    * @param bid ID of a book
    */
-  @RequestMapping(value = "/create", method = RequestMethod.POST)
-  public String create(@RequestParam Long bid,
+  @RequestMapping(value = "/new/{bid}", method = RequestMethod.POST)
+  public String create(@PathVariable Long bid,
                        @Valid @ModelAttribute("bookInstanceCreate") BookInstanceCreateDTO formBean,
                        BindingResult bindingResult,
                        Model model,
                        RedirectAttributes redirectAttributes,
                        UriComponentsBuilder uriComponentsBuilder) {
     log.debug("create(bookInstanceCreate={})", formBean);
-    model.addAttribute("bookId", bid);
+
     if(bindingResult.hasErrors()) {
       for(ObjectError ge : bindingResult.getGlobalErrors()) {
         log.trace("ObjectError: {}", ge);
@@ -277,10 +270,13 @@ public class BookInstanceController extends CommonController {
         model.addAttribute(fe.getField() + "_error", true);
         log.trace("FieldError: {}", fe);
       }
+      model.addAttribute("bookName", bookFacade.getBook(bid).getName());
+      model.addAttribute("bookAuthor", bookFacade.getBook(bid).getAuthor());
+      model.addAttribute("bookId", bid);
       return "bookinstance/new";
     }
     bookInstanceFacade.createBookInstance(formBean);
-    redirectAttributes.addFlashAttribute("alert_success", "New book has been successfully created");
+    redirectAttributes.addFlashAttribute("alert_success", "New copy of the book has been successfully created");
     return "redirect:" + uriComponentsBuilder.path("/bookinstance")
         .queryParam("bid", bid)
         .toUriString();

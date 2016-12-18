@@ -15,7 +15,7 @@
             <tr>
                 <th class="center nounderline">
                         <c:if test="${isEmployee && not empty bookId}">
-                            <a href="${pageContext.request.contextPath}/bookinstance/new?bid=${bookId}"><span
+                            <a href="${pageContext.request.contextPath}/bookinstance/new/${bookId}"><span
                                     class="glyphicon glyphicon-plus text-success" aria-hidden="true"></span>Add</a>
                         </c:if>
                 </th>
@@ -46,7 +46,7 @@
                                         </button>
                                     </c:if>
                                 </form>
-                                <a href="${pageContext.request.contextPath}/bookinstance/${bookinstance.id}/edit?attr=state">
+                                <a href="${pageContext.request.contextPath}/bookinstance/${bookinstance.id}/edit/state">
                                     <span class="glyphicon glyphicon-pencil text-warning" aria-hidden="true"></span>
                                 </a>
                             </div>
