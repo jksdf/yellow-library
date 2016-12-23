@@ -17,7 +17,7 @@ curl -i -X GET http://localhost:8080/pa165/rest/bookinstance?filter=available&bi
 
 ###### Retrieve a book instance with ID 1
 ```
-curl -i -X GET http://localhost:8080/pa165/rest/bookinstance/1
+curl -i -X GET http://localhost:8080/pa165/rest/bookinstance/4
 ```
 
 ###### Attempts to retrieve a non-existent book instance
@@ -38,7 +38,7 @@ curl -i -X DELETE http://localhost:8080/pa165/rest/bookinstance/999
 ###### Creates new book instance
 ```
 curl -X POST -i -H "Content-Type: application/json" --data
-'{"bookState":"New", "bookAvailability":"AVAILABLE", "version":"1st Edition"}'
+'{"bookState":"New", "bookAvailability":"AVAILABLE", "version":"1st Edition", "bookId":2}'
 http://localhost:8080/pa165/rest/bookinstance/create
 ```
 
