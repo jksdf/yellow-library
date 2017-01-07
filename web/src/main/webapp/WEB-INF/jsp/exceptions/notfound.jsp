@@ -6,6 +6,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <own:mainpage>
+    <jsp:attribute name="title">
+        <fmt:message key="err.not_found_title" />
+    </jsp:attribute>
     <jsp:attribute name="body">
         <div class="container">
             <div class="alert alert-danger" role="alert">
