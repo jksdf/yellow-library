@@ -5,7 +5,11 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
 <my:mainpage>
-<jsp:attribute name="body">
+    <jsp:attribute name="title">
+        <fmt:message key="book.description" />
+    </jsp:attribute>
+
+    <jsp:attribute name="body">
 
     <h2><c:out value="${book.name}"/></h2>
     <table class="bookDetail">

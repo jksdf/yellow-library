@@ -6,7 +6,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <my:mainpage>
-<jsp:attribute name="body">
+    <jsp:attribute name="title">
+        <fmt:message key="book.edit" />
+    </jsp:attribute>
+
+    <jsp:attribute name="body">
 
     <h2><fmt:message key="book.edit"/></h2>
     <form:form method="post" action="${pageContext.request.contextPath}/book/edit"

@@ -6,7 +6,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <my:mainpage>
-<jsp:attribute name="body">
+    <jsp:attribute name="title">
+        <fmt:message key="book.list" />
+    </jsp:attribute>
+
+    <jsp:attribute name="body">
 
     <c:if test="${isEmployee}">
         <a href="${pageContext.request.contextPath}/book/create" class="btn btn-primary">

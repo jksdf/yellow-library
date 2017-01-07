@@ -6,7 +6,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <my:mainpage>
-<jsp:attribute name="body">
+    <jsp:attribute name="title">
+        <fmt:message key="book.create" />
+    </jsp:attribute>
+
+    <jsp:attribute name="body">
 
     <div class="col-md-7 center">
     <form:form method="post" action="${pageContext.request.contextPath}/book/create"
