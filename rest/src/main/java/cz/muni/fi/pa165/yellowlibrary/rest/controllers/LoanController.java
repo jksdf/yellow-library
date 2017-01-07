@@ -33,7 +33,7 @@ public class LoanController {
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public final LoanDTO findById(@PathVariable("id") Long id) throws Exception {
-    log.debug("REST getLoan({})", id);
+    log.debug("REST findById({})", id);
     try {
       return loanFacade.findById(id);
     } catch(Exception ex) {
