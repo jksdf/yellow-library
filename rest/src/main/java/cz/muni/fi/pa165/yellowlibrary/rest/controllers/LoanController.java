@@ -26,7 +26,7 @@ import cz.muni.fi.pa165.yellowlibrary.rest.exceptions.ResourceNotFoundException;
 @RequestMapping(ApiUris.ROOT_URI_LOAN)
 public class LoanController {
 
-  final static Logger log = LoggerFactory.getLogger(BookInstanceController.class);
+  final static Logger log = LoggerFactory.getLogger(LoanController.class);
 
   @Inject
   private LoanFacade loanFacade;
@@ -45,8 +45,7 @@ public class LoanController {
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public final LoanDTO createLoan(@RequestBody LoanCreateDTO loanCreateDTO) throws Exception {
-    log.debug("REST createBookInstance()");
-
+    log.debug("REST createLoan()");
     try {
       Long id = loanFacade.create(loanCreateDTO);
       return loanFacade.findById(id);

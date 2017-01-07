@@ -8,7 +8,7 @@ BookInstanceController
                         not all id work, because of foreign keys
     createBookInstance: curl -X POST -i -H "Content-Type: application/json" --data '{"bookState":"Brand new Book instance created by curl and REST :)","version":"2nd Edition","bookAvailability":"BORROWED","bookId": "1"}' http://localhost:8080/pa165/rest/bookinstance/create
     changeBookState: curl -X PUT -i -H "Content-Type: application/json" --data '{"id" : "1", "bookState" : "changed state by curl"}' http://localhost:8080/pa165/rest/bookinstance/1/newstate
-    changeBookAvailability: curl -X PUT -i -H "Content-Type: application/json" --data '{"id" : "1", "bookAvailability" : "AVAILABLE"}' http://localhost:8080/pa165/rest/bookinstance/1/newavailability
+    changeBookAvailability: curl -X PUT -i -H "Content-Type: application/json" --data '"AVAILABLE"' http://localhost:8080/pa165/rest/bookinstance/1/newavailability
 DepartmentController
     getDepartments: curl -i -X GET http://localhost:8080/pa165/rest/department
     addDepartment: curl -X POST -i -H "Content-Type: application/json" --data '{"name":"Department created with curl and REST","shortName":"DPT"}' http://localhost:8080/pa165/rest/department/create
