@@ -6,6 +6,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <own:mainpage>
+    <jsp:attribute name="title">
+        <fmt:message key="nav.users" />
+    </jsp:attribute>
+
     <jsp:attribute name="body">
         <div class="container">
             <form class="form-inline" method="get" action="${pageContext.request.contextPath}/user/list">

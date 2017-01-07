@@ -6,6 +6,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <own:mainpage>
+    <jsp:attribute name="title">
+        <fmt:message key="nav.logout" />
+    </jsp:attribute>
+
     <jsp:attribute name="body">
         <p><fmt:message key="nav.logout" /></p>
     </jsp:attribute>

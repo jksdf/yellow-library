@@ -6,6 +6,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <own:mainpage>
+    <jsp:attribute name="title">
+        <fmt:message key="yellow_library" />
+    </jsp:attribute>
+
     <jsp:attribute name="body">
     <c:if test="${not isAuthenticated}">
         <div class="jumbotron">

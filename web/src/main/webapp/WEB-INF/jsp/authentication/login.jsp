@@ -6,6 +6,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <own:mainpage>
+    <jsp:attribute name="title">
+        <fmt:message key="login.signin" />
+    </jsp:attribute>
+
     <jsp:attribute name="body">
         <div class="container">
             <c:if test="${not empty param.error}">

@@ -20,14 +20,9 @@ public class HomeController extends CommonController {
 
   private final static Logger log = LoggerFactory.getLogger(HomeController.class);
 
-  @Inject
-  private UserFacade userFacade;
-
   @RequestMapping(value = {"", "/", "/index"}, method = RequestMethod.GET)
   public String index(Model model) {
     log.info("HomeController.index()");
-    model.addAttribute("title", "Yellow library");
-    model.addAttribute("users", userFacade.findAllUsers());
     return "home/index";
   }
 }
