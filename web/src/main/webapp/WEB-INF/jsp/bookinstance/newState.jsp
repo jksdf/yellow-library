@@ -8,15 +8,19 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:mainpage title="Change Book Instance State">
-<jsp:attribute name="body">
+<my:mainpage>
+    <jsp:attribute name="title">
+        <fmt:message key="binstance.change_state" />
+    </jsp:attribute>
+
+    <jsp:attribute name="body">
 
     <div class="col-md-7 center">
     <form:form method="post" action="${pageContext.request.contextPath}/bookinstance/${id}/edit/state"
                modelAttribute="bookInstanceNewState" cssClass="form-horizontal">
 
         <div class="form-group ${name_error?'has-error':''}">
-            <form:label path="bookState" cssClass="col-sm-2 control-label">State</form:label>
+            <form:label path="bookState" cssClass="col-sm-2 control-label"><fmt:message key="binstance.state"/></form:label>
             <div class="col-sm-10">
                 <form:input path="bookState" cssClass="form-control" placeholder="${oldState}"/>
                 <form:errors path="bookState" cssClass="help-block"/>

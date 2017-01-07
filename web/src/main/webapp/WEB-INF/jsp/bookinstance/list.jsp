@@ -8,7 +8,11 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:mainpage title="Book Instances">
+<my:mainpage>
+    <jsp:attribute name="title">
+        <fmt:message key="binstance.list" />
+    </jsp:attribute>
+
     <jsp:attribute name="body">
 
         <div class="dropdown">
