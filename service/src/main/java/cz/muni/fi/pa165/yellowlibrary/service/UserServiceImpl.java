@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void create(User user, String plainTextPassword) {
-    if (plainTextPassword == "null")
+    if (plainTextPassword == null)
       throw new NullPointerException("Plaintext password cannot be null");
     if (plainTextPassword.trim().isEmpty())
       throw new IllegalArgumentException("Password cannot be empty");
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public boolean authenticate(User user, String plainTextPassword) {
-    if (plainTextPassword == "null")
+    if (plainTextPassword == null)
       throw new NullPointerException("Plaintext password cannot be null");
     if (plainTextPassword.trim().isEmpty())
       throw new IllegalArgumentException("Password cannot be empty");
