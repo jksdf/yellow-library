@@ -25,6 +25,9 @@ public class BeanMappingServiceImpl implements BeanMappingService {
 
   @Override
   public <T> List<T> mapTo(Collection<?> source, Class<T> mapToClass) {
+    if (source == null) {
+      return null;
+    }
     List<T> res = new ArrayList<>();
     for (Object obj : source)
       res.add(mapTo(obj, mapToClass));
@@ -37,8 +40,8 @@ public class BeanMappingServiceImpl implements BeanMappingService {
     if (source == null) {
       return null;
     }
-    if (mapToClass != null && source.getClass().isEnum() && mapToClass.isEnum()) {
-      return (T)this.getEnum(source, mapToClass);
+    if (source.getClass().isEnum() && mapToClass.isEnum()) {
+      return (T) this.getEnum(source, (Class<? extends Enum>) mapToClass);
     }
     return mapper.map(source, mapToClass);
   }
@@ -48,23 +51,18 @@ public class BeanMappingServiceImpl implements BeanMappingService {
     return mapper;
   }
 
-  private Object getEnum(Object source, Class<?> mapToClass){
-      Method [] ms = mapToClass.getMethods();
-      for(Method m : ms) {
-        if (m.getName().equalsIgnoreCase("valueOf")) {
-          try {
-            return m.invoke(mapToClass.getClass(), source.toString());
-          } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-          } catch (IllegalAccessException e) {
-            e.printStackTrace();
-          } catch (InvocationTargetException e) {
-            e.printStackTrace();
-          }
-        }
-      }
-
-    throw new MappingException("Enum cannot be converted to destination type!");
+  private <T extends Enum> T getEnum(Object source, Class<T> mapToClass) {
+    Method valueOf;
+    try {
+      valueOf = mapToClass.getMethod("valueOf", String.class);
+    } catch (NoSuchMethodException e) {
+      throw new AssertionError("Enums have valueOf(String)", e);
+    }
+    try {
+      return (T) valueOf.invoke(mapToClass, source.toString());
+    } catch (IllegalAccessException | InvocationTargetException e) {
+      throw new MappingException("Unable to find equivalent enum value");
+    }
   }
 
 }
