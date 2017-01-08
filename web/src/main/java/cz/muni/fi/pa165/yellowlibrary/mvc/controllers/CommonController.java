@@ -2,9 +2,12 @@ package cz.muni.fi.pa165.yellowlibrary.mvc.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.time.Year;
@@ -23,6 +26,13 @@ public abstract class CommonController {
 
   @Inject
   private UserFacade userFacade;
+
+  @InitBinder
+  public void initBinder(WebDataBinder binder) {
+    log.debug("String trimming binder initialized");
+    StringTrimmerEditor stringTrimmer = new StringTrimmerEditor(false);
+    binder.registerCustomEditor(String.class, stringTrimmer);
+  }
 
   @ModelAttribute("isAuthenticated")
   public boolean isAuthenticated() {
