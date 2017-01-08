@@ -15,6 +15,9 @@ public class IsIsbnValidator implements ConstraintValidator<IsIsbn, String> {
   @Override
   public boolean isValid(String value, ConstraintValidatorContext context) {
     // TODO(slivka): custom error message
+    if (value == null || value.isEmpty()) {
+      return true;
+    }
     if (value.matches("^[0-9X]{10}$")) {
       int s = 0, t = 0;
       for (char c : value.toCharArray()) {

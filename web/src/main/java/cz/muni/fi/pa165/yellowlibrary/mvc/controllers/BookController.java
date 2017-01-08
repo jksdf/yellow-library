@@ -1,9 +1,12 @@
 package cz.muni.fi.pa165.yellowlibrary.mvc.controllers;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +44,13 @@ public class BookController extends CommonController {
   private BookInstanceFacade bookInstanceFacade;
 
   private Logger logger = Logger.getLogger(BookController.class);
+
+  @InitBinder
+  public void initISBNBinder(WebDataBinder dataBinder) {
+    logger.debug("ISBN trimmer binding initialized");
+    dataBinder.registerCustomEditor(String.class, "isbn",
+        new StringTrimmerEditor("-", false));
+  }
 
   @RequestMapping(value = {"/{id}"}, method = RequestMethod.GET)
   public String details(@PathVariable long id,
