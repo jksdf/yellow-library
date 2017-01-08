@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.yellowlibrary.service;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.InjectMocks;
@@ -14,7 +15,6 @@ import org.testng.annotations.Test;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -190,10 +190,48 @@ public class BookServiceTest extends AbstractTestNGSpringContextTests {
 
   @Test
   public void testbookSearchAuthor() {
-    Set<Long> departments = new HashSet<>();
     List<Book> books = bookService.searchBooks(book2.getAuthor(), null, null, null, null);
     assertThat(books).hasSize(1);
     assertDeepEquals(books.get(0), book2);
+  }
+
+  @Test
+  public void testbookSearchName() {
+    List<Book> books = bookService.searchBooks(null, "a", null, null, null);
+    assertThat(books).containsExactly(book1, book2);
+  }
+
+  @Test
+  public void testbookSearchIsbn() {
+    List<Book> books = bookService.searchBooks(null, null, null, "7", null);
+    assertThat(books).containsExactly(book1);
+  }
+
+  @Test
+  public void testbookSearchDescription() {
+    List<Book> books = bookService.searchBooks(null, null, "", null, null);
+    assertThat(books).containsExactly(book1, book2);
+  }
+
+  @Test
+  public void testbookSearchDepartments() {
+    List<Book> books = bookService.searchBooks(null, null, null, null,
+        ImmutableSet.of(department.getId()));
+    assertThat(books).containsExactly(book1, book2);
+  }
+
+  @Test
+  public void testbookSearchDepartmentsEmpty() {
+    List<Book> books = bookService.searchBooks(null, null, null, null,
+        ImmutableSet.of(department.getId() + 1));
+    assertThat(books).isEmpty();
+  }
+
+  @Test
+  public void testbookSearchCombined() {
+    List<Book> books = bookService.searchBooks("a", "", "F", "",
+        ImmutableSet.of(department.getId()));
+    assertThat(books).containsExactly(book1, book2);
   }
 
   private void assertDeepEquals(Book book1, Book book2) {
