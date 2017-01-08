@@ -10,17 +10,37 @@
 <fmt:message key="loan.list.title" var="title" />
 <my:mainpage title="${title}">
     <jsp:attribute name="body">
-
-        <c:if test="${isEmployee}">
-            <a href="${pageContext.request.contextPath}/loan/new" class="btn btn-primary">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                <fmt:message key="loan.newLoan" />
-            </a>
-        </c:if>
-        <a href="${pageContext.request.contextPath}/loan/recalculateFines" class="btn btn-info">
-            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-            <fmt:message key="loan.recalculateFines" />
-        </a>
+        <div class="row">
+            <div class="col-md-6">
+                <c:if test="${isEmployee}">
+                    <a href="${pageContext.request.contextPath}/loan/new" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        <fmt:message key="loan.newLoan" />
+                    </a>
+                </c:if>
+                <a href="${pageContext.request.contextPath}/loan/recalculateFines" class="btn btn-info">
+                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                    <fmt:message key="loan.recalculateFines" />
+                </a>
+            </div>
+            <c:if test="${isEmployee}">
+                <form:form method="get" action="" cssClass="form-horizontal" modelAttribute="filterForm">
+                    <div class="col-md-2 col-md-offset-2 text-right">
+                        <form:select path="user" cssClass="form-control" onchange="this.form.submit()">
+                            <form:option value="all"> <fmt:message key="loan.list.userfilter.all" /></form:option>
+                            <form:options items="${users}" itemLabel="name" itemValue="id" />
+                        </form:select>
+                    </div>
+                    <div class="col-md-2 text-right">
+                        <form:select path="filter" cssClass="form-control" onchange="this.form.submit()">
+                            <form:option value="all"> <fmt:message key="loan.list.allRecords" /></form:option>
+                            <form:option value="active"> <fmt:message key="loan.list.activeRecords" /></form:option>
+                            <form:option value="expired"> <fmt:message key="loan.list.expiredRecords" /></form:option>
+                        </form:select>
+                    </div>
+                </form:form>
+            </c:if>
+        </div>
 
         <table class="table">
             <thead>
