@@ -5,10 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -108,6 +108,10 @@ public class LoanController extends CommonController {
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String view(@PathVariable Long id, Model model) {
     log.trace("view({})", id);
+    if (!hasAccess(id)) {
+      throw new AccessDeniedException("loan/view");
+    }
+
     model.addAttribute("loan", loanFacade.findById(id));
     return "loan/view";
   }
@@ -182,4 +186,16 @@ public class LoanController extends CommonController {
     return userFacade.findAllUsers();
   }
 
+  protected boolean hasAccess(long loanId) {
+    if (isEmployee()) {
+      return true;
+    }
+
+    LoanDTO loanDTO = loanFacade.findById(loanId);
+    if (loanDTO == null) {
+      return false;
+    }
+
+    return getLogin().equals(loanDTO.getUser().getLogin());
+  }
 }

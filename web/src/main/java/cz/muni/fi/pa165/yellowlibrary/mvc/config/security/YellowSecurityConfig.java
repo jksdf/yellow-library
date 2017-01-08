@@ -33,6 +33,8 @@ public class YellowSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/book/edit", "/book/create").hasAnyRole("EMPLOYEE")
         .antMatchers("/book", "/book/", "/book/list", "/book/*").permitAll()
         .antMatchers("/bookinstance/**").hasAnyRole("EMPLOYEE")
+        .antMatchers("/loan/new", "/loan/**/edit").hasAnyRole("EMPLOYEE")
+        .antMatchers("/loan/**").hasAnyRole("EMPLOYEE", "CUSTOMER")
         .antMatchers("/department", "/department/list").permitAll()
         .antMatchers("/department/create", "/department/edit").hasAnyRole("EMPLOYEE")
         .antMatchers("/user/").hasAnyRole("EMPLOYEE", "CUSTOMER")
