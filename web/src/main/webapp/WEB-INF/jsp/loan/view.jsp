@@ -9,38 +9,31 @@
 <fmt:message key="loan.name" var="title" />
 <my:mainpage title="${title}">
     <jsp:attribute name="body">
-        <table>
-            <tbody>
-                <tr>
-                    <td><fmt:message key="loan.fine" /></td>
-                    <td><c:out value="${loan.fine}"/></td>
-                </tr>
-                <tr>
-                    <td><fmt:message key="loan.user" /></td>
-                    <td>${loan.user.name}</td>
-                </tr>
-                <tr>
-                    <td><fmt:message key="loan.bookInstance" /></td>
-                    <td>${loan.bookInstance}</td>
-                </tr>
-                <tr>
-                    <td><fmt:message key="loan.state" /></td>
-                    <td><c:out value="${loan.loanState}"/></td>
-                </tr>
-                <tr>
-                    <td><fmt:message key="loan.length" /></td>
-                    <td><c:out value="${loan.loanLength}"/></td>
-                </tr>
-                <tr>
-                    <td><fmt:message key="loan.from" /></td>
-                    <td><fmt:formatDate value="${loan.dateFrom}" pattern="yyyy-MM-dd"/></td>
-                </tr>
-                <tr>
-                    <td><fmt:message key="loan.returnDate" /></td>
-                    <td><fmt:formatDate value="${loan.returnDate}" pattern="yyyy-MM-dd"/></td>
-                </tr>
-            </tbody>
-        </table>
+        <dl class="dl-horizontal">
+            <dt><fmt:message key="loan.fine" /></dt>
+            <dd><c:out value="${loan.fine}"/></dd>
 
+            <dt><fmt:message key="loan.user" /></dt>
+            <dd><c:out value="${loan.user.name}"/></dd>
+
+            <dt><fmt:message key="loan.bookInstance" /></dt>
+            <dd>
+                <a href="${pageContext.request.contextPath}/book/${loan.bookInstance.book.id}/">
+                    <span>${loan.bookInstance.book.name} (${loan.bookInstance.version})</span>
+                </a>
+            </dd>
+
+            <dt><fmt:message key="loan.state" /></dt>
+            <dd><c:out value="${loan.loanState}"/></dd>
+
+            <dt><fmt:message key="loan.length" /></dt>
+            <dd><c:out value="${loan.loanLength}"/></dd>
+
+            <dt><fmt:message key="loan.from" /></dt>
+            <dd><fmt:formatDate value="${loan.dateFrom}" pattern="yyyy-MM-dd"/></dd>
+
+            <dt><fmt:message key="loan.returnDate" /></dt>
+            <dd><fmt:formatDate value="${loan.returnDate}" pattern="yyyy-MM-dd"/></dd>
+        </dl>
     </jsp:attribute>
 </my:mainpage>

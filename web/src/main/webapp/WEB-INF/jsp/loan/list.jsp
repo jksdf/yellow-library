@@ -34,7 +34,11 @@
             <tbody>
             <c:forEach items="${loans}" var="loan">
                 <tr>
-                    <td>${loan.bookInstance.book.name}</td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/book/${loan.bookInstance.book.id}/">
+                            <span>${loan.bookInstance.book.name} (${loan.bookInstance.version})</span>
+                        </a>
+                    </td>
                     <td>${loan.user.name}</td>
                     <td><fmt:formatDate value="${loan.dateFrom}" pattern="${date_format}" /></td>
                     <td><c:out value="${loan.fine}"/></td>
