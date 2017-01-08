@@ -7,8 +7,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.matchers.Null;
-import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
@@ -20,16 +18,16 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import cz.muni.fi.pa165.yellowlibrary.api.exceptions.YellowServiceException;
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.BookInstanceDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Department;
+import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
 import cz.muni.fi.pa165.yellowlibrary.backend.enums.BookAvailability;
 import cz.muni.fi.pa165.yellowlibrary.service.configuration.ServiceConfiguration;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
@@ -44,6 +42,9 @@ public class BookInstanceServiceTest extends AbstractTestNGSpringContextTests {
   @Mock
   private BookInstanceDao bookInstanceDao;
 
+  @Mock
+  private LoanService loanService;
+
   @Inject
   @InjectMocks
   private BookInstanceService bookInstanceService;
@@ -55,6 +56,7 @@ public class BookInstanceServiceTest extends AbstractTestNGSpringContextTests {
 
   private BookInstance bookInstanceOne;
   private Book book;
+  private Loan loan;
 
   @BeforeMethod
   public void prepareBookInstance() {
@@ -75,6 +77,9 @@ public class BookInstanceServiceTest extends AbstractTestNGSpringContextTests {
     bookInstanceOne.setBookAvailability(BookAvailability.AVAILABLE);
     bookInstanceOne.setBook(book);
     bookInstanceOne.setId(7L);
+
+    loan = new Loan();
+    loan.setBookInstance(bookInstanceOne);
   }
 
   @Test
@@ -107,6 +112,12 @@ public class BookInstanceServiceTest extends AbstractTestNGSpringContextTests {
     bookInstanceService.deleteBookInstance(bookInstanceOne);
     doNothing().when(bookInstanceDao).deleteBookInstance(any(BookInstance.class));
     verify(bookInstanceDao).deleteBookInstance(bookInstanceOne);
+  }
+
+  @Test(expectedExceptions = YellowServiceException.class)
+  public void testDeleteBookInstanceBorrowed() {
+    when(loanService.currentLoanOfBookInstance(bookInstanceOne)).thenReturn(loan);
+    bookInstanceService.deleteBookInstance(bookInstanceOne);
   }
 
   @Test

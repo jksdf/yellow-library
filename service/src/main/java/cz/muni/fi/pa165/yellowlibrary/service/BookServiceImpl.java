@@ -38,12 +38,12 @@ public class BookServiceImpl implements BookService {
   @Override
   public List<Book> searchBooks(String author, String name, String description, String isbn,
                                 Set<Long> departments) {
-    // TODO(slivka): Implement this in DAO.
     return bookDao.getAllBooks()
         .stream()
         .filter(book ->
             (author != null && book.getAuthor().contains(author)) ||
                 (name != null && book.getName().contains(name)) ||
+                (isbn != null && book.getIsbn().contains(isbn)) ||
                 (description != null && book.getDescription().contains(description)) ||
                 (departments != null && departments.contains(book.getDepartment().getId())))
         .collect(Collectors.toList());

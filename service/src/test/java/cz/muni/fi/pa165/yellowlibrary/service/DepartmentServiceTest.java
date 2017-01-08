@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.yellowlibrary.service;
 
+import com.google.common.collect.ImmutableList;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -53,6 +55,7 @@ public class DepartmentServiceTest extends AbstractTestNGSpringContextTests {
     when(departmentDao.getDepartmentFromId(1)).thenReturn(department1);
     when(departmentDao.getDepartmentFromShortName("PED")).thenReturn(department2);
     when(departmentDao.getDepartmentFromShortName(null)).thenThrow(new NullPointerException());
+    when(departmentDao.getAllDepartments()).thenReturn(ImmutableList.of(department1, department2));
     doAnswer(invocation -> {
       Object arg = invocation.getArguments()[0];
       if (arg == null) {
@@ -107,6 +110,10 @@ public class DepartmentServiceTest extends AbstractTestNGSpringContextTests {
     departmentService.findByShortName(null);
   }
 
+  @Test
+  public void testGetAll() {
+    assertThat(departmentService.getAll()).containsExactly(department1, department2);
+  }
 
   private void assertDeepEquals(Department d1, Department d2) {
     assertThat(d1.getId()).isEqualTo(d2.getId());

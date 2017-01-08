@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import cz.muni.fi.pa165.yellowlibrary.api.exceptions.BookInstanceNotAvailableException;
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.BookInstanceDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.LoanDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
@@ -163,6 +164,8 @@ public class LoanServiceTest extends AbstractTestNGSpringContextTests {
     when(loanDao.findLoanById(loan2.getId())).thenReturn(loan2);
     when(loanDao.findLoanById(loan3.getId())).thenReturn(loan3);
     when(loanDao.findAll()).thenReturn(ImmutableList.of(loan1, loan2, loan3));
+    when(loanDao.findByUser(user1)).thenReturn(ImmutableList.of(loan1, loan2));
+    when(loanDao.findByUser(user2)).thenReturn(ImmutableList.of(loan3));
     when(loanDao.findByBookInstance(bookInstance1)).thenReturn(ImmutableList.of(loan1, loan3));
     when(loanDao.findByBookInstance(bookInstance2)).thenReturn(ImmutableList.of(loan2));
     when(loanDao.findNotReturned()).thenReturn(ImmutableList.of(loan2));
@@ -225,6 +228,19 @@ public class LoanServiceTest extends AbstractTestNGSpringContextTests {
     verifyNoMoreInteractions(loanDao);
   }
 
+  @Test(expectedExceptions = BookInstanceNotAvailableException.class)
+  public void testCreateLoanWithUnavailableBook() {
+    Loan loan = new Loan();
+    loan.setUser(user1);
+    loan.setDateFrom(new Date(123));
+    loan.setReturnDate(new Date(234));
+    loan.setBookInstance(bookInstance2);
+    loan.setLoanLength(1);
+    loan.setFine(null);
+    loan.setLoanState("OK");
+    loanService.create(loan);
+  }
+
   @Test(expectedExceptions = NullPointerException.class)
   public void testCreateNull() {
     loanService.create(null);
@@ -260,6 +276,16 @@ public class LoanServiceTest extends AbstractTestNGSpringContextTests {
   @Test(expectedExceptions = NullPointerException.class)
   public void testUpdateNull() {
     loanService.update(null);
+  }
+
+  @Test
+  public void testAllLoans() {
+    assertThat(loanService.getAllLoans()).containsExactly(loan1, loan2, loan3);
+  }
+
+  @Test
+  public void testGetByUser() {
+    assertThat(loanService.getLoansByUser(user1)).containsExactly(loan1, loan2);
   }
 
   @Test
