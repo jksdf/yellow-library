@@ -28,13 +28,13 @@ public class DepartmentController extends CommonController {
   @RequestMapping(value = {"", "/", "/list"}, method = RequestMethod.GET)
   public String list(Model model) {
     model.addAttribute("departments", departmentFacade.getAll());
-    return "department/list";
+    return "/department/list";
   }
 
   @RequestMapping(value = {"/create"}, method = RequestMethod.GET)
   public String createGet(Model model) {
     model.addAttribute("department", new DepartmentDTO());
-    return "department/create";
+    return "/department/create";
   }
 
   @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -43,7 +43,7 @@ public class DepartmentController extends CommonController {
                        RedirectAttributes redirectAttributes,
                        UriComponentsBuilder uriComponentsBuilder) {
     if (bindingResult.hasErrors()) {
-      return "redirect:department/create";
+      return "/department/create";
     }
     departmentFacade.create(data);
     redirectAttributes.addFlashAttribute("alert_success",

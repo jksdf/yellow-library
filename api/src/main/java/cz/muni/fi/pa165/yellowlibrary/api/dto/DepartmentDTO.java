@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.yellowlibrary.api.dto;
 import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * @author Norbert Slivka
@@ -12,6 +13,7 @@ public class DepartmentDTO {
   @NotNull
   private String name;
   @NotNull
+  @Size(min = 3, max = 3, message = "Size.DepartmentDTO.shortNameLength")
   private String shortName;
 
   public DepartmentDTO() {
