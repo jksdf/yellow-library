@@ -22,8 +22,6 @@ import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 import cz.muni.fi.pa165.yellowlibrary.backend.enums.BookAvailability;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-
 /**
  * @author cokinova
  */
@@ -121,7 +119,7 @@ public class LoanServiceImpl implements LoanService {
       long days = ChronoUnit.DAYS.between(lDate, nowLocalDate);
       BigDecimal fine = BigDecimal.valueOf(100L);
 
-      if (days > l.getLoanLength() && l.getFine().compareTo(fine) < 0) {
+      if (days > l.getLoanLength() && (l.getFine() == null || l.getFine().compareTo(fine) < 0)) {
         User u = l.getUser();
         u.setTotalFines(u.getTotalFines().add(fine));
         userDao.updateUser(u);

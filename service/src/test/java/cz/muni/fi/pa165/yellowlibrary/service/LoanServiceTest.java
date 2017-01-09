@@ -23,12 +23,14 @@ import javax.inject.Inject;
 import cz.muni.fi.pa165.yellowlibrary.api.exceptions.BookInstanceNotAvailableException;
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.BookInstanceDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.LoanDao;
+import cz.muni.fi.pa165.yellowlibrary.backend.dao.UserDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Department;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 import cz.muni.fi.pa165.yellowlibrary.backend.enums.BookAvailability;
+import cz.muni.fi.pa165.yellowlibrary.backend.enums.UserType;
 import cz.muni.fi.pa165.yellowlibrary.service.configuration.ServiceConfiguration;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -48,6 +50,9 @@ public class LoanServiceTest extends AbstractTestNGSpringContextTests {
 
   @Mock
   private BookInstanceDao bookInstanceDao;
+
+  @Mock
+  private UserDao userDao;
 
   @Inject
   @InjectMocks
@@ -74,6 +79,8 @@ public class LoanServiceTest extends AbstractTestNGSpringContextTests {
     user1.setAddress("Addr");
     user1.setLogin("jimmy");
     user1.setTotalFines(BigDecimal.ZERO);
+    user1.setPasswordHash("asdf");
+    user1.setUserType(UserType.CUSTOMER);
 
     user2 = new User();
     user2.setId(43L);
@@ -81,6 +88,8 @@ public class LoanServiceTest extends AbstractTestNGSpringContextTests {
     user2.setAddress("Peters addr");
     user2.setLogin("ptr");
     user2.setTotalFines(BigDecimal.TEN);
+    user2.setPasswordHash("thtb");
+    user2.setUserType(UserType.CUSTOMER);
 
     department = new Department();
     department.setId(0L);
