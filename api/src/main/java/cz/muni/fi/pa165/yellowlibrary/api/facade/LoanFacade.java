@@ -29,5 +29,5 @@ public interface LoanFacade {
 
   List<LoanDTO> getLoansByDate(Date fromDate, Date expectedReturnDate);
 
-  void CalculateFinesForExpiredLoans();
+  void calculateFinesForExpiredLoans();
 }

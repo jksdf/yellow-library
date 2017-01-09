@@ -7,10 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.inject.Inject;
-
-import cz.muni.fi.pa165.yellowlibrary.api.facade.UserFacade;
-
 /**
  * Controller for home page (index).
  *

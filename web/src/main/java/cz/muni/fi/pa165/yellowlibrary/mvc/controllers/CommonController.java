@@ -65,8 +65,7 @@ public abstract class CommonController {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (authentication == null)
       return null;
-    String name = authentication.getName();
-    return name;
+    return authentication.getName();
   }
 
   /**

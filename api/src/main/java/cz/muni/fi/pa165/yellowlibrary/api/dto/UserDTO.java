@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.yellowlibrary.api.dto;
 
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -101,33 +102,21 @@ public class UserDTO {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o)
-      return true;
-    if (o == null || !(o instanceof UserDTO))
+    if (!(o instanceof UserDTO)) {
       return false;
+    }
 
-    UserDTO userDTO = (UserDTO) o;
+    UserDTO that = (UserDTO) o;
 
-    if (getName() != null ? !getName().equals(userDTO.getName()) : userDTO.getName() != null)
-      return false;
-    if (getLogin() != null ? !getLogin().equals(userDTO.getLogin()) : userDTO.getLogin() != null)
-      return false;
-    if (getAddress() != null ? !getAddress().equals(userDTO.getAddress())
-        : userDTO.getAddress() != null)
-      return false;
-    if (getTotalFines() != null ? !getTotalFines().equals(userDTO.getTotalFines())
-        : userDTO.getTotalFines() != null)
-      return false;
-    return getUserType() == userDTO.getUserType();
+    return Objects.equals(getName(), that.getName()) &&
+        Objects.equals(getLogin(), that.getLogin()) &&
+        Objects.equals(getAddress(), that.getAddress()) &&
+        Objects.equals(getTotalFines(), that.getTotalFines()) &&
+        Objects.equals(getUserType(), that.getUserType());
   }
 
   @Override
   public int hashCode() {
-    int result = getName() != null ? getName().hashCode() : 0;
-    result = 31 * result + (getLogin() != null ? getLogin().hashCode() : 0);
-    result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 0);
-    result = 31 * result + (getTotalFines() != null ? getTotalFines().hashCode() : 0);
-    result = 31 * result + (getUserType() != null ? getUserType().hashCode() : 0);
-    return result;
+    return Objects.hash(getName(), getLogin(), getAddress(), getTotalFines(), getUserType());
   }
 }

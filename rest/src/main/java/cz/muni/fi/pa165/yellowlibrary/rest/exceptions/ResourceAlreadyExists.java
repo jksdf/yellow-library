@@ -1,7 +1,8 @@
 package cz.muni.fi.pa165.yellowlibrary.rest.exceptions;
 
 /**
- * Created by reyvateil on 17.12.2016.
+ * Exception for when duplicate of a resource is being added
+ * @author Matej Gallo
  */
 public class ResourceAlreadyExists extends RuntimeException {
 }

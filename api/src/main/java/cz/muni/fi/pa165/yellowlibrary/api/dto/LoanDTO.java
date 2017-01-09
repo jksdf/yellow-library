@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
 
@@ -98,33 +99,20 @@ public class LoanDTO {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
+    if (!(o instanceof LoanDTO)) {
       return false;
     }
 
-    LoanDTO loanDTO = (LoanDTO) o;
+    LoanDTO that = (LoanDTO) o;
 
-    if (getDateFrom() != null ? !getDateFrom().equals(loanDTO.getDateFrom())
-        : loanDTO.getDateFrom() != null) {
-      return false;
-    }
-    if (getUser() != null ? !getUser().equals(loanDTO.getUser()) : loanDTO.getUser() != null) {
-      return false;
-    }
-    return getBookInstance() != null ? getBookInstance().equals(loanDTO.getBookInstance())
-        : loanDTO.getBookInstance() == null;
-
+    return Objects.equals(getDateFrom(), that.getDateFrom()) &&
+        Objects.equals(getUser(), that.getUser()) &&
+        Objects.equals(getBookInstance(), that.getBookInstance());
   }
 
   @Override
   public int hashCode() {
-    int result = getDateFrom() != null ? getDateFrom().hashCode() : 0;
-    result = 31 * result + (getUser() != null ? getUser().hashCode() : 0);
-    result = 31 * result + (getBookInstance() != null ? getBookInstance().hashCode() : 0);
-    return result;
+    return Objects.hash(getDateFrom(), getUser(), getBookInstance());
   }
 
 }

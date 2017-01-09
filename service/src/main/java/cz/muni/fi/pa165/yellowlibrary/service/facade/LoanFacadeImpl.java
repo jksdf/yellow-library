@@ -3,7 +3,6 @@ package cz.muni.fi.pa165.yellowlibrary.service.facade;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -18,9 +17,7 @@ import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 import cz.muni.fi.pa165.yellowlibrary.service.BeanMappingService;
-import cz.muni.fi.pa165.yellowlibrary.service.DateService;
 import cz.muni.fi.pa165.yellowlibrary.service.LoanService;
-import cz.muni.fi.pa165.yellowlibrary.service.UserService;
 
 /**
  * @author cokinova
@@ -33,9 +30,6 @@ public class LoanFacadeImpl implements LoanFacade {
 
   @Inject
   private BeanMappingService mappingService;
-
-  @Inject
-  private DateService dateService;
 
   @Override
   public Long create(LoanCreateDTO loanDTO) {
@@ -121,7 +115,7 @@ public class LoanFacadeImpl implements LoanFacade {
   }
 
   @Override
-  public void CalculateFinesForExpiredLoans() {
-    loanService.calculateFines(dateService.now());
+  public void calculateFinesForExpiredLoans() {
+    loanService.calculateFines();
   }
 }

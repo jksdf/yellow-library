@@ -99,13 +99,6 @@ public class BookInstanceFacadeTest extends AbstractTestNGSpringContextTests {
     Assert.assertEquals(bookInstance, bookInstanceOne);
   }
 
-  /*@Test
-  public void testAddBookInstance() {
-    BookInstanceDTO bookInstanceDTO = beanMappingService.mapTo(bookInstanceOne, BookInstanceDTO);
-    bookInstanceFacade.createBookInstance(bookInstanceDTO);
-    verify(bookInstanceService).addBookInstance(any(BookInstance.class));
-  }*/
-
   @Test
   public void testCreateBookInstance() {
     BookInstanceCreateDTO bookInstanceDTO = new BookInstanceCreateDTO();
@@ -190,6 +183,38 @@ public class BookInstanceFacadeTest extends AbstractTestNGSpringContextTests {
 
     when(bookService.getBook(book.getId())).thenReturn(book);
     List<BookInstance> bookInstanceList = beanMappingService.mapTo(bookInstanceFacade.getAllCopies(book.getId()), BookInstance.class);
+    Assert.assertEquals(bookInstanceList.size(), 2);
+    Assert.assertTrue(bookInstanceList.containsAll(ImmutableList.of(bookInstanceOne, newBookInstance)));
+  }
+
+  @Test
+  public void testGetAllAvailableCopies() {
+    newBookInstance.setBookState("New book");
+
+    BookInstance bookInstanceThree = new BookInstance();
+    bookInstanceThree.setBookAvailability(BookAvailability.BORROWED);
+    bookInstanceThree.setBook(bookInstanceOne.getBook());
+    bookInstanceThree.setId(bookInstanceOne.getId());
+    bookInstanceThree.setVersion(bookInstanceOne.getVersion());
+    bookInstanceThree.setBookState("Third book");
+
+    BookInstance bookInstanceFour = new BookInstance();
+    bookInstanceFour.setBookAvailability(BookAvailability.BORROWED);
+    bookInstanceFour.setBook(bookInstanceOne.getBook());
+    bookInstanceFour.setId(bookInstanceOne.getId());
+    bookInstanceFour.setVersion(bookInstanceOne.getVersion());
+    bookInstanceFour.setBookState("Fourth book");
+
+    book.setBookInstances(ImmutableSet.of(bookInstanceOne, newBookInstance,
+        bookInstanceThree, bookInstanceFour));
+
+    when(bookService.getBook(book.getId())).thenReturn(book);
+
+    when(bookInstanceService.getAllBookInstances()).thenReturn(
+        ImmutableList.of(bookInstanceOne, newBookInstance, bookInstanceThree, bookInstanceFour));
+
+    List<BookInstance> bookInstanceList = beanMappingService.mapTo(bookInstanceFacade.getAllCopiesByAvailability(book.getId(), BookInstanceAvailability.AVAILABLE), BookInstance.class);
+
     Assert.assertEquals(bookInstanceList.size(), 2);
     Assert.assertTrue(bookInstanceList.containsAll(ImmutableList.of(bookInstanceOne, newBookInstance)));
   }

@@ -6,6 +6,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
+ * DTO for upading book instance state
+ *
  * Created by Matej Gallo
  */
 
@@ -16,18 +18,34 @@ public class BookInstanceNewStateDTO {
   @Size(min=3, max=30)
   private String bookState;
 
+  /**
+   * Retrieves book instance ID
+   * @return Long
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets the book instance ID
+   * @param id Long
+   */
   public void setId(Long id) {
     this.id = id;
   }
 
+  /**
+   * Retrieves the book instance state
+   * @return String
+   */
   public String getBookState() {
     return bookState;
   }
 
+  /**
+   * Sets the book instance state
+   * @param bookState String
+   */
   public void setBookState(String bookState) {
     this.bookState = bookState;
   }
@@ -39,18 +57,13 @@ public class BookInstanceNewStateDTO {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-
-    if(obj == null)
+    if (!(obj instanceof BookInstanceNewStateDTO)) {
       return false;
+    }
 
-    if(!(obj instanceof BookInstanceNewStateDTO))
-      return false;
+    BookInstanceNewStateDTO that = (BookInstanceNewStateDTO) obj;
 
-    BookInstanceNewStateDTO otherDTO = (BookInstanceNewStateDTO) obj;
-
-    return getBookState().equals(otherDTO);
+    return Objects.equals(that.getBookState(), getBookState());
   }
 
   @Override

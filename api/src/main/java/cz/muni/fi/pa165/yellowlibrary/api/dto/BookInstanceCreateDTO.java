@@ -8,6 +8,8 @@ import javax.validation.constraints.Size;
 import cz.muni.fi.pa165.yellowlibrary.api.enums.BookInstanceAvailability;
 
 /**
+ * DTO for creating new Book Instance
+ *
  * @author Matej Gallo
  */
 public class BookInstanceCreateDTO {
@@ -24,66 +26,87 @@ public class BookInstanceCreateDTO {
   @NotNull
   private Long bookId;
 
+  /**
+   * Retrieve the book instance state
+   * @return String
+   */
   public String getBookState() {
     return bookState;
   }
 
+  /**
+   * Sets the book instance state
+   * @param bookState String
+   */
   public void setBookState(String bookState) {
     this.bookState = bookState;
   }
 
+  /**
+   * Retrieves the book instance availability
+   * @return BookInstanceAvailability
+   */
   public BookInstanceAvailability getBookAvailability() {
     return bookAvailability;
   }
 
+  /**
+   * Sets the book instance availability
+   * @param bookAvailability BookInstanceAvailability
+   */
   public void setBookAvailability(BookInstanceAvailability bookAvailability) {
     this.bookAvailability = bookAvailability;
   }
 
+  /**
+   * Retrieves the book instance version
+   * @return String
+   */
   public String getVersion() {
     return version;
   }
 
+
+  /**
+   * Sets the book instance version
+   * @param version String
+   */
   public void setVersion(String version) {
     this.version = version;
   }
 
+  /**
+   * Retrieves the ID of the book instance
+   * @return Long
+   */
   public Long getBookId() {
     return bookId;
   }
 
+  /**
+   * Sets the ID of the book instance
+   * @param bookId Long
+   */
   public void setBookId(Long bookId) {
     this.bookId = bookId;
   }
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || !(o instanceof BookInstanceCreateDTO)) {
+    if (!(o instanceof BookInstanceCreateDTO)) {
       return false;
     }
 
     BookInstanceCreateDTO that = (BookInstanceCreateDTO) o;
-
-    if (!getBookState().equals(that.getBookState())) {
-      return false;
+    return Objects.equals(getBookState(), that.getBookState()) &&
+        Objects.equals(getVersion(), that.getVersion()) &&
+        Objects.equals(getBookAvailability(), that.getBookAvailability()) &&
+        Objects.equals(getBookId(), that.getBookId());
     }
-    if (getVersion() != null ? !getVersion().equals(that.getVersion())
-        : that.getVersion() != null) {
-      return false;
-    }
-    if (getBookAvailability() != that.getBookAvailability()) {
-      return false;
-    }
-    return getBookId().equals(that.getBookId());
-
-  }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getBookState(), getBookAvailability(), getBookId());
+    return Objects.hash(getBookState(), getVersion(), getBookAvailability(), getBookId());
   }
 
   @Override

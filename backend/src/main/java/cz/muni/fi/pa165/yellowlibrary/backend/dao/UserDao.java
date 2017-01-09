@@ -44,7 +44,7 @@ public interface UserDao {
 
   /**
    * Finds user according to specified login.
-   * @param user User, which attribute login is user as searching key for finding specific user.
+   * @param login User, which attribute login is user as searching key for finding specific user.
    * @return User entity, which login corresponds to the one specified as parameter. If no user
    * is found, then returns null.
    */

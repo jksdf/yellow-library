@@ -88,32 +88,20 @@ public class BookInstance {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || !(o instanceof BookInstance)) {
+    if (!(o instanceof BookInstance)) {
       return false;
     }
 
     BookInstance that = (BookInstance) o;
-
-    if (!getBookState().equals(that.getBookState())) {
-      return false;
-    }
-    if (getVersion() != null ? !getVersion().equals(that.getVersion())
-        : that.getVersion() != null) {
-      return false;
-    }
-    if (getBookAvailability() != that.getBookAvailability()) {
-      return false;
-    }
-    return getBook().equals(that.getBook());
-
+    return Objects.equals(getBookState(), that.getBookState()) &&
+        Objects.equals(getVersion(), that.getVersion()) &&
+        Objects.equals(getBookAvailability(), that.getBookAvailability()) &&
+        Objects.equals(getBook(), that.getBook());
   }
 
   @Override
   public int hashCode() {
-      return Objects.hash(getBookState(), getBookAvailability(), getBook());
+    return Objects.hash(getBookState(), getVersion(), getBookAvailability(), getBook());
     }
 
   @Override

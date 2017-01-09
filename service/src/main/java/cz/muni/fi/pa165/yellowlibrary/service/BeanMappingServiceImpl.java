@@ -41,7 +41,9 @@ public class BeanMappingServiceImpl implements BeanMappingService {
       return null;
     }
     if (source.getClass().isEnum() && mapToClass.isEnum()) {
-      return (T) this.getEnum(source, (Class<? extends Enum>) mapToClass);
+      @SuppressWarnings("unchecked")
+      T ret = (T) this.getEnum(source, (Class<? extends Enum>) mapToClass);
+      return ret;
     }
     return mapper.map(source, mapToClass);
   }
@@ -59,7 +61,9 @@ public class BeanMappingServiceImpl implements BeanMappingService {
       throw new AssertionError("Enums have valueOf(String)", e);
     }
     try {
-      return (T) valueOf.invoke(mapToClass, source.toString());
+      @SuppressWarnings("unchecked")
+      T ret = (T) valueOf.invoke(mapToClass, source.toString());
+      return ret;
     } catch (IllegalAccessException | InvocationTargetException e) {
       throw new MappingException("Unable to find equivalent enum value");
     }
