@@ -59,8 +59,8 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
     log.debug("Loaded departments.");
 
-    Book book1 = book(100, "Technological Advacements on Farms", "9781482251074", "Joe Backhand",
-        "Short description of robotic advacements on local farms.", dep1);
+    Book book1 = book(100, "Technological Advancements on Farms", "9781482251074", "Joe Backhand",
+        "Short description of robotic advancements on local farms.", dep1);
     Book book2 = book(20, "How to play tennis with wheat straws", "9780747560722", "Joe Backhand",
         "Brief overview on how to make tennic racket using only wheat straws.", dep1);
     Book book3 = book(123, "Safecorp Industries Obituaries", "9788478885626", "Marcus Coffin",
