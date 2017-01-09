@@ -160,15 +160,15 @@ public class BookController extends CommonController {
 
 
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-  public String editPost(@Valid @ModelAttribute("book") BookCreateDTO data,
+  public String editPost(@PathVariable("id") Long id,
+                         @Valid @ModelAttribute("book") BookCreateDTO data,
                          BindingResult bindingResult, Model model,
                          RedirectAttributes redirectAttributes,
                          UriComponentsBuilder uriComponentsBuilder) {
     logger.debug("BookController#edit():POST");
 
     if (bindingResult.hasErrors()) {
-      return uriComponentsBuilder.path("/book/{id}/edit")
-          .queryParam("id", data.getId()).toUriString();
+      return uriComponentsBuilder.path("/book/{id}/edit").queryParam("id", id).toUriString();
     }
     BookDTO original = bookFacade.getBook(data.getId());
     data.setAuthor(original.getAuthor());

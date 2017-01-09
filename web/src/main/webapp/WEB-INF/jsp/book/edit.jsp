@@ -13,13 +13,14 @@
     <jsp:attribute name="body">
 
     <h2><fmt:message key="book.edit"/></h2>
-    <form:form method="post" action="${pageContext.request.contextPath}/book/edit"
+    <form:form method="POST" action="${pageContext.request.contextPath}/book/${book.id}/edit"
                modelAttribute="book" cssClass="form-horizontal">
 
         <div class="form-group ${name_error?'has-error':''}">
             <form:label path="name" cssClass="col-sm-2 control-label"><fmt:message key="book.name"/></form:label>
             <div class="col-sm-10">
                 <form:input path="name" disabled="true" cssClass="form-control"/>
+                <input type="hidden" name="name" value="${book.name}"/>
                 <form:errors path="name" cssClass="help-block"/>
             </div>
         </div>
@@ -28,6 +29,7 @@
             <form:label path="isbn" cssClass="col-sm-2 control-label"><fmt:message key="book.isbn"/></form:label>
             <div class="col-sm-10">
                 <form:input path="isbn" disabled="true" cssClass="form-control" id="isbnInput"/>
+                <input type="hidden" name="isbn" value="${book.isbn}"/>
                 <form:errors path="isbn" cssClass="help-block"/>
             </div>
         </div>
@@ -36,6 +38,7 @@
             <form:label path="author" cssClass="col-sm-2 control-label"><fmt:message key="book.author"/></form:label>
             <div class="col-sm-10">
                 <form:input path="author" disabled="true" cssClass="form-control"/>
+                <input type="hidden" name="author" value="${book.author}"/>
                 <form:errors path="author" cssClass="help-block"/>
             </div>
         </div>
