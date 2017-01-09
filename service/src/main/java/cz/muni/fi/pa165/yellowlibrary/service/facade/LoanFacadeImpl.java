@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.yellowlibrary.service.facade;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 import cz.muni.fi.pa165.yellowlibrary.service.BeanMappingService;
 import cz.muni.fi.pa165.yellowlibrary.service.DateService;
 import cz.muni.fi.pa165.yellowlibrary.service.LoanService;
+import cz.muni.fi.pa165.yellowlibrary.service.UserService;
 
 /**
  * @author cokinova
