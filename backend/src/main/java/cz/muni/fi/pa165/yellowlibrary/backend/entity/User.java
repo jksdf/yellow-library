@@ -24,6 +24,8 @@ import javax.validation.constraints.NotNull;
 import cz.muni.fi.pa165.yellowlibrary.backend.enums.UserType;
 
 /**
+ * Entity user.
+ *
  * @author Jozef Zivcic
  */
 @Entity

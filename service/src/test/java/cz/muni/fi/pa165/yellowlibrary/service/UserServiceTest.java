@@ -254,6 +254,9 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
     assertTrue(users.contains(user2));
   }
 
+  /**
+   * Helper method, which prepares some users for testing.
+   */
   private void setUpUsers() {
     user1 = new User();
     user1.setName("Joshua Bloch");

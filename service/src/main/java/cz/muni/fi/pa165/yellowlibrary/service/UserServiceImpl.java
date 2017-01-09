@@ -81,7 +81,13 @@ public class UserServiceImpl implements UserService {
     return userDao.findAllUsersWithName(name);
   }
 
-  //see  https://crackstation.net/hashing-security.htm#javasourcecode
+  /**
+   * Creates hash for given String (password).
+   * See https://crackstation.net/hashing-security.htm#javasourcecode
+   *
+   * @param password Password, which is hashed.
+   * @return Result of hashing - hashed password.
+   */
   private static String createHash(String password) {
     final int SALT_BYTE_SIZE = 24;
     final int HASH_BYTE_SIZE = 24;
@@ -96,6 +102,15 @@ public class UserServiceImpl implements UserService {
     return PBKDF2_ITERATIONS + ":" + toHex(salt) + ":" + toHex(hash);
   }
 
+  /**
+   * Generates secure hash for password from parameters.
+   *
+   * @param password User password.
+   * @param salt Additional string, which is included in hashing.
+   * @param iterations Number of iterations.
+   * @param bytes Length of key in bytes.
+   * @return Raw key bytes.
+   */
   private static byte[] pbkdf2(char[] password, byte[] salt, int iterations, int bytes) {
     try {
       PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, bytes * 8);
@@ -105,6 +120,13 @@ public class UserServiceImpl implements UserService {
     }
   }
 
+  /**
+   * Validates password. Checks if given password matches with the one stored in database.
+   *
+   * @param password Password which is controlled.
+   * @param correctHash Correct hash of password.
+   * @return True if given password with correctHash match, false otherwise.
+   */
   public static boolean validatePassword(String password, String correctHash) {
     if(password==null) return false;
     if(correctHash==null) throw new IllegalArgumentException("password hash is null");
@@ -132,6 +154,12 @@ public class UserServiceImpl implements UserService {
     return diff == 0;
   }
 
+  /**
+   * Converts hexadecimal number stored in String into array of bytes.
+   *
+   * @param hex Number which is to be converted.
+   * @return Array of decimal numbers.
+   */
   private static byte[] fromHex(String hex) {
     byte[] binary = new byte[hex.length() / 2];
     for (int i = 0; i < binary.length; i++) {
@@ -140,6 +168,12 @@ public class UserServiceImpl implements UserService {
     return binary;
   }
 
+  /**
+   * Converts array of bytes containing decimal numbers into hexadecimal number stored in String.
+   *
+   * @param array Array of bytes, which is to be converted.
+   * @return Hexadecimal number.
+   */
   private static String toHex(byte[] array) {
     BigInteger bi = new BigInteger(1, array);
     String hex = bi.toString(16);

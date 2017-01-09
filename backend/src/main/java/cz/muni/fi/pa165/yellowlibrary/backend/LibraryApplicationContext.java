@@ -22,7 +22,6 @@ import javax.sql.DataSource;
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.DaoPackage;
 
 /**
- *
  * @author Jozef Zivcic
  */
 @Configuration

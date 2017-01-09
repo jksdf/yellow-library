@@ -1,7 +1,9 @@
 package cz.muni.fi.pa165.yellowlibrary.api.enums;
 
 /**
- * Created by jozef on 23.11.2016.
+ * Specifies type of user.
+ *
+ * @author Jozef Zivcic
  */
 public enum UserType {
   EMPLOYEE, CUSTOMER
