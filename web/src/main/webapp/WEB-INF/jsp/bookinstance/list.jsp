@@ -70,20 +70,22 @@
                     <td class="center nounderline">
                             <c:if test="${isEmployee}">
                             <div class="glyphic">
+                                <c:if test="${bookinstance.bookAvailability != 'REMOVED'}">
                                 <form method="post" action="${pageContext.request.contextPath}/bookinstance/${bookinstance.id}/discard">
-                                    <c:if test="${bookinstance.bookAvailability == 'AVAILABLE'}">
-                                        <button type="submit" class="btn btn-xs btn-link">
+                                    <button type="submit" class="btn btn-xs btn-link">
                                             <span class="glyphicon glyphicon-minus text-danger"
                                                   aria-hidden="true"></span>
-                                        </button>
-                                    </c:if>
-                                    <c:if test="${bookinstance.bookAvailability != 'AVAILABLE'}">
-                                        <button type="submit" class="btn btn-xs btn-link" disabled>
-                                            <span class="glyphicon glyphicon-minus text-muted"
-                                                  aria-hidden="true"></span>
-                                        </button>
-                                    </c:if>
+                                    </button>
                                 </form>
+                                </c:if>
+                                <c:if test="${bookinstance.bookAvailability == 'REMOVED'}">
+                                <form method="post" action="${pageContext.request.contextPath}/bookinstance/${bookinstance.id}/edit/availability/AVAILABLE">
+                                    <button type="submit" class="btn btn-xs btn-link">
+                                            <span class="glyphicon glyphicon-plus text-success"
+                                                  aria-hidden="true"></span>
+                                    </button>
+                                </form>
+                                </c:if>
                                 <c:if test="${bookinstance.bookAvailability == 'AVAILABLE'}">
                                 <a href="${pageContext.request.contextPath}/bookinstance/${bookinstance.id}/edit/state">
                                     <span class="glyphicon glyphicon-pencil text-warning" aria-hidden="true"></span>

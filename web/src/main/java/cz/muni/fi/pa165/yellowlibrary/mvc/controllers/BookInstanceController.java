@@ -153,13 +153,17 @@ public class BookInstanceController extends CommonController {
    * @param availability {@link BookInstanceAvailability} desired availability
    */
   @RequestMapping(value = "{id}/edit/availability/{availability}", method = RequestMethod.POST)
-  public String setState(@PathVariable Long id,
+  public String changeAvailability(@PathVariable Long id,
                          @PathVariable String availability,
                          UriComponentsBuilder uriComponentsBuilder,
                          RedirectAttributes redirectAttributes) {
     Long bookId = bookInstanceFacade.findById(id).getBook().getId();
     try {
       BookInstanceAvailability availabilityEnum = BookInstanceAvailability.valueOf(availability);
+      if (availabilityEnum == BookInstanceAvailability.REMOVED) {
+        return discard(id, redirectAttributes, uriComponentsBuilder);
+
+      }
       bookInstanceFacade.changeBookAvailability(id, availabilityEnum);
       redirectAttributes.addFlashAttribute("alert_success",
           String
@@ -167,9 +171,8 @@ public class BookInstanceController extends CommonController {
     } catch (IllegalArgumentException ex) {
       redirectAttributes.addFlashAttribute("alert_warning", "Bad state name");
     }
-    return "redirect:" + uriComponentsBuilder
-        .path("/book/")
-        .pathSegment(bookId.toString())
+    return "redirect:" + uriComponentsBuilder.path("/bookinstance/list")
+        .queryParam("bid", bookId)
         .toUriString();
   }
 
@@ -210,8 +213,7 @@ public class BookInstanceController extends CommonController {
    * @param id id of a book instance to change
    */
   @RequestMapping(value = "/{id}/discard", method = RequestMethod.POST)
-  public String changeAvailability(@PathVariable Long id,
-                                   Model model,
+  public String discard(@PathVariable Long id,
                                    RedirectAttributes redirectAttributes,
                                    UriComponentsBuilder uriComponentsBuilder) {
 
