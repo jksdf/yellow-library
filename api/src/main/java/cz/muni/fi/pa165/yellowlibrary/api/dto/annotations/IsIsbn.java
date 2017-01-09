@@ -15,6 +15,11 @@ import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
+ * Validates that the annotated field conforms to the ISBN-10 or ISBN-13 standard.
+ *
+ * The value can not contain any other characters other than numbers and character 'X' as used
+ * in the ISBN-10 standard. No dashes are supported as ISBN value without dashes is valid and
+ * the dashed version can not be easily reconstructed.
  * @author Norbert Slivka
  */
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})

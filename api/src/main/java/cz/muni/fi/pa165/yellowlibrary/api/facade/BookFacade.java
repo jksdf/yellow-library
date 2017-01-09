@@ -26,9 +26,12 @@ public interface BookFacade {
   long createBook(BookCreateDTO book);
 
   /**
-   * Updates the book specified by the ID to values in the book parameter.
+   * Updates the book specified by the ID of the parameter to values in the parameter.
    */
   void updateBook(BookCreateDTO book);
 
+  /**
+   * Retrieves all books.
+   */
   List<BookDTO> getAll();
 }
