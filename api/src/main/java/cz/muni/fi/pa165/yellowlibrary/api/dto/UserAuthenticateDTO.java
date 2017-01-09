@@ -3,6 +3,8 @@ package cz.muni.fi.pa165.yellowlibrary.api.dto;
 import javax.validation.constraints.Size;
 
 /**
+ * This object is used for authentication of users.
+ *
  * @author Jozef Zivcic
  */
 public class UserAuthenticateDTO {

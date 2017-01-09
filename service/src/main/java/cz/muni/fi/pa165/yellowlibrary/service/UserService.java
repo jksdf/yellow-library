@@ -7,6 +7,8 @@ import java.util.List;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 
 /**
+ * Service interface for user entity.
+ *
  * @author Jozef Zivcic
  */
 @Service

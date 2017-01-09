@@ -10,6 +10,8 @@ import javax.validation.constraints.Size;
 import cz.muni.fi.pa165.yellowlibrary.api.enums.UserType;
 
 /**
+ * This class represents user in system.
+ *
  * @author Jozef Zivcic
  */
 public class UserDTO {

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Controller for logout.
  * Inspired by http://websystique.com/spring-security/spring-security-4-logout-example/
  *
  * @author Jozef Zivcic
@@ -22,6 +23,13 @@ public class LogoutController extends CommonController {
 
   private final static Logger log = LoggerFactory.getLogger(LogoutController.class);
 
+  /**
+   * Log outs user, who generates request.
+   * 
+   * @param request HttpServletRequest.
+   * @param response HttpServletResponse
+   * @return Redirects user.
+   */
   @RequestMapping(value = "/logout", method = RequestMethod.GET)
   public String logout(HttpServletRequest request, HttpServletResponse response) {
     log.info("LogoutController.logout()");

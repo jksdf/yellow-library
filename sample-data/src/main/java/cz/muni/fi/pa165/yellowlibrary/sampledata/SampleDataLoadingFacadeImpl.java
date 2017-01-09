@@ -100,6 +100,15 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
   }
 
+  /**
+   * Creates book instance according to given parameters.
+   *
+   * @param book Book.
+   * @param bookAvailability Availability of book instance.
+   * @param bookState State of book instance.
+   * @param bookVersion Version of given book instance
+   * @return New book instance object.
+   */
   private BookInstance bookInstance(Book book, BookAvailability bookAvailability, String bookState,
                                     String bookVersion) {
     BookInstance bookInstance = new BookInstance();
@@ -111,8 +120,16 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     return bookInstance;
   }
 
-  /*
+  /**
    * TODO: Placeholder book() -- modify to your needs
+   *
+   * @param bookPages Number of pages of a particular book.
+   * @param bookName Name of book.
+   * @param bookISBN ISBN.
+   * @param bookAuthor Author of book.
+   * @param bookDescription Description of.
+   * @param bookDepartment Department which the book belongs to.
+   * @return New book object.
    */
   private Book book(int bookPages, String bookName, String bookISBN, String bookAuthor,
                     String bookDescription, Department bookDepartment) {
@@ -127,8 +144,12 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     return book;
   }
 
-  /*
+  /**
    * TODO: Placeholder department() -- modify to your needs
+   *
+   * @param departmentShortName Short name of department.
+   * @param departmentName Name of department.
+   * @return New department object.
    */
   private Department department(String departmentShortName, String departmentName) {
     Department department = new Department();
@@ -138,6 +159,17 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     return department;
   }
 
+  /**
+   * Helper method, which creates a new User entity.
+   *
+   * @param name Name of user.
+   * @param login Login of user.
+   * @param password User password.
+   * @param address Address of user.
+   * @param userType Role, which has user in system - CUSTOMER or EMPLOYEE.
+   * @param totalFines Total fines of user.
+   * @return New user object.
+   */
   private User getNewUser(String name, String login, String password, String address,
                              UserType userType, BigDecimal totalFines) {
     User user = new User();
@@ -150,6 +182,16 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     return user;
   }
 
+  /**
+   * Helper method, which creates a new loan.
+   *
+   * @param user User, which this loan belongs to.
+   * @param bookInstance Which book instance has borrowed the user.
+   * @param dateFrom Start dote of loan.
+   * @param loanLength How long is the book borrowed.
+   * @param loanState State of loan.
+   * @return New loan object.
+   */
   private Loan loan(User user, BookInstance bookInstance, Date dateFrom, int loanLength, String loanState){
     Loan l = new Loan();
     l.setUser(user);
@@ -161,5 +203,4 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     loanService.create(l);
     return l;
   }
-
 }
