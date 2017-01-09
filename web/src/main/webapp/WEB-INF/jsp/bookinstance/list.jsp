@@ -30,12 +30,14 @@
         <table class="table bookInstance">
             <thead>
             <tr>
+                <c:if test="${isEmployee}">
                 <th class="center nounderline">
                         <c:if test="${isEmployee && not empty bookId}">
                             <a href="${pageContext.request.contextPath}/bookinstance/new/${bookId}"><span
                                     class="glyphicon glyphicon-plus text-success" aria-hidden="true"></span>Add</a>
                         </c:if>
                 </th>
+                </c:if>
                 <th>ID</th>
                 <th><fmt:message key="binstance.book"/></th>
                 <th><fmt:message key="binstance.version"/></th>
@@ -46,6 +48,7 @@
             <tbody>
             <c:forEach items="${bookinstances}" var="bookinstance">
                 <tr>
+                    <c:if test="${isEmployee}">
                     <td class="center nounderline">
                             <c:if test="${isEmployee}">
                             <div class="glyphic">
@@ -69,6 +72,7 @@
                             </div>
                             </c:if>
                     </td>
+                    </c:if>
                     <td>${bookinstance.id}</td>
                     <td>
                         <a href="${pageContext.request.contextPath}/book/${bookinstance.book.id}">

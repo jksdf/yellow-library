@@ -54,10 +54,6 @@ body {
 }
 
 .bookInstance {
-    width: 90%;
-}
-
-.bookInstance {
     table-layout: fixed;
 }
 
@@ -67,7 +63,7 @@ body {
 
 .bookInstance tr th.nounderline:first-of-type {
     border-bottom: 0;
-    width: 10%;
+    width: 5%;
 }
 
 .bookInstance tr th:nth-last-of-type(1){
