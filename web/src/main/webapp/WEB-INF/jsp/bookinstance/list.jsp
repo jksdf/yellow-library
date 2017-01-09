@@ -84,9 +84,16 @@
                                         </button>
                                     </c:if>
                                 </form>
+                                <c:if test="${bookinstance.bookAvailability == 'AVAILABLE'}">
                                 <a href="${pageContext.request.contextPath}/bookinstance/${bookinstance.id}/edit/state">
                                     <span class="glyphicon glyphicon-pencil text-warning" aria-hidden="true"></span>
                                 </a>
+                                </c:if>
+                                <c:if test="${bookinstance.bookAvailability != 'AVAILABLE'}">
+                                    <button type="submit" class="btn btn-xs btn-link" disabled>
+                                        <span class="glyphicon glyphicon-pencil text-muted" aria-hidden="true"></span>
+                                    </button>
+                                </c:if>
                             </div>
                             </c:if>
                     </td>
