@@ -121,9 +121,14 @@ public class LoanServiceImpl implements LoanService {
       long days = ChronoUnit.DAYS.between(lDate, nowLocalDate);
       BigDecimal fine = BigDecimal.valueOf(100L);
 
-      if (days > l.getLoanLength() && l.getFine().compareTo(fine) < 0) {
+      if (days > l.getLoanLength() && (l.getFine() == null || l.getFine().compareTo(fine) < 0)) {
         User u = l.getUser();
-        u.setTotalFines(u.getTotalFines().add(fine));
+        if (u.getTotalFines() == null) {
+          u.setTotalFines(fine);
+        }
+        else {
+          u.setTotalFines(u.getTotalFines().add(fine));
+        }
         userDao.updateUser(u);
         l.setFine(fine);
         loanDao.update(l);

@@ -29,6 +29,7 @@ import cz.muni.fi.pa165.yellowlibrary.backend.entity.Department;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 import cz.muni.fi.pa165.yellowlibrary.backend.enums.BookAvailability;
+import cz.muni.fi.pa165.yellowlibrary.backend.enums.UserType;
 import cz.muni.fi.pa165.yellowlibrary.service.configuration.ServiceConfiguration;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -69,17 +70,21 @@ public class LoanServiceTest extends AbstractTestNGSpringContextTests {
   @BeforeTest
   public void setUpUsers() {
     user1 = new User();
+    user1.setUserType(UserType.EMPLOYEE);
     user1.setId(42L);
     user1.setName("Jimmy A.");
     user1.setAddress("Addr");
     user1.setLogin("jimmy");
+    user1.setPasswordHash("pasword");
     user1.setTotalFines(BigDecimal.ZERO);
 
     user2 = new User();
+    user2.setUserType(UserType.EMPLOYEE);
     user2.setId(43L);
     user2.setName("Peter P.");
     user2.setAddress("Peters addr");
     user2.setLogin("ptr");
+    user2.setPasswordHash("pasword");
     user2.setTotalFines(BigDecimal.TEN);
 
     department = new Department();
@@ -344,7 +349,7 @@ public class LoanServiceTest extends AbstractTestNGSpringContextTests {
   @Test
   public void calculateFines() {
     Loan closed = new Loan();
-    closed.setId(0L);
+    closed.setId(11L);
     closed.setUser(user1);
     closed.setDateFrom(new Date(123));
     closed.setReturnDate(new Date(234));
@@ -354,7 +359,7 @@ public class LoanServiceTest extends AbstractTestNGSpringContextTests {
     closed.setLoanState("OK");
 
     Loan ok = new Loan();
-    ok.setId(1L);
+    ok.setId(12L);
     ok.setUser(user1);
     ok.setDateFrom(new Date(123));
     ok.setReturnDate(new Date(234));
@@ -364,7 +369,7 @@ public class LoanServiceTest extends AbstractTestNGSpringContextTests {
     ok.setLoanState("OK");
 
     Loan bad = new Loan();
-    bad.setId(2L);
+    bad.setId(13L);
     bad.setUser(user1);
     bad.setDateFrom(new Date(456));
     bad.setReturnDate(null);
@@ -373,6 +378,9 @@ public class LoanServiceTest extends AbstractTestNGSpringContextTests {
     bad.setFine(null);
     bad.setLoanState("OK");
 
+    when(loanDao.findLoanById(ok.getId())).thenReturn(ok);
+    when(loanDao.findLoanById(bad.getId())).thenReturn(bad);
+    when(loanDao.findLoanById(closed.getId())).thenReturn(closed);
     final List<Loan> loans = new ArrayList<>();
     doAnswer(invocation -> {
       Object arg = invocation.getArguments()[0];
