@@ -223,6 +223,16 @@ public class BookInstanceServiceTest extends AbstractTestNGSpringContextTests {
     Assert.assertEquals(foundBookInstance, bookInstanceOne);
   }
 
+  @Test
+  public void testGetBookInstanceByUnusedId() {
+    when(bookInstanceDao.findById(any())).thenReturn(null);
+    Long randomId = 99999L;
+
+    BookInstance foundBookInstance = bookInstanceService.getBookInstanceById(randomId);
+    verify(bookInstanceDao).findById(randomId);
+    Assert.assertEquals(foundBookInstance, null);
+  }
+
   @Test(expectedExceptions = NullPointerException.class)
   public void testGetBookInstanceByNullId() {
     when(bookInstanceDao.findById(null))
