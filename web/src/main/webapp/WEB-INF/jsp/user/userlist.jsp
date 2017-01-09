@@ -11,51 +11,45 @@
     </jsp:attribute>
 
     <jsp:attribute name="body">
-        <div class="container">
-            <form class="form-inline" method="get" action="${pageContext.request.contextPath}/user/list">
-                <div class="form-group">
-                    <div class="input-group">
-                        <input value="${param.user_name}" type="text" id="user_name" name="user_name" class="form-control" placeholder="<fmt:message key="user.search_by_name" />">
-                    </div>
+        <form class="form-inline" method="get" action="${pageContext.request.contextPath}/user/list">
+            <div class="form-group">
+                <div class="input-group">
+                    <input value="${param.user_name}" type="text" id="user_name" name="user_name" class="form-control" placeholder="<fmt:message key="user.search_by_name" />">
                 </div>
-                <button type="submit" class="btn btn-primary"><fmt:message key="user.search" /></button>
-            </form>
-        </div>
-        <div class="container">
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th><fmt:message key="login.login" /></th>
-                        <th><fmt:message key="user.name" /></th>
-                        <th><fmt:message key="user.address" /></th>
-                        <th><fmt:message key="user.user_type" /></th>
-                        <th><fmt:message key="user.detail" /></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${users}" var="userVar">
-
-                        <tr>
-                            <td><c:out value="${userVar.login}" /></td>
-                            <td><c:out value="${userVar.name}" /></td>
-                            <td><c:out value="${userVar.address}" /></td>
-                            <c:if test="${userVar.userType == 'EMPLOYEE'}">
-                                <td><fmt:message key="user.employee" /></td>
-                            </c:if>
-                            <c:if test="${userVar.userType == 'CUSTOMER'}">
-                                <td><fmt:message key="user.customer" /></td>
-                            </c:if>
-                            <td>
-                                <a href="${pageContext.request.contextPath}/user/<c:out value="${userVar.id}" />">
-                                    <div class="glyphicon glyphicon-info-sign"></div>&nbsp;<fmt:message key="nav.info" />
-                                </a>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
             </div>
-        </div>
+            <button type="submit" class="btn btn-primary"><fmt:message key="user.search" /></button>
+        </form>
+        <table class="table">
+            <thead>
+            <tr>
+                <th><fmt:message key="login.login" /></th>
+                <th><fmt:message key="user.name" /></th>
+                <th><fmt:message key="user.address" /></th>
+                <th><fmt:message key="user.user_type" /></th>
+                <th><fmt:message key="user.detail" /></th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${users}" var="userVar">
+
+                <tr>
+                    <td><c:out value="${userVar.login}" /></td>
+                    <td><c:out value="${userVar.name}" /></td>
+                    <td><c:out value="${userVar.address}" /></td>
+                    <c:if test="${userVar.userType == 'EMPLOYEE'}">
+                        <td><fmt:message key="user.employee" /></td>
+                    </c:if>
+                    <c:if test="${userVar.userType == 'CUSTOMER'}">
+                        <td><fmt:message key="user.customer" /></td>
+                    </c:if>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/user/<c:out value="${userVar.id}" />">
+                            <div class="glyphicon glyphicon-info-sign"></div>&nbsp;<fmt:message key="nav.info" />
+                        </a>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
     </jsp:attribute>
 </own:mainpage>

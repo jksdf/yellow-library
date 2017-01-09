@@ -25,7 +25,7 @@ public class LogoutController extends CommonController {
 
   /**
    * Log outs user, who generates request.
-   * 
+   *
    * @param request HttpServletRequest.
    * @param response HttpServletResponse
    * @return Redirects user.
