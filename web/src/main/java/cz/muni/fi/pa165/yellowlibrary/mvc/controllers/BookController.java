@@ -1,6 +1,10 @@
 package cz.muni.fi.pa165.yellowlibrary.mvc.controllers;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
+
 import org.apache.log4j.Logger;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -23,6 +28,7 @@ import javax.validation.Valid;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.dto.BookSearchDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.enums.BookInstanceAvailability;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookFacade;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookInstanceFacade;
@@ -52,6 +58,26 @@ public class BookController extends CommonController {
         new StringTrimmerEditor("-", false));
   }
 
+  @InitBinder
+  public void initSearchDepartmentsBinder(WebDataBinder binder) {
+    binder.registerCustomEditor(Set.class, "departmentIds", new CustomCollectionEditor(Set.class) {
+      @Override
+      protected Object convertElement(Object element) {
+        if (element instanceof String && !element.equals("")) {
+          try {
+            return Long.parseLong((String) element);
+          } catch (NumberFormatException e) {
+            logger.debug("Bad format", e);
+            return null;
+          }
+        } else if (element instanceof Long) {
+          return element;
+        }
+        return null;
+      }
+    });
+  }
+
   @RequestMapping(value = {"/{id}"}, method = RequestMethod.GET)
   public String details(@PathVariable long id,
                         @RequestParam(required = false, defaultValue = "ALL",
@@ -71,8 +97,23 @@ public class BookController extends CommonController {
   }
 
   @RequestMapping(value = {"", "/", "/list"}, method = RequestMethod.GET)
-  public String list(Model model) {
-    model.addAttribute("books", bookFacade.getAll());
+  public String list(Model model, @Valid @ModelAttribute("bookSearch") BookSearchDTO search) {
+    if (search.getDepartmentIds() != null) {
+      search.getDepartmentIds().remove(-1L);
+    } else {
+      search.setDepartmentIds(ImmutableSet.of());
+    }
+    if (Strings.isNullOrEmpty(search.getName()) &&
+        Strings.isNullOrEmpty(search.getAuthor()) &&
+        Strings.isNullOrEmpty(search.getDescription()) &&
+        Strings.isNullOrEmpty(search.getIsbn()) &&
+        search.getDepartmentIds() != null &&
+        search.getDepartmentIds().isEmpty()) {
+      model.addAttribute("books", bookFacade.getAll());
+    } else {
+      model.addAttribute("books", bookFacade.findBooks(search));
+    }
+    model.addAttribute("departments", departmentFacade.getAll());
     return "/book/list";
   }
 
@@ -112,7 +153,6 @@ public class BookController extends CommonController {
     createDTO.setIsbn(book.getIsbn());
     createDTO.setName(book.getName());
     createDTO.setPages(book.getPages());
-    //TODO(slivka): bad id handling
     model.addAttribute("book", createDTO);
     model.addAttribute("departments", departmentFacade.getAll());
     return "/book/edit";

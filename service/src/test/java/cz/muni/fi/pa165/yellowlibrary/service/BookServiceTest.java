@@ -209,7 +209,7 @@ public class BookServiceTest extends AbstractTestNGSpringContextTests {
 
   @Test
   public void testbookSearchDescription() {
-    List<Book> books = bookService.searchBooks(null, null, "", null, null);
+    List<Book> books = bookService.searchBooks(null, null, "F", null, null);
     assertThat(books).containsExactly(book1, book2);
   }
 

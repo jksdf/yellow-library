@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.yellowlibrary.service;
 
+import com.google.common.base.Strings;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,11 +43,13 @@ public class BookServiceImpl implements BookService {
     return bookDao.getAllBooks()
         .stream()
         .filter(book ->
-            (author != null && book.getAuthor().contains(author)) ||
-                (name != null && book.getName().contains(name)) ||
-                (isbn != null && book.getIsbn().contains(isbn)) ||
-                (description != null && book.getDescription().contains(description)) ||
-                (departments != null && departments.contains(book.getDepartment().getId())))
+            (!Strings.isNullOrEmpty(author) && book.getAuthor().contains(author)) ||
+                (!Strings.isNullOrEmpty(name) && book.getName().contains(name)) ||
+                (!Strings.isNullOrEmpty(isbn) && book.getIsbn().contains(isbn)) ||
+                (!Strings.isNullOrEmpty(description) &&
+                    book.getDescription().contains(description)) ||
+                (departments != null && !departments.isEmpty() &&
+                    departments.contains(book.getDepartment().getId())))
         .collect(Collectors.toList());
   }
 

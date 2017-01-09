@@ -7,7 +7,7 @@
 
 <my:mainpage>
     <jsp:attribute name="title">
-        <fmt:message key="book.list" />
+        <fmt:message key="book.list"/>
     </jsp:attribute>
 
     <jsp:attribute name="body">
@@ -18,6 +18,62 @@
             <fmt:message key="book.new"/>
         </a>
     </c:if>
+    <a href="#" class="btn btn-primary" id="search-dialog-button"
+       onclick="$('#search-dialog').fadeToggle();$('#search-dialog-button').fadeToggle();">
+        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+        <fmt:message key="book.search"/>
+    </a><br/>
+    <div id="search-dialog" class="col-md-7" style="display: none;">
+        <form:form method="get" action="${pageContext.request.contextPath}/book/list"
+                   modelAttribute="bookSearch" cssClass="form-horizontal">
+
+            <div class="form-group">
+                <form:label path="name" cssClass="col-sm-2 control-label"><fmt:message key="book.name"/></form:label>
+                <div class="col-sm-10">
+                    <form:input path="name" cssClass="form-control"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <form:label path="isbn" cssClass="col-sm-2 control-label"><fmt:message key="book.isbn"/></form:label>
+                <div class="col-sm-10">
+                    <form:input path="isbn" cssClass="form-control"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <form:label path="author" cssClass="col-sm-2 control-label"><fmt:message
+                        key="book.author"/></form:label>
+                <div class="col-sm-10">
+                    <form:input path="author" cssClass="form-control"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <form:label path="description" cssClass="col-sm-2 control-label"><fmt:message
+                        key="book.description"/></form:label>
+                <div class="col-sm-10">
+                    <form:input path="description" cssClass="form-control"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <form:label path="departmentIds" cssClass="col-sm-2 control-label"><fmt:message
+                        key="book.departments"/></form:label>
+                <div class="col-sm-10">
+                    <form:select multiple="true" path="departmentIds" cssClass="form-control">
+                        <form:option value="-1">&nbsp;</form:option>
+                        <c:forEach items="${departments}" var="department">
+                            <form:option value="${department.id}"><c:out value="${department.name}"/> (<c:out
+                                    value="${department.shortName}"/>)</form:option>
+                        </c:forEach>
+                    </form:select>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" type="submit"><fmt:message key="book.search"/></button>
+        </form:form>
+    </div>
     <table class="table">
         <thead>
         <tr>
