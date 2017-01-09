@@ -123,7 +123,7 @@ public class LoanController extends CommonController {
 
   @RequestMapping(value = "/recalculateFines", method = RequestMethod.GET)
   public String recalculateFines(Model model, RedirectAttributes ra) {
-    loanFacade.CalculateFinesForExpiredLoans();
+    loanFacade.calculateFinesForExpiredLoans();
     return "redirect:/loan/list";
   }
 

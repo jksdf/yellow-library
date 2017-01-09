@@ -58,7 +58,7 @@ public class LoanController {
   public final void recalculateFines() throws Exception {
     log.debug("REST recalculateFines()");
     try {
-      loanFacade.CalculateFinesForExpiredLoans();
+      loanFacade.calculateFinesForExpiredLoans();
     } catch(Exception ex) {
       throw new ResourceNotFoundException();
     }

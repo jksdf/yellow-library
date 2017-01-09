@@ -119,7 +119,7 @@ public class LoanFacadeImpl implements LoanFacade {
   }
 
   @Override
-  public void CalculateFinesForExpiredLoans() {
+  public void calculateFinesForExpiredLoans() {
     loanService.calculateFines();
   }
 }
