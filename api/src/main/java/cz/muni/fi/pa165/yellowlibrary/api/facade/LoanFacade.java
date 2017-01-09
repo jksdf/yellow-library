@@ -29,7 +29,7 @@ public interface LoanFacade {
   LoanDTO findById(Long id);
 
   /**
-   * Retieves all loans.
+   * Retrieves all loans.
    */
   List<LoanDTO> getAllLoans();
 
@@ -60,7 +60,7 @@ public interface LoanFacade {
   List<LoanDTO> getLoansByDate(Date fromDate, Date expectedReturnDate);
 
   /**
-   * Recalculates fines of all loans.
+   * Recalculates fines of all loans and updates appropriate user fine values.
    */
   void calculateFinesForExpiredLoans();
 }

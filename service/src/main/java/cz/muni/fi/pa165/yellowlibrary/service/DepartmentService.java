@@ -26,5 +26,8 @@ public interface DepartmentService {
    */
   Department findByShortName(String name);
 
+  /**
+   * Retrieves all deparments.
+   */
   List<Department> getAll();
 }

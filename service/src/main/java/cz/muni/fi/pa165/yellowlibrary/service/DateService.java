@@ -9,5 +9,8 @@ import java.util.Calendar;
  */
 @Service
 public interface DateService {
+  /**
+   * Returns calendar with current date set.
+   */
   Calendar now();
 }
