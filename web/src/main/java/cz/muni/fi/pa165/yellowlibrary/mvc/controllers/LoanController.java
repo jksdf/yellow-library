@@ -19,8 +19,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.beans.PropertyEditorSupport;
+import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +34,7 @@ import javax.validation.Valid;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanFilterDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.exceptions.BookInstanceNotAvailableException;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookInstanceFacade;
@@ -90,12 +93,31 @@ public class LoanController extends CommonController {
   }
 
   @RequestMapping(value = {"", "/","/list"}, method = RequestMethod.GET)
-  public String list(Model model) {
-    if (isEmployee()){
-      model.addAttribute("loans", loanFacade.getAllLoans());
-    } else {
-      model.addAttribute("loans", loanFacade.getLoansByUser(getUserDTO()));
+  public String list(Model model, @ModelAttribute("filterForm") LoanFilterDTO filterDto) {
+    List<LoanDTO> loans = null;
+    UserDTO filteredUser = (isCustomer()) ? getUserDTO() : filterDto.getUser();
+    String filteredState = filterDto.getFilter();
+
+    switch (filteredState == null ? "" : filteredState) {
+      case "active":
+      case "expired":
+        loans = new ArrayList<LoanDTO>();
+        for (LoanDTO loan : loanFacade.getNotReturnedLoans()) {
+          boolean a1 = (filteredUser == null || filteredUser.equals(loan.getUser()));
+          boolean a2 = (!"expired".equals(filteredState) || BigDecimal.ZERO.compareTo(loan.getFine()) < 0);
+
+          if ((filteredUser == null || filteredUser.equals(loan.getUser()))
+              && (!"expired".equals(filteredState) || BigDecimal.ZERO.compareTo(loan.getFine()) < 0)) {
+            loans.add(loan);
+          }
+        }
+        break;
+
+      default:
+        loans = (filteredUser == null) ? loanFacade.getAllLoans() : loanFacade.getLoansByUser(filteredUser);
     }
+
+    model.addAttribute("loans", loans);
     return "loan/list";
   }
 

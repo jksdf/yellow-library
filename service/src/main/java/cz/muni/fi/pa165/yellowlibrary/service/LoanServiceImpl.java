@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import cz.muni.fi.pa165.yellowlibrary.api.exceptions.BookInstanceNotAvailableException;
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.BookInstanceDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.LoanDao;
+import cz.muni.fi.pa165.yellowlibrary.backend.dao.UserDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
@@ -27,7 +28,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
  * @author cokinova
  */
 @Service
-public class LoanServiceImpl implements LoanService{
+public class LoanServiceImpl implements LoanService {
 
   private Logger logger = Logger.getLogger(LoanServiceImpl.class);
 
@@ -35,10 +36,13 @@ public class LoanServiceImpl implements LoanService{
   private LoanDao loanDao;
 
   @Inject
+  private UserDao userDao;
+
+  @Inject
   private BookInstanceDao bookInstanceDao;
 
   @Override
-  public Long create(Loan loan){
+  public Long create(Loan loan) {
     BookInstance bookInstance = (loan == null) ? null : loan.getBookInstance();
     if (bookInstance != null && bookInstance.getBookAvailability() != BookAvailability.AVAILABLE) {
       throw new BookInstanceNotAvailableException(bookInstance.getBookAvailability().toString());
@@ -51,7 +55,7 @@ public class LoanServiceImpl implements LoanService{
 
   @Override
   public Loan update(Loan loan) {
-    if (loan.getReturnDate() != null ){
+    if (loan.getReturnDate() != null) {
       loan.getBookInstance().setBookAvailability(BookAvailability.AVAILABLE);
       bookInstanceDao.updateBookInstance(loan.getBookInstance());
     }
@@ -66,8 +70,10 @@ public class LoanServiceImpl implements LoanService{
   @Override
   public Loan currentLoanOfBookInstance(BookInstance bookInstance) {
     List<Loan> loans = loanDao.findByBookInstance(bookInstance);
-    if (loans == null) {return null;}
-    for(Loan l : loans) {
+    if (loans == null) {
+      return null;
+    }
+    for (Loan l : loans) {
       if (l.getReturnDate() == null) {
         return l;
       }
@@ -113,9 +119,15 @@ public class LoanServiceImpl implements LoanService{
           .toLocalDate();
 
       long days = ChronoUnit.DAYS.between(lDate, nowLocalDate);
-      if (days > l.getLoanLength()) {
-        l.setFine(BigDecimal.valueOf(100L));
+      BigDecimal fine = BigDecimal.valueOf(100L);
+
+      if (days > l.getLoanLength() && l.getFine().compareTo(fine) < 0) {
+        User u = l.getUser();
+        u.setTotalFines(u.getTotalFines().add(fine));
+        userDao.updateUser(u);
+        l.setFine(fine);
         loanDao.update(l);
+
       }
     }
   }
