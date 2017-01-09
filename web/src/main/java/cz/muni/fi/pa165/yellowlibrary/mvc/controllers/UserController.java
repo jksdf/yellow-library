@@ -18,6 +18,8 @@ import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.UserFacade;
 
 /**
+ * Controller for User entity.
+ *
  * @author Jozef Zivcic
  */
 @Controller
@@ -29,6 +31,13 @@ public class UserController extends CommonController {
   @Inject
   private UserFacade userFacade;
 
+  /**
+   * Displays info about particular user.
+   *
+   * @param id Id of user, whose info is displayed.
+   * @param model Model.
+   * @return user.jsp page.
+   */
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public String userInfo(@PathVariable long id, Model model) {
     log.info("UserController.userInfo()");
@@ -39,6 +48,12 @@ public class UserController extends CommonController {
     return "user/user";
   }
 
+  /**
+   * Displays info about user, which generates request.
+   *
+   * @param model Model.
+   * @return user.jsp page.
+   */
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public String ownUserInfo(Model model) {
     log.info("UserController.ownUserInfo()");
@@ -47,6 +62,14 @@ public class UserController extends CommonController {
     return "user/user";
   }
 
+  /**
+   * Lists all users registered in system. It is possible to filter them according to case
+   * insensitive part of their name.
+   *
+   * @param model Model.
+   * @param userName User name which can be used to filter all users.
+   * @return userlist.jsp.
+   */
   @RequestMapping(value = "/list", method = RequestMethod.GET)
   public String listUsers(Model model, @RequestParam(value = "user_name",required = false) String userName) {
     log.info("UserController.listUsers()");
@@ -59,6 +82,12 @@ public class UserController extends CommonController {
     return "user/userlist";
   }
 
+  /**
+   * Subtracts fines for particular user.
+   * @param id User id for whom fines are subtracted.
+   * @param amount Amount of money that given user already payed.
+   * @return Redirects to page with details of user with id id.
+   */
   @RequestMapping(value = "/{id}/update_fines", method = RequestMethod.POST)
   public String updateFines(@PathVariable("id") long id, @RequestParam("amount") String amount) {
     log.info("UserController.updateFines()");
