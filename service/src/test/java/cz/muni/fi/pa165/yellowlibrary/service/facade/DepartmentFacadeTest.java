@@ -21,6 +21,7 @@ import cz.muni.fi.pa165.yellowlibrary.service.configuration.ServiceConfiguration
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -82,6 +83,12 @@ public class DepartmentFacadeTest extends AbstractTestNGSpringContextTests {
   public void byName() {
     assertDeepEquals(departmentFacade.findByShortName(department.getShortName()),
         mappingService.mapTo(department, DepartmentDTO.class));
+  }
+
+  @Test
+  public void getAll() {
+    departmentFacade.getAll();
+    verify(departmentService).getAll();
   }
 
   private void assertDeepEquals(DepartmentDTO d1, DepartmentDTO d2) {

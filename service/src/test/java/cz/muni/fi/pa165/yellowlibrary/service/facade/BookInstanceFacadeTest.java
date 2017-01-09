@@ -219,4 +219,12 @@ public class BookInstanceFacadeTest extends AbstractTestNGSpringContextTests {
     Assert.assertTrue(bookInstanceList.containsAll(ImmutableList.of(bookInstanceOne, newBookInstance)));
   }
 
+  @Test
+  public void deleteBookInstance() {
+    Long myId = 1L;
+    when(bookInstanceService.getBookInstanceById(myId)).thenReturn(bookInstanceOne);
+    bookInstanceFacade.deleteBookInstance(myId);
+    verify(bookInstanceService).getBookInstanceById(myId);
+    verify(bookInstanceService).deleteBookInstance(bookInstanceOne);
+  }
 }

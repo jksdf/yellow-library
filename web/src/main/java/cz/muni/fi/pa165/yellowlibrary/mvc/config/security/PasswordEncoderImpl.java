@@ -40,6 +40,15 @@ public class PasswordEncoderImpl implements PasswordEncoder {
     return slowEquals(hash, testHash);
   }
 
+  /**
+   * Generates secure hash for password from parameters.
+   *
+   * @param password User password.
+   * @param salt Additional string, which is included in hashing.
+   * @param iterations Number of iterations.
+   * @param bytes Length of key in bytes.
+   * @return Raw key bytes.
+   */
   private static byte[] pbkdf2(char[] password, byte[] salt, int iterations, int bytes) {
     try {
       PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, bytes * 8);
@@ -65,6 +74,12 @@ public class PasswordEncoderImpl implements PasswordEncoder {
     return diff == 0;
   }
 
+  /**
+   * Converts hexadecimal number stored in String into array of bytes.
+   *
+   * @param hex Number which is to be converted.
+   * @return Array of decimal numbers.
+   */
   private static byte[] fromHex(String hex) {
     byte[] binary = new byte[hex.length() / 2];
     for (int i = 0; i < binary.length; i++) {
@@ -73,6 +88,12 @@ public class PasswordEncoderImpl implements PasswordEncoder {
     return binary;
   }
 
+  /**
+   * Converts array of bytes containing decimal numbers into hexadecimal number stored in String.
+   *
+   * @param array Array of bytes, which is to be converted.
+   * @return Hexadecimal number.
+   */
   private static String toHex(byte[] array) {
     BigInteger bi = new BigInteger(1, array);
     String hex = bi.toString(16);

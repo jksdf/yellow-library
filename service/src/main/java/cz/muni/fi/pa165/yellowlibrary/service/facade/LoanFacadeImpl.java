@@ -17,7 +17,6 @@ import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Loan;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.User;
 import cz.muni.fi.pa165.yellowlibrary.service.BeanMappingService;
-import cz.muni.fi.pa165.yellowlibrary.service.DateService;
 import cz.muni.fi.pa165.yellowlibrary.service.LoanService;
 
 /**
@@ -31,9 +30,6 @@ public class LoanFacadeImpl implements LoanFacade {
 
   @Inject
   private BeanMappingService mappingService;
-
-  @Inject
-  private DateService dateService;
 
   @Override
   public Long create(LoanCreateDTO loanDTO) {

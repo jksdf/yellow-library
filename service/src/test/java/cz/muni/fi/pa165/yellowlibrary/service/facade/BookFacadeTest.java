@@ -14,6 +14,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -159,5 +160,12 @@ public class BookFacadeTest extends AbstractTestNGSpringContextTests {
     Assert.assertEquals(books.size(),1);
     Book search = mappingService.mapTo(books.get(0), Book.class);
     BookUtils.assertDeepEquals(search, book1);
+  }
+
+  @Test
+  public void testGetAll() {
+    when(bookService.getAllBooks()).thenReturn(Arrays.asList(book1, book2));
+    Assert.assertEquals(bookFacade.getAll().size(), 2);
+    verify(bookService).getAllBooks();
   }
 }
