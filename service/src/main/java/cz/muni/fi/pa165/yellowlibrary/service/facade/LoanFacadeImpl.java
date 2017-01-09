@@ -46,6 +46,10 @@ public class LoanFacadeImpl implements LoanFacade {
     if (loanDTO == null) {
       throw new NullPointerException("LoanDTO cannot be null");
     }
+    if (loanDTO.getDateFrom() != null && loanDTO.getReturnDate() != null &&
+        loanDTO.getDateFrom().after(loanDTO.getReturnDate())) {
+      throw new IllegalArgumentException("Dates are not in correct order");
+    }
     Loan loan = mappingService.mapTo(loanDTO, Loan.class);
     Loan l = loanService.update(loan);
     return mappingService.mapTo(l, LoanDTO.class);

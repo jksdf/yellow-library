@@ -15,7 +15,7 @@
             <div class="col-sm-6">
                 <form:select path="bookInstance" cssClass="form-control">
                     <form:option value="" label="" />
-                    <form:options items="${bookInstancies}" itemLabel="book.name" itemValue="id" />
+                    <form:options items="${availableBookInstancies}" itemLabel="book.name" itemValue="id"/>
                 </form:select>
                 <form:errors path="bookInstance" cssClass="help-block"/>
             </div>

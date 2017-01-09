@@ -36,6 +36,7 @@ import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanFilterDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.enums.BookInstanceAvailability;
 import cz.muni.fi.pa165.yellowlibrary.api.exceptions.BookInstanceNotAvailableException;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookInstanceFacade;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.LoanFacade;
@@ -139,17 +140,17 @@ public class LoanController extends CommonController {
   }
 
   @RequestMapping(value = "/new", method = RequestMethod.GET)
-  public String newBookInstance(Model model) {
-    log.trace("newBookInstance()[GET]");
+  public String newLoan(Model model) {
+    log.trace("newLoan()[GET]");
     model.addAttribute("loan", new LoanCreateDTO());
     return "loan/new";
   }
 
   @RequestMapping(value = "/new", method = RequestMethod.POST)
-  public String newBookInstancePost(@Valid @ModelAttribute("loan") LoanCreateDTO formData,
-                       BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes,
-                       UriComponentsBuilder uriComponentsBuilder, Locale locale) {
-    log.trace("newBookInstancePost()[POST]: {}", formData);
+  public String newLoan(@Valid @ModelAttribute("loan") LoanCreateDTO formData,
+                        BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes,
+                        UriComponentsBuilder uriComponentsBuilder, Locale locale) {
+    log.trace("newLoan()[POST]: {}", formData);
     if (bindingResult.hasErrors()) {
       return "loan/new";
     }
@@ -189,8 +190,13 @@ public class LoanController extends CommonController {
     if(bindingResult.hasErrors()) {
       return "/loan/edit";
     }
-
-    loanFacade.update(data);
+    try {
+      loanFacade.update(data);
+    } catch (IllegalArgumentException ex) {
+      bindingResult.rejectValue("returnDate", "error.date",
+          context.getMessage("loan.edit.badReturnDate", null, locale));
+      return "/loan/edit";
+    }
     redirectAttributes.addFlashAttribute("alert_success",
             context.getMessage("loan.edit.success", null, locale));
     return "redirect:" + uriComponentsBuilder.path("/loan/list").toUriString();
@@ -200,6 +206,12 @@ public class LoanController extends CommonController {
   public List<BookInstanceDTO> bookInstancies() {
     log.trace("bookInstancies()");
     return bookInstanceFacade.getAllBookInstances();
+  }
+
+  @ModelAttribute("availableBookInstancies")
+  public List<BookInstanceDTO> availableBookInstancies() {
+    log.trace("availableBookInstances()");
+    return bookInstanceFacade.getAllBookInstancesByAvailability(BookInstanceAvailability.AVAILABLE);
   }
 
   @ModelAttribute("users")
