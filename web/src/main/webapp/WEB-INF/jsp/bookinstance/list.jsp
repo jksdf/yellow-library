@@ -30,24 +30,42 @@
         <table class="table bookInstance">
             <thead>
             <tr>
-                <c:if test="${isEmployee}">
-                <th class="center nounderline">
-                        <c:if test="${isEmployee && not empty bookId}">
-                            <a href="${pageContext.request.contextPath}/bookinstance/new/${bookId}"><span
-                                    class="glyphicon glyphicon-plus text-success" aria-hidden="true"></span>Add</a>
-                        </c:if>
-                </th>
-                </c:if>
                 <th>ID</th>
                 <th><fmt:message key="binstance.book"/></th>
                 <th><fmt:message key="binstance.version"/></th>
                 <th><fmt:message key="binstance.state"/></th>
                 <th><fmt:message key="binstance.availability"/></th>
+                <c:if test="${isEmployee}">
+                <th class="center nounderline">
+                        <c:if test="${isEmployee}">
+                            <fmt:message key="binstance.options"/>
+                        </c:if>
+                </th>
+                </c:if>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="${bookinstances}" var="bookinstance">
                 <tr>
+                    <td>${bookinstance.id}</td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/book/${bookinstance.book.id}">
+                            <c:out value="${bookinstance.book.name}"/>
+                        </a>
+                    </td>
+                    <td><c:out value="${bookinstance.version}"/></td>
+                    <td><c:out value="${bookinstance.bookState}"/></td>
+                    <td>
+                        <c:if test="${bookinstance.bookAvailability == 'AVAILABLE'}">
+                            <span class="text-success"><fmt:message key="binstance.available"/></span>
+                        </c:if>
+                        <c:if test="${bookinstance.bookAvailability == 'BORROWED'}">
+                            <span class="text-muted"><fmt:message key="binstance.borrowed"/></span>
+                        </c:if>
+                        <c:if test="${bookinstance.bookAvailability == 'REMOVED'}">
+                            <span class="text-danger"><fmt:message key="binstance.removed"/></span>
+                        </c:if>
+                    </td>
                     <c:if test="${isEmployee}">
                     <td class="center nounderline">
                             <c:if test="${isEmployee}">
@@ -73,25 +91,6 @@
                             </c:if>
                     </td>
                     </c:if>
-                    <td>${bookinstance.id}</td>
-                    <td>
-                        <a href="${pageContext.request.contextPath}/book/${bookinstance.book.id}">
-                            <c:out value="${bookinstance.book.name}"/>
-                        </a>
-                    </td>
-                    <td><c:out value="${bookinstance.version}"/></td>
-                    <td><c:out value="${bookinstance.bookState}"/></td>
-                    <td>
-                        <c:if test="${bookinstance.bookAvailability == 'AVAILABLE'}">
-                            <span class="text-success"><fmt:message key="binstance.available"/></span>
-                        </c:if>
-                        <c:if test="${bookinstance.bookAvailability == 'BORROWED'}">
-                            <span class="text-muted"><fmt:message key="binstance.borrowed"/></span>
-                        </c:if>
-                        <c:if test="${bookinstance.bookAvailability == 'REMOVED'}">
-                            <span class="text-danger"><fmt:message key="binstance.removed"/></span>
-                        </c:if>
-                    </td>
                 </tr>
             </c:forEach>
             </tbody>

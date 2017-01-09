@@ -67,7 +67,7 @@ public class BookInstanceCreateDTO {
 
     BookInstanceCreateDTO that = (BookInstanceCreateDTO) o;
 
-    if (getBookState() != that.getBookState()) {
+    if (!getBookState().equals(that.getBookState())) {
       return false;
     }
     if (getVersion() != null ? !getVersion().equals(that.getVersion())
