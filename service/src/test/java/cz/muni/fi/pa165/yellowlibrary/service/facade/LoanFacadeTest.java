@@ -6,10 +6,12 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -20,6 +22,7 @@ import javax.inject.Inject;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.LoanDTO;
+import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.LoanFacade;
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.BookInstanceDao;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.Book;
@@ -57,6 +60,7 @@ public class LoanFacadeTest extends AbstractTestNGSpringContextTests {
 
   private Loan loan1;
   private User user1;
+  private User user2;
   private BookInstance bookInstance1;
   private Department department;
   private Book book1;
@@ -122,6 +126,31 @@ public class LoanFacadeTest extends AbstractTestNGSpringContextTests {
     verify(loanService).getLoansByDate(new Date(123456), new Date(123457));
   }
 
+  @Test
+  public void getAllLoansTest() {
+    when(loanService.getAllLoans()).thenReturn(Arrays.asList(loan1));
+    Assert.assertEquals(loanFacade.getAllLoans().size(), 1);
+    verify(loanService).getAllLoans();
+  }
+
+  @Test
+  public void getLoansByUserTest() {
+    when(loanService.getLoansByUser(user1)).thenReturn(Arrays.asList(loan1));
+    when(loanService.getLoansByUser(user2)).thenReturn(new ArrayList<Loan>());
+    UserDTO user1DTO = beanMappingService.mapTo(user1, UserDTO.class);
+    UserDTO user2DTO = beanMappingService.mapTo(user2, UserDTO.class);
+    Assert.assertEquals(loanFacade.getLoansByUser(user1DTO).size(), 1);
+    verify(loanService).getLoansByUser(user1);
+    Assert.assertEquals(loanFacade.getLoansByUser(user2DTO).size(), 0);
+    verify(loanService).getLoansByUser(user2);
+  }
+
+  @Test
+  public void calculateFinesTest() {
+    loanFacade.calculateFinesForExpiredLoans();
+    verify(loanService).calculateFines();
+  }
+
   private void setupLoan() {
     department = new Department();
     department.setName("Art");
@@ -134,6 +163,14 @@ public class LoanFacadeTest extends AbstractTestNGSpringContextTests {
     user1.setTotalFines(BigDecimal.ZERO);
     user1.setLogin("tommy1");
     user1.setPasswordHash("ABCD");
+
+    user2 = new User();
+    user2.setName("User2");
+    user2.setAddress("Somewhere...");
+    user2.setUserType(UserType.CUSTOMER);
+    user2.setTotalFines(BigDecimal.ZERO);
+    user2.setLogin("user2");
+    user2.setPasswordHash("hash");
 
     book1 = new Book();
     book1.setAuthor("Auth");
