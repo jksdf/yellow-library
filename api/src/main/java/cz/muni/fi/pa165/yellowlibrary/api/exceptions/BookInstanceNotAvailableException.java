@@ -1,5 +1,8 @@
 package cz.muni.fi.pa165.yellowlibrary.api.exceptions;
 
+/**
+ * Exception for when particular book instance does not exist, is discarded, or is lent out.
+ */
 public class BookInstanceNotAvailableException extends RuntimeException  {
   public BookInstanceNotAvailableException() {
     super();

@@ -108,7 +108,7 @@ public class BookInstanceController extends CommonController {
   }
 
   /**
-   * Provides way to modify a book instance state
+   * Provides a way to modify a book instance state
    * @param id id of a book instance
    */
   @RequestMapping(value = "/{id}/edit/state", method = RequestMethod.GET)
