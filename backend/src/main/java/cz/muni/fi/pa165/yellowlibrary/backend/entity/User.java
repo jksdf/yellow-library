@@ -150,15 +150,13 @@ public class User {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o)
-      return true;
-
-    if (o == null || !(o instanceof User))
+    if (!(o instanceof User)) {
       return false;
+    }
 
-    User user = (User) o;
+    User that = (User) o;
 
-    return getLogin().equals(user.getLogin());
+    return Objects.equals(getLogin(), that.getLogin());
 
   }
 

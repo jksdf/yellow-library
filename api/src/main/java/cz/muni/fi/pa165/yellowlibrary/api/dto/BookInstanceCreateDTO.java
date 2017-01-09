@@ -58,32 +58,20 @@ public class BookInstanceCreateDTO {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || !(o instanceof BookInstanceCreateDTO)) {
+    if (!(o instanceof BookInstanceCreateDTO)) {
       return false;
     }
 
     BookInstanceCreateDTO that = (BookInstanceCreateDTO) o;
-
-    if (!getBookState().equals(that.getBookState())) {
-      return false;
+    return Objects.equals(getBookState(), that.getBookState()) &&
+        Objects.equals(getVersion(), that.getVersion()) &&
+        Objects.equals(getBookAvailability(), that.getBookAvailability()) &&
+        Objects.equals(getBookId(), that.getBookId());
     }
-    if (getVersion() != null ? !getVersion().equals(that.getVersion())
-        : that.getVersion() != null) {
-      return false;
-    }
-    if (getBookAvailability() != that.getBookAvailability()) {
-      return false;
-    }
-    return getBookId().equals(that.getBookId());
-
-  }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getBookState(), getBookAvailability(), getBookId());
+    return Objects.hash(getBookState(), getVersion(), getBookAvailability(), getBookId());
   }
 
   @Override

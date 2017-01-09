@@ -15,7 +15,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.print.attribute.standard.Media;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookInstanceCreateDTO;
@@ -25,9 +24,9 @@ import cz.muni.fi.pa165.yellowlibrary.api.enums.BookInstanceAvailability;
 import cz.muni.fi.pa165.yellowlibrary.api.exceptions.YellowServiceException;
 import cz.muni.fi.pa165.yellowlibrary.api.facade.BookInstanceFacade;
 import cz.muni.fi.pa165.yellowlibrary.rest.ApiUris;
+import cz.muni.fi.pa165.yellowlibrary.rest.exceptions.InvalidParameterException;
 import cz.muni.fi.pa165.yellowlibrary.rest.exceptions.ResourceAlreadyExists;
 import cz.muni.fi.pa165.yellowlibrary.rest.exceptions.ResourceNotFoundException;
-import cz.muni.fi.pa165.yellowlibrary.rest.exceptions.InvalidParameterException;
 /**
  * For testing methods on this controller see file /rest/readme.txt
  *

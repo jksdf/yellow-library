@@ -39,18 +39,13 @@ public class BookInstanceNewStateDTO {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-
-    if(obj == null)
+    if (!(obj instanceof BookInstanceNewStateDTO)) {
       return false;
+    }
 
-    if(!(obj instanceof BookInstanceNewStateDTO))
-      return false;
+    BookInstanceNewStateDTO that = (BookInstanceNewStateDTO) obj;
 
-    BookInstanceNewStateDTO otherDTO = (BookInstanceNewStateDTO) obj;
-
-    return getBookState().equals(otherDTO);
+    return Objects.equals(that.getBookState(), getBookState());
   }
 
   @Override
