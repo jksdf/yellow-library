@@ -121,7 +121,12 @@ public class LoanServiceImpl implements LoanService {
 
       if (days > l.getLoanLength() && (l.getFine() == null || l.getFine().compareTo(fine) < 0)) {
         User u = l.getUser();
-        u.setTotalFines(u.getTotalFines().add(fine));
+        if (u.getTotalFines() == null) {
+          u.setTotalFines(fine);
+        }
+        else {
+          u.setTotalFines(u.getTotalFines().add(fine));
+        }
         userDao.updateUser(u);
         l.setFine(fine);
         loanDao.update(l);
