@@ -12,7 +12,6 @@
     </jsp:attribute>
 
     <jsp:attribute name="body">
-        <div class="container">
         <c:if test="${not empty param.error}">
             <div class="alert alert-danger" role="alert">
                 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -27,9 +26,6 @@
                 </c:if>
             </div>
         </c:if>
-        </div>
-        <div class="container">
-            <div class="table-responsive">
                 <table class="table">
                     <thead>
                     <tr>
@@ -57,10 +53,7 @@
                     </tr>
                     </tbody>
                 </table>
-            </div>
-        </div> <!-- container -->
          <c:if test="${isEmployee}">
-             <div class="container">
                  <form class="form-inline" method="post"
                        action="${pageContext.request.contextPath}/user/${user.id}/update_fines">
                      <div class="form-group">
@@ -74,7 +67,6 @@
                      <button type="submit" class="btn btn-primary"><fmt:message
                              key="user.subtract"/></button>
                  </form>
-             </div>
          </c:if>
     </jsp:attribute>
 </own:mainpage>
