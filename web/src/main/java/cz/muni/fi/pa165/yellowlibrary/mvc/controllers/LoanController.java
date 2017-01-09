@@ -101,7 +101,7 @@ public class LoanController extends CommonController {
     switch (filteredState == null ? "" : filteredState) {
       case "active":
       case "expired":
-        loans = new ArrayList<LoanDTO>();
+        loans = new ArrayList<>();
         for (LoanDTO loan : loanFacade.getNotReturnedLoans()) {
           boolean a1 = (filteredUser == null || filteredUser.equals(loan.getUser()));
           boolean a2 = (!"expired".equals(filteredState) || BigDecimal.ZERO.compareTo(loan.getFine()) < 0);
@@ -123,7 +123,7 @@ public class LoanController extends CommonController {
 
   @RequestMapping(value = "/recalculateFines", method = RequestMethod.GET)
   public String recalculateFines(Model model, RedirectAttributes ra) {
-    loanFacade.CalculateFinesForExpiredLoans();
+    loanFacade.calculateFinesForExpiredLoans();
     return "redirect:/loan/list";
   }
 

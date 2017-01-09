@@ -55,9 +55,8 @@ public class UserController {
     for (UserDTO u : userDTOs) {
       userResourceCollection.add(userAssembler.toResource(u));
     }
-    Resources<Resource<UserDTO>> userResources = new Resources<Resource<UserDTO>>
-        (userResourceCollection);
-    return new ResponseEntity<Resources<Resource<UserDTO>>>(userResources, HttpStatus.OK);
+    Resources<Resource<UserDTO>> userResources = new Resources<>(userResourceCollection);
+    return new ResponseEntity<>(userResources, HttpStatus.OK);
   }
 
   /**
@@ -76,7 +75,7 @@ public class UserController {
     if (userDTO == null)
       throw new ResourceNotFoundException();
     Resource<UserDTO> userDTOResource = userAssembler.toResource(userDTO);
-    return new ResponseEntity<Resource<UserDTO>>(userDTOResource, HttpStatus.OK);
+    return new ResponseEntity<>(userDTOResource, HttpStatus.OK);
   }
 
   /**
@@ -93,6 +92,6 @@ public class UserController {
     userFacade.registerNewUser(userDTO, userDTO.getPasswordHash());
     UserDTO ret = userFacade.findById(userDTO.getId());
     Resource<UserDTO> userDTOResource = userAssembler.toResource(ret);
-    return new ResponseEntity<Resource<UserDTO>>(userDTOResource, HttpStatus.OK);
+    return new ResponseEntity<>(userDTOResource, HttpStatus.OK);
   }
 }

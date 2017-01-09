@@ -6,6 +6,8 @@ import cz.muni.fi.pa165.yellowlibrary.api.dto.UserAuthenticateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.UserDTO;
 
 /**
+ * Facade for user entity.
+ *
  * @author Jozef Zivcic
  */
 public interface UserFacade {

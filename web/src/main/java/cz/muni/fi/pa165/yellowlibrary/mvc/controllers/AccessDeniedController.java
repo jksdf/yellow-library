@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
+ * Controller for access denied page.
+ *
  * @author Jozef Zivcic
  */
 @Controller
@@ -15,6 +17,12 @@ public class AccessDeniedController extends CommonController {
 
   final static Logger log = LoggerFactory.getLogger(AccessDeniedController.class);
 
+  /**
+   * Displays access denied page.
+   *
+   * @param model Model.
+   * @return JSP which to display.
+   */
   @RequestMapping(value = "/access_denied", method = RequestMethod.GET)
   public String accessDenied(Model model) {
     log.info("LoginController.accessDenied()");

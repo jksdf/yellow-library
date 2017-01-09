@@ -116,23 +116,14 @@ public class Loan {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null ||  !(o instanceof  Loan)) {
+    if (!(o instanceof Loan)) {
       return false;
     }
 
-    Loan loan = (Loan) o;
-
-    if (!getDateFrom().equals(loan.getDateFrom())) {
-      return false;
-    }
-    if (!getUser().equals(loan.getUser())) {
-      return false;
-    }
-    return getBookInstance().equals(loan.getBookInstance());
-
+    Loan that = (Loan) o;
+    return Objects.equals(getDateFrom(), that.getDateFrom()) &&
+        Objects.equals(getUser(), that.getUser()) &&
+        Objects.equals(getBookInstance(), that.getBookInstance());
   }
 
   @Override

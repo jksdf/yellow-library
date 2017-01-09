@@ -54,6 +54,9 @@ public class LoanServiceTest extends AbstractTestNGSpringContextTests {
   @Mock
   private UserDao userDao;
 
+  @Mock
+  private DateService dateService;
+
   @Inject
   @InjectMocks
   private LoanService loanService;
@@ -223,6 +226,9 @@ public class LoanServiceTest extends AbstractTestNGSpringContextTests {
       }
       return null;
     }).when(loanDao).delete(any(Loan.class));
+    Calendar c = Calendar.getInstance();
+    c.setTime(new Date(10_000_000_000L));
+    when(dateService.now()).thenReturn(c);
   }
 
   @Test
@@ -405,10 +411,7 @@ public class LoanServiceTest extends AbstractTestNGSpringContextTests {
 
     when(loanDao.findAll()).thenReturn(ImmutableList.of(closed, ok, bad));
 
-    Calendar c = Calendar.getInstance();
-    c.setTime(new Date(10_000_000_000L));
-
-    loanService.calculateFines(c);
+    loanService.calculateFines();
     assertThat(loans).containsExactly(bad);
     assertThat(loans.get(0).getFine()).isEqualTo(BigDecimal.valueOf(100L));
   }

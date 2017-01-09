@@ -75,6 +75,11 @@
             <artifactId>sample-data</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cz.muni.fi.pa165.yellowlibrary</groupId>
+            <artifactId>api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
     </dependencies>
 
 

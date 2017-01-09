@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.yellowlibrary.api.dto;
 
+import java.util.Objects;
+
 /**
  * @author cokinova
  */
@@ -25,19 +27,17 @@ public class LoanFilterDTO {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (!(o instanceof LoanFilterDTO)) {
+      return false;
+    }
 
     LoanFilterDTO that = (LoanFilterDTO) o;
-
-    if (user != null ? !user.equals(that.user) : that.user != null) return false;
-    return filter != null ? filter.equals(that.filter) : that.filter == null;
+    return Objects.equals(getUser(), that.getUser()) &&
+        Objects.equals(getFilter(), that.getFilter());
   }
 
   @Override
   public int hashCode() {
-    int result = user != null ? user.hashCode() : 0;
-    result = 31 * result + (filter != null ? filter.hashCode() : 0);
-    return result;
+    return Objects.hash(getUser(), getFilter());
   }
 }

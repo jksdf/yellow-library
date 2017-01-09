@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookCreateDTO;
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookDTO;
@@ -28,6 +29,7 @@ import cz.muni.fi.pa165.yellowlibrary.service.facade.FacadePackage;
  */
 @Configuration
 @Import(LibraryApplicationContext.class)
+@EnableScheduling
 @ComponentScan(basePackageClasses = {ServicePackage.class, FacadePackage.class})
 public class ServiceConfiguration {
 

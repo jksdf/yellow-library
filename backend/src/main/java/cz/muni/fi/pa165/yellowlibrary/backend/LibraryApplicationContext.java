@@ -9,7 +9,6 @@ import org.springframework.dao.annotation.PersistenceExceptionTranslationPostPro
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
 import org.springframework.instrument.classloading.LoadTimeWeaver;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -22,7 +21,6 @@ import javax.sql.DataSource;
 import cz.muni.fi.pa165.yellowlibrary.backend.dao.DaoPackage;
 
 /**
- *
  * @author Jozef Zivcic
  */
 @Configuration
@@ -62,7 +60,6 @@ public class LibraryApplicationContext {
   @Bean
   public DataSource db(){
     EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-    EmbeddedDatabase db = builder.setType(EmbeddedDatabaseType.DERBY).build();
-    return db;
+    return builder.setType(EmbeddedDatabaseType.DERBY).build();
   }
 }

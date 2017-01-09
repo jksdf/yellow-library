@@ -5,12 +5,10 @@ import java.util.List;
 import cz.muni.fi.pa165.yellowlibrary.backend.entity.BookInstance;
 
 /**
- * @author Matej Gallo
- */
-
-/**
  * If {@code null} argument is passed to any method
  * a {@code NullPointerException} will be thrown
+ *
+ * @author Matej Gallo
  */
 public interface BookInstanceDao {
 

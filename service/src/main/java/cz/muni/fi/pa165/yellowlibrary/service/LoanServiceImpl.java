@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.yellowlibrary.service;
 
 import org.apache.log4j.Logger;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -35,6 +36,9 @@ public class LoanServiceImpl implements LoanService {
 
   @Inject
   private UserDao userDao;
+
+  @Inject
+  private DateService dateService;
 
   @Inject
   private BookInstanceDao bookInstanceDao;
@@ -106,9 +110,11 @@ public class LoanServiceImpl implements LoanService {
   }
 
   @Override
-  public void calculateFines(Calendar now) {
+  @Scheduled(cron = "0 0 0 * * *")
+  public void calculateFines() {
+    logger.debug("Recalculating fines");
     List<Loan> notReturned = loanDao.findNotReturned();
-
+    Calendar now = dateService.now();
     LocalDate nowLocalDate = new java.sql.Date(now.getTimeInMillis()).toLocalDate();
     for (Loan l : notReturned) {
       LocalDate lDate = Instant

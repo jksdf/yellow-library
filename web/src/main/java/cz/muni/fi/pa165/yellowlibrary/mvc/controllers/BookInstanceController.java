@@ -19,7 +19,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import cz.muni.fi.pa165.yellowlibrary.api.dto.BookDTO;
