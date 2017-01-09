@@ -22,7 +22,9 @@
                 <c:if test="${param.error == 'subtract'}">
                     <fmt:message key="err.cannt_subtract_greater"/>
                 </c:if>
-                &nbsp;:(
+                <c:if test="${param.error == 'negative'}">
+                    <fmt:message key="err.cannot_subtract_negative"/>
+                </c:if>
             </div>
         </c:if>
         </div>
@@ -65,6 +67,7 @@
                          <div class="input-group">
                              <input type="number" step="any" id="amount" name="amount"
                                     class="form-control"
+                                    min="0"
                                     placeholder="<fmt:message key="user.paid_fines" />">
                          </div>
                      </div>

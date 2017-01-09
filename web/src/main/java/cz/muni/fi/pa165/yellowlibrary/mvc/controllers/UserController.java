@@ -65,6 +65,8 @@ public class UserController extends CommonController {
     if (amount.isEmpty())
       return "redirect:/user/" + String.valueOf(id) + "?error=empty";
     BigDecimal number = new BigDecimal(amount);
+    if (number.compareTo(BigDecimal.ZERO) <= 0)
+      return "redirect:/user/" + String.valueOf(id) + "?error=negative";
     UserDTO updatedUser = userFacade.findById(id);
     BigDecimal newFines = updatedUser.getTotalFines();
     if (number.compareTo(newFines) > 0)
